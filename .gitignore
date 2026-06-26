@@ -24,3 +24,6 @@ Thumbs.db
 
 # coverage
 coverage/
+
+# Runtime logs
+backend/logs/*.log
