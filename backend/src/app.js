@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 
+import errorHandler from "./middlewares/error.middleware.js";
+
 const app = express();
 
 // Middleware
@@ -14,5 +16,8 @@ app.get("/", (req, res) => {
     message: "Welcome to SkillVerse API",
   });
 });
+
+// Global Error Handler
+app.use(errorHandler);
 
 export default app;
