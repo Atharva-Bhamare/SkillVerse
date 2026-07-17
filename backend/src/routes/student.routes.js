@@ -1,44 +1,51 @@
-import express from "express";
+import { Router } from "express";
+
+import * as studentController from "../controllers/student.controller.js";
 
 import {
-  createProfile,
-  getMyProfile,
-  updateMyProfile,
-} from "../controllers/student.controller.js";
-
-import {
-  validateStudentProfile,
-  validateStudentUpdate,
+  createStudentProfileValidator,
+  updateStudentProfileValidator,
 } from "../validators/student.validator.js";
 
-import protect from "../middlewares/authenticate.middleware.js";
-import authorize from "../middlewares/authorize.middleware.js";
+import validate from "../middlewares/validate.middleware.js";
 
-import { ROLES } from "../config/constants.js";
+import { uploadImage } from "../middlewares/upload.middleware.js";
 
-const router = express.Router();
+import { authenticate } from "../middlewares/auth.middleware.js";
+
+const router = Router();
+
+/* =====================================================
+   Student Profile Routes
+===================================================== */
 
 router.post(
-  "/",
-  protect,
-  authorize(ROLES.STUDENT),
-  validateStudentProfile,
-  createProfile
+  "/profile",
+  authenticate,
+  createStudentProfileValidator,
+  validate,
+  studentController.createStudentProfile
 );
 
 router.get(
-  "/me",
-  protect,
-  authorize(ROLES.STUDENT),
-  getMyProfile
+  "/profile",
+  authenticate,
+  studentController.getStudentProfile
 );
 
 router.patch(
-  "/me",
-  protect,
-  authorize(ROLES.STUDENT),
-  validateStudentUpdate,
-  updateMyProfile
+  "/profile",
+  authenticate,
+  updateStudentProfileValidator,
+  validate,
+  studentController.updateStudentProfile
+);
+
+router.patch(
+  "/profile/avatar",
+  authenticate,
+  uploadImage,
+  studentController.updateStudentAvatar
 );
 
 export default router;

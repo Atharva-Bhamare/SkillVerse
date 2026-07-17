@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
+import fileSchema from "../schemas/file.schema.js";
+
 const studentSchema = new mongoose.Schema(
   {
+    // ==========================
+    // User Reference
+    // ==========================
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -10,95 +15,130 @@ const studentSchema = new mongoose.Schema(
       index: true,
     },
 
+    // ==========================
+    // Profile
+    // ==========================
     headline: {
       type: String,
-      required: [true, "Headline is required."],
       trim: true,
-      maxlength: [100, "Headline cannot exceed 100 characters."],
+      maxlength: 120,
+      default: "",
     },
 
     bio: {
       type: String,
       trim: true,
-      maxlength: [500, "Bio cannot exceed 500 characters."],
+      maxlength: 1000,
       default: "",
     },
 
     avatar: {
-      type: String,
-      default: "",
+      type: fileSchema,
+      default: () => ({}),
     },
 
+    // ==========================
+    // Academic Information
+    // ==========================
     college: {
       type: String,
-      required: [true, "College is required."],
       trim: true,
-      maxlength: [150, "College name cannot exceed 150 characters."],
-      index: true,
+      maxlength: 150,
+      default: "",
     },
 
     degree: {
       type: String,
-      required: [true, "Degree is required."],
       trim: true,
-      maxlength: [100, "Degree cannot exceed 100 characters."],
+      maxlength: 100,
+      default: "",
     },
 
     specialization: {
       type: String,
-      required: [true, "Specialization is required."],
       trim: true,
-      maxlength: [100, "Specialization cannot exceed 100 characters."],
+      maxlength: 100,
+      default: "",
     },
 
     graduationYear: {
       type: Number,
-      required: [true, "Graduation year is required."],
-      min: [2020, "Graduation year is invalid."],
-      max: [2045, "Graduation year is invalid."],
-      index: true,
+      min: 2000,
+      max: 2100,
     },
 
     cgpa: {
       type: Number,
-      min: [0, "CGPA cannot be less than 0."],
-      max: [10, "CGPA cannot exceed 10."],
-      default: null,
+      min: 0,
+      max: 10,
     },
 
-    skills: {
-      type: [String],
-      default: [],
-    },
-
-    socialLinks: {
-      github: {
+    // ==========================
+    // Skills
+    // ==========================
+    skills: [
+      {
         type: String,
+        trim: true,
+      },
+    ],
+
+    // ==========================
+    // Social Links
+    // ==========================
+    socialLinks: {
+      linkedin: {
+        type: String,
+        trim: true,
         default: "",
       },
 
-      linkedin: {
+      github: {
         type: String,
+        trim: true,
         default: "",
       },
 
       portfolio: {
         type: String,
+        trim: true,
         default: "",
       },
     },
 
+    // ==========================
+    // Profile Status
+    // ==========================
     profileCompletion: {
       type: Number,
       default: 0,
       min: 0,
       max: 100,
     },
+
+    isProfileComplete: {
+      type: Boolean,
+      default: false,
+    },
+
+    profileVisibility: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+// ==========================
+// Indexes
+// ==========================
+studentSchema.index({ college: 1 });
+
+studentSchema.index({ graduationYear: 1 });
+
+studentSchema.index({ skills: 1 });
 
 const Student = mongoose.model("Student", studentSchema);
 

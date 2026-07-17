@@ -1,49 +1,33 @@
 import Student from "../models/student.model.js";
+
+import { STUDENT } from "../config/constants.js";
+
 import AppError from "../utils/AppError.js";
 import { calculateStudentProfileCompletion } from "../utils/profileCompletion.js";
 
-export const createStudentProfile = async (userId, profileData) => {
-  const existingProfile = await Student.findOne({
-    user: userId,
-  });
+import {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} from "./upload.service.js";
 
-  if (existingProfile) {
-    throw new AppError(
-      "Student profile already exists.",
-      409
+/* =====================================================
+   Private Helpers
+===================================================== */
+
+const findStudentOrThrow = async (
+  userId,
+  populate = false
+) => {
+  let query = Student.findOne({ user: userId });
+
+  if (populate) {
+    query = query.populate(
+      "user",
+      "name email role"
     );
   }
 
-  const profile = await Student.create({
-    ...profileData,
-    user: userId,
-  });
-
-  return profile;
-};
-
-export const getStudentProfile = async (userId) => {
-  const profile = await Student.findOne({
-    user: userId,
-  }).populate(
-    "user",
-    "fullName email role"
-  );
-
-  if (!profile) {
-    throw new AppError(
-      "Student profile not found.",
-      404
-    );
-  }
-
-  return profile;
-};
-
-const findStudentOrThrow = async (userId) => {
-  const student = await Student.findOne({
-    user: userId,
-  }).populate("user", "fullName email role");
+  const student = await query;
 
   if (!student) {
     throw new AppError(
@@ -55,39 +39,162 @@ const findStudentOrThrow = async (userId) => {
   return student;
 };
 
-export const updateStudentProfile = async (
-  userId,
-  updateData
+const ensureProfileDoesNotExist = async (userId) => {
+  const exists = await Student.exists({ user: userId });
+
+  if (exists) {
+    throw new AppError(
+      "Student profile already exists.",
+      409
+    );
+  }
+};
+
+const normalizeSkills = (skills = []) => {
+  if (!Array.isArray(skills)) {
+    return [];
+  }
+
+  const uniqueSkills = new Map();
+
+  for (const skill of skills) {
+    if (typeof skill !== "string") continue;
+
+    const cleaned = skill.trim();
+
+    if (!cleaned) continue;
+
+    // preserve original casing
+    uniqueSkills.set(cleaned.toLowerCase(), cleaned);
+  }
+
+  return [...uniqueSkills.values()].sort();
+};
+
+const updateStudentFields = (
+  student,
+  profileData
 ) => {
-  const student = await findStudentOrThrow(userId);
-
-  const allowedFields = [
-    "headline",
-    "bio",
-    "college",
-    "degree",
-    "specialization",
-    "graduationYear",
-    "cgpa",
-    "skills",
-    "socialLinks",
-  ];
-
-  allowedFields.forEach((field) => {
-    if (updateData[field] !== undefined) {
-      student[field] = updateData[field];
+  for (const field of STUDENT.ALLOWED_UPDATE_FIELDS) {
+    if (field in profileData) {
+      student[field] = profileData[field];
     }
-  });
+  }
 
+  if ("skills" in profileData) {
+    student.skills = normalizeSkills(
+      profileData.skills
+    );
+  }
+};
+
+const refreshProfileStatus = (student) => {
   student.profileCompletion =
     calculateStudentProfileCompletion(student);
 
+  student.isProfileComplete =
+    student.profileCompletion === 100;
+};
+
+const saveStudent = async (student) => {
+  refreshProfileStatus(student);
+
   await student.save();
 
-  await student.populate(
-    "user",
-    "fullName email role"
-  );
-  
+  return student;
+};
+
+/* =====================================================
+   Public Services
+===================================================== */
+
+export const createStudentProfile = async (
+  userId,
+  profileData
+) => {
+  await ensureProfileDoesNotExist(userId);
+
+  const student = new Student({
+    user: userId,
+    ...profileData,
+    skills: normalizeSkills(profileData.skills),
+  });
+
+  return await saveStudent(student);
+};
+
+export const getStudentProfile = async (
+  userId
+) => {
+  return await findStudentOrThrow(userId);
+};
+
+export const updateStudentProfile = async (
+  userId,
+  profileData
+) => {
+  const student =
+    await findStudentOrThrow(userId);
+
+  updateStudentFields(student, profileData);
+
+  return await saveStudent(student);
+};
+
+export const updateStudentAvatar = async (
+  userId,
+  file
+) => {
+  if (!file) {
+    throw new AppError(
+      "Avatar image is required.",
+      400
+    );
+  }
+
+  const student =
+    await findStudentOrThrow(userId);
+
+  const previousPublicId =
+    student.avatar?.publicId;
+
+  const uploadedAvatar =
+    await uploadToCloudinary(
+      file.path,
+      STUDENT.AVATAR_FOLDER
+    );
+
+  try {
+    student.avatar = {
+      url: uploadedAvatar.url,
+      publicId: uploadedAvatar.publicId,
+    };
+
+    await saveStudent(student);
+  } catch (error) {
+    try {
+      await deleteFromCloudinary(
+        uploadedAvatar.publicId
+      );
+    } catch {
+      // Ignore rollback failure.
+      // Logger (Winston) can be added here later.
+    }
+
+    throw error;
+  }
+
+  if (previousPublicId) {
+    try {
+      await deleteFromCloudinary(
+        previousPublicId
+      );
+    } catch {
+      // Old avatar cleanup failure should not
+      // fail the request.
+      // Logger (Winston) can be added here later.
+    }
+  }
+
   return student;
 };

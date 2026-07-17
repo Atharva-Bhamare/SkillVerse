@@ -7,6 +7,11 @@ const requiredEnvVariables = [
   "JWT_EXPIRES_IN",
   "CLIENT_URL",
   "NODE_ENV",
+
+  // Cloudinary
+  "CLOUDINARY_CLOUD_NAME",
+  "CLOUDINARY_API_KEY",
+  "CLOUDINARY_API_SECRET",
 ];
 
 const missingVariables = [];
@@ -72,13 +77,36 @@ if (!validEnvironments.includes(process.env.NODE_ENV)) {
   );
 }
 
+// Cloudinary
+if (!process.env.CLOUDINARY_CLOUD_NAME.trim()) {
+  throw new Error("CLOUDINARY_CLOUD_NAME cannot be empty.");
+}
+
+if (!process.env.CLOUDINARY_API_KEY.trim()) {
+  throw new Error("CLOUDINARY_API_KEY cannot be empty.");
+}
+
+if (!process.env.CLOUDINARY_API_SECRET.trim()) {
+  throw new Error("CLOUDINARY_API_SECRET cannot be empty.");
+}
+
 const config = Object.freeze({
   port: Number(process.env.PORT),
+
   mongoUri: process.env.MONGO_URI,
+
   jwtSecret: process.env.JWT_SECRET,
+
   jwtExpiresIn: process.env.JWT_EXPIRES_IN,
+
   clientUrl: process.env.CLIENT_URL,
+
   nodeEnv: process.env.NODE_ENV,
+
+  // Cloudinary
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export default config;

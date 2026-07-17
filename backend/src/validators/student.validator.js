@@ -1,122 +1,98 @@
-import { body, validationResult } from "express-validator";
-import AppError from "../utils/AppError.js";
+import {
+  stringRequired,
+  stringOptional,
+  integerRequired,
+  integerOptional,
+  floatRequired,
+  floatOptional,
+  arrayRequired,
+  arrayOptional,
+  arrayStringItems,
+  urlOptional,
+} from "./common.validator.js";
 
-export const validateStudentProfile = [
-  body("headline")
-    .trim()
-    .notEmpty()
-    .withMessage("Headline is required.")
-    .isLength({ max: 100 })
-    .withMessage("Headline cannot exceed 100 characters."),
+/* =====================================================
+   Student Profile Validators
+===================================================== */
 
-  body("college")
-    .trim()
-    .notEmpty()
-    .withMessage("College is required."),
+export const createStudentProfileValidator = [
+  stringRequired("headline", "Headline"),
 
-  body("degree")
-    .trim()
-    .notEmpty()
-    .withMessage("Degree is required."),
+  stringRequired("bio", "Bio"),
 
-  body("specialization")
-    .trim()
-    .notEmpty()
-    .withMessage("Specialization is required."),
+  stringRequired("college", "College"),
 
-  body("graduationYear")
-    .isInt({ min: 2020, max: 2045 })
-    .withMessage("Invalid graduation year."),
+  stringRequired("degree", "Degree"),
 
-  body("cgpa")
-    .optional()
-    .isFloat({ min: 0, max: 10 })
-    .withMessage("CGPA must be between 0 and 10."),
+  stringRequired(
+    "specialization",
+    "Specialization"
+  ),
 
-  body("skills")
-    .optional()
-    .isArray()
-    .withMessage("Skills must be an array."),
+  integerRequired(
+    "graduationYear",
+    "Graduation Year"
+  ),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
+  floatRequired("cgpa", "CGPA"),
 
-    if (!errors.isEmpty()) {
-      return next(
-        new AppError(
-          errors.array().map((err) => err.msg).join(" "),
-          400
-        )
-      );
-    }
+  arrayRequired("skills", "Skills"),
 
-    next();
-  },
+  arrayStringItems("skills", "Skill"),
+
+  urlOptional(
+    "socialLinks.github",
+    "GitHub"
+  ),
+
+  urlOptional(
+    "socialLinks.linkedin",
+    "LinkedIn"
+  ),
+
+  urlOptional(
+    "socialLinks.portfolio",
+    "Portfolio"
+  ),
 ];
 
-export const validateStudentUpdate = [
-  body("headline")
-    .optional()
-    .trim()
-    .isLength({ max: 100 })
-    .withMessage("Headline cannot exceed 100 characters."),
+export const updateStudentProfileValidator = [
+  stringOptional("headline", "Headline"),
 
-  body("bio")
-    .optional()
-    .trim()
-    .isLength({ max: 500 })
-    .withMessage("Bio cannot exceed 500 characters."),
+  stringOptional("bio", "Bio"),
 
-  body("college")
-    .optional()
-    .trim()
-    .notEmpty()
-    .withMessage("College cannot be empty."),
+  stringOptional("college", "College"),
 
-  body("degree")
-    .optional()
-    .trim()
-    .notEmpty()
-    .withMessage("Degree cannot be empty."),
+  stringOptional("degree", "Degree"),
 
-  body("specialization")
-    .optional()
-    .trim()
-    .notEmpty()
-    .withMessage("Specialization cannot be empty."),
+  stringOptional(
+    "specialization",
+    "Specialization"
+  ),
 
-  body("graduationYear")
-    .optional()
-    .isInt({ min: 2020, max: 2045 })
-    .withMessage("Invalid graduation year."),
+  integerOptional(
+    "graduationYear",
+    "Graduation Year"
+  ),
 
-  body("cgpa")
-    .optional()
-    .isFloat({ min: 0, max: 10 })
-    .withMessage("CGPA must be between 0 and 10."),
+  floatOptional("cgpa", "CGPA"),
 
-  body("skills")
-    .optional()
-    .isArray()
-    .withMessage("Skills must be an array."),
+  arrayOptional("skills", "Skills"),
 
-  body("socialLinks")
-    .optional()
-    .isObject()
-    .withMessage("Social links must be an object."),
+  arrayStringItems("skills", "Skill"),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
+  urlOptional(
+    "socialLinks.github",
+    "GitHub"
+  ),
 
-    if (!errors.isEmpty()) {
-      return next(
-        new AppError(
-          errors.array().map((e) => e.msg).join(" "),
-          400
-        )
-      );
-    }
+  urlOptional(
+    "socialLinks.linkedin",
+    "LinkedIn"
+  ),
 
-    next();
-  },
+  urlOptional(
+    "socialLinks.portfolio",
+    "Portfolio"
+  ),
 ];
