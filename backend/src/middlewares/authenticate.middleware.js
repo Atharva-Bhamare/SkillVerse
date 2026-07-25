@@ -14,15 +14,16 @@ export const authenticate = asyncHandler(async (req, res, next) => {
 
   const token = authorization.split(" ")[1];
 
-  const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  const user = await User.findById(userId);
+const user = await User.findById(decoded.id);
 
-  if (!user) {
-    throw new AppError("User no longer exists.", 401);
-  }
+if (!user) {
+  throw new AppError("Authentication required.", 401);
+}
 
-  req.user = user;
+req.user = user;
 
-  next();
+next();
+
 });

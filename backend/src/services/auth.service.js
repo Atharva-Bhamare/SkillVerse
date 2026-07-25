@@ -1,46 +1,65 @@
+import jwt from "jsonwebtoken";
+
 import User from "../models/user.model.js";
 import AppError from "../utils/AppError.js";
-import { generateAccessToken } from "../utils/jwt.js";
 
-export const registerUser = async (userData) => {
-  const { email } = userData;
+const findUserByEmail = async (email, includePassword = false) => {
+  const query = User.findOne({ email });
 
-  // Check if user already exists
-  const existingUser = await User.findOne({ email });
-
-  if (existingUser) {
-    throw new AppError(
-      "An account with this email already exists.",
-      409
-    );
+  if (includePassword) {
+    query.select("+password +refreshToken");
   }
 
-  // Create user
-  const user = await User.create(userData);
-
-  return user;
+  return query;
 };
 
-export const loginUser = async ({ email, password }) => {
-  const user = await User.findOne({ email }).select("+password");
+const generateAccessToken = (user) =>
+  jwt.sign(
+    {
+      id: user._id,
+      role: user.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 
-  if (!user) {
-    throw new AppError("Invalid email or password.", 401);
-  }
+const generateRefreshToken = (user) =>
+  jwt.sign(
+    {
+      id: user._id,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "30d",
+    }
+  );
 
-  const isPasswordCorrect = await user.comparePassword(password);
-
-  if (!isPasswordCorrect) {
-    throw new AppError("Invalid email or password.", 401);
-  }
-
-  user.lastLogin = new Date();
-  await user.save();
-
-  const token = generateAccessToken(user);
-
-  return {
-    user,
-    token,
+  const register = async () => {
+    // Next step
   };
-};
+  
+  const login = async () => {
+    // Next step
+  };
+  
+  const refresh = async () => {
+    // Next step
+  };
+  
+  const logout = async () => {
+    // Next step
+  };
+  
+  const changePassword = async () => {
+    // Next step
+  };
+  
+  export default {
+    register,
+    login,
+    refresh,
+    logout,
+    changePassword,
+  };

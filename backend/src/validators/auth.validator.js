@@ -1,70 +1,57 @@
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 
-import { ROLES } from "../config/constants.js";
-import AppError from "../utils/AppError.js";
+import {
+  stringRequired,
+  stringOptional,
+} from "./common.validator.js";
 
-export const validateRegister = [
-  body("fullName")
-    .trim()
-    .notEmpty()
-    .withMessage("Full name is required.")
-    .isLength({ min: 3, max: 50 })
-    .withMessage("Full name must be between 3 and 50 characters."),
-
-    body("email")
-    .trim()
+export const registerValidator = [
+  stringRequired("fullName", "Full name"),
+  stringRequired("email", "Email")
     .isEmail()
-    .withMessage("Please provide a valid email address.")
-    .normalizeEmail()
-    .isLength({ max: 100 })
-    .withMessage("Email cannot exceed 100 characters."),
-
-    body("password")
-    .isLength({ min: 8, max: 32 })
-    .withMessage("Password must be between 8 and 32 characters.")
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#()_\-+=])[A-Za-z\d@$!%*?&^#()_\-+=]{8,32}$/)
-    .withMessage(
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character."
-    ),
-
-  body("role")
-    .optional()
-    .isIn(Object.values(ROLES))
-    .withMessage("Invalid user role."),
-
-  (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      const messages = errors.array().map((error) => error.msg);
-
-      return next(new AppError(messages.join(" "), 400));
-    }
-
-    next();
-  },
-];
-
-export const validateLogin = [
-  body("email")
-    .trim()
-    .isEmail()
-    .withMessage("Please provide a valid email address.")
+    .withMessage("Please provide a valid email.")
     .normalizeEmail(),
 
-  body("password")
+  stringRequired("password", "Password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters long."),
+
+  body("confirmPassword")
     .notEmpty()
-    .withMessage("Password is required."),
+    .withMessage("Confirm password is required.")
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Passwords do not match.");
+      }
+      return true;
+    }),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
+  stringOptional("role", "Role"),
+];
 
-    if (!errors.isEmpty()) {
-      const messages = errors.array().map((error) => error.msg);
+export const loginValidator = [
+  stringRequired("email", "Email")
+    .isEmail()
+    .withMessage("Please provide a valid email.")
+    .normalizeEmail(),
 
-      return next(new AppError(messages.join(" "), 400));
-    }
+  stringRequired("password", "Password"),
+];
 
-    next();
-  },
+export const changePasswordValidator = [
+  stringRequired("currentPassword", "Current password"),
+
+  stringRequired("newPassword", "New password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters long."),
+
+  body("confirmPassword")
+    .notEmpty()
+    .withMessage("Confirm password is required.")
+    .custom((value, { req }) => {
+      if (value !== req.body.newPassword) {
+        throw new Error("Passwords do not match.");
+      }
+      return true;
+    }),
 ];

@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
 import studentRoutes from "./routes/student.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 
 // Import future routes
 // import authRoutes from "./routes/auth.routes.js";
@@ -71,7 +72,7 @@ app.get("/api/health", (req, res) => {
    API Routes
 ===================================================== */
 
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use("/api/student", studentRoutes);
 
