@@ -47,17 +47,22 @@ const createUploader = ({ allowedMimeTypes, maxFileSize }) => {
   });
 };
 
-// Image uploader
-export const uploadImage = createUploader({
+
+ // Image uploader
+ const imageUploader = createUploader({
   allowedMimeTypes: FILE_UPLOAD.IMAGE_MIME_TYPES,
   maxFileSize: FILE_UPLOAD.IMAGE_MAX_SIZE,
 });
 
+export const uploadImage = imageUploader.single("avatar");
+
 // PDF / Document uploader
-export const uploadDocument = createUploader({
+const documentUploader = createUploader({
   allowedMimeTypes: FILE_UPLOAD.DOCUMENT_MIME_TYPES,
   maxFileSize: FILE_UPLOAD.DOCUMENT_MAX_SIZE,
 });
+
+export const uploadDocument = documentUploader.single("document");
 
 export default {
   uploadImage,

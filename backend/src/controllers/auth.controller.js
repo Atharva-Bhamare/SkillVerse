@@ -25,11 +25,39 @@ export const login = asyncHandler(async (req, res) => {
   });
 });
 
-export const getCurrentUser = asyncHandler(async (req, res) => {
+export const refresh = asyncHandler(async (req, res) => {
+  const { refreshToken } = req.body;
+
+  const result = await authService.refresh(refreshToken);
+
+  return sendSuccess(res, 200, "Access token refreshed successfully.", {
+    user: buildUserResponse(result.user),
+    accessToken: result.accessToken,
+    refreshToken: result.refreshToken,
+  });
+});
+
+export const logout = asyncHandler(async (req, res) => {
+  await authService.logout(req.user._id);
+
+  return sendSuccess(res, 200, "Logout successful.");
+});
+
+export const me = asyncHandler(async (req, res) => {
   return sendSuccess(
     res,
     200,
     "Current user retrieved successfully.",
     buildUserResponse(req.user)
+  );
+});
+
+export const changePassword = asyncHandler(async (req, res) => {
+  await authService.changePassword(req.user._id, req.body);
+
+  return sendSuccess(
+    res,
+    200,
+    "Password changed successfully. Please login again."
   );
 });

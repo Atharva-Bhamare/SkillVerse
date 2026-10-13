@@ -59,7 +59,7 @@ Examples:
 auth.controller.js
 auth.service.js
 auth.routes.js
-auth.middleware.js
+authenticate.middleware.js
 user.model.js
 
 ---

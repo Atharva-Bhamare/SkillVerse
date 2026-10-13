@@ -11,11 +11,11 @@ import validate from "../middlewares/validate.middleware.js";
 
 import { uploadImage } from "../middlewares/upload.middleware.js";
 
-import { authenticate } from "../middlewares/auth.middleware.js";
+import { authenticate } from "../middlewares/authenticate.middleware.js";
 
 const router = Router();
 
-/* =====================================================
+/* =====================================================  
    Student Profile Routes
 ===================================================== */
 
