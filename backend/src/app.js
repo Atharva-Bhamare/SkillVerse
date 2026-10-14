@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import studentRoutes from "./routes/student.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import companyRoutes from "./routes/company.routes.js";
+import jobRoutes from "./routes/job.routes.js";
 
 import notFound from "./middlewares/notFound.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
@@ -73,6 +74,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/student", studentRoutes);
 
 app.use("/api/companies", companyRoutes);
+
+app.use("/api/jobs", jobRoutes);
 
 /* =====================================================
    404 Handler
