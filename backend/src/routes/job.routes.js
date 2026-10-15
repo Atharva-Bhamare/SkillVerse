@@ -7,6 +7,7 @@ import {
   listJobs,
   updateJob,
   deactivateJob,
+  reactivateJob,
 } from "../controllers/job.controller.js";
 
 import {
@@ -69,5 +70,15 @@ router.delete(
   validate,
   deactivateJob
 );
+
+
+router.patch(
+  "/:jobId/reactivate",
+  authorize(ROLES.ADMIN, ROLES.PLACEMENT_OFFICER),
+  jobIdValidator,
+  validate,
+  reactivateJob
+);
+
 
 export default router;

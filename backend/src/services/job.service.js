@@ -323,10 +323,49 @@ const deactivateJob = async (jobId, userRole) => {
   return job;
 };
 
+
+const reactivateJob = async (jobId, userRole) => {
+  if (!isManagementRole(userRole)) {
+    throw new AppError(
+      "You are not authorized to reactivate jobs.",
+      403
+    );
+  }
+
+  validateJobId(jobId);
+
+  const job = await Job.findById(jobId);
+
+  if (!job) {
+    throw new AppError("Job not found.", 404);
+  }
+
+  if (job.isActive) {
+    throw new AppError("Job is already active.", 409);
+  }
+
+  // Reopen only if the deadline is still in the future.
+  if (job.applicationDeadline <= new Date()) {
+    throw new AppError(
+      "This job's application deadline has passed. Update the deadline before reopening it.",
+      400
+    );
+  }
+
+  job.isActive = true;
+  job.status = "open";
+
+  await job.save();
+
+  return Job.findById(job._id).populate(POPULATE_OPTIONS);
+};
+
+
 export default {
   createJob,
   getJobById,
   listJobs,
   updateJob,
   deactivateJob,
+  reactivateJob,
 };

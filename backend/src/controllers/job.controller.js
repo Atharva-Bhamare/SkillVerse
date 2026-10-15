@@ -83,3 +83,17 @@ export const deactivateJob = asyncHandler(async (req, res) => {
     buildJobResponse(job)
   );
 });
+
+export const reactivateJob = asyncHandler(async (req, res) => {
+  const job = await jobService.reactivateJob(
+    req.params.jobId,
+    req.user.role
+  );
+
+  return sendSuccess(
+    res,
+    200,
+    "Job reactivated successfully.",
+    buildJobResponse(job)
+  );
+});
