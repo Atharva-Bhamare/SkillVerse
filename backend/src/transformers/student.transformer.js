@@ -10,6 +10,8 @@ export const buildStudentResponse = (student) => ({
     avatar: {
       url: student.avatar?.url || "",
     },
+    
+    resume: student.resume ?? null,
   
     college: student.college,
   

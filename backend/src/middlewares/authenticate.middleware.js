@@ -1,7 +1,6 @@
+
 import jwt from "jsonwebtoken";
-
 import User from "../models/user.model.js";
-
 import AppError from "../utils/AppError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
@@ -12,18 +11,25 @@ export const authenticate = asyncHandler(async (req, res, next) => {
     throw new AppError("Authentication required.", 401);
   }
 
-  const token = authorization.split(" ")[1];
+  const token = authorization.slice(7).trim();
+
+  if (!token) {
+    throw new AppError("Authentication required.", 401);
+  }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-const user = await User.findById(decoded.id);
+  const user = await User.findById(decoded.id);
 
-if (!user) {
-  throw new AppError("Authentication required.", 401);
-}
+  if (!user) {
+    throw new AppError("Authentication required.", 401);
+  }
 
-req.user = user;
+  if (user.isActive === false) {
+    throw new AppError("Your account has been deactivated.", 403);
+  }
 
-next();
+  req.user = user;
 
+  next();
 });

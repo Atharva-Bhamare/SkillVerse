@@ -3,8 +3,18 @@ import mongoose from "mongoose";
 import Application from "../models/application.model.js";
 import Job from "../models/job.model.js";
 import AppError from "../utils/AppError.js";
+import Student from "../models/student.model.js";
 
 const MANAGEMENT_ROLES = ["admin", "placement_officer"];
+
+const ALLOWED_STATUS_TRANSITIONS = Object.freeze({
+  pending: ["reviewing", "rejected"],
+  reviewing: ["shortlisted", "accepted", "rejected"],
+  shortlisted: ["accepted", "rejected"],
+  accepted: [],
+  rejected: [],
+  withdrawn: [],
+});
 
 const APPLICATION_POPULATE_OPTIONS = [
   {
@@ -114,11 +124,19 @@ const createApplication = async (
     );
   }
 
+  // Use the profile resume when no resume URL is supplied.
+  let resume = applicationData.resume ?? null;
+
+  if (!resume) {
+    const student = await Student.findOne({ user: studentId });
+    resume = student?.resume?.url ?? null;
+  }
+
   try {
     const application = await Application.create({
       student: studentId,
       job: job._id,
-      resume: applicationData.resume ?? null,
+      resume,
       coverLetter: applicationData.coverLetter ?? "",
       status: "pending",
     });
@@ -127,8 +145,7 @@ const createApplication = async (
       APPLICATION_POPULATE_OPTIONS
     );
   } catch (error) {
-    // The unique compound index protects against concurrent duplicate
-    // submissions, even if both requests pass the initial lookup.
+    // Protect against concurrent duplicate submissions.
     if (error.code === 11000) {
       throw new AppError(
         "You have already applied for this job.",
@@ -229,13 +246,28 @@ const updateApplicationStatus = async (
   const application = await getApplicationForManagement(
     applicationId
   );
+  
+const currentStatus = application.status;
+const requestedStatus = updateData.status;
 
-  if (application.status === "withdrawn") {
-    throw new AppError(
-      "A withdrawn application cannot be updated.",
-      409
-    );
-  }
+if (currentStatus === "withdrawn") {
+  throw new AppError(
+    "A withdrawn application cannot be updated.",
+    409
+  );
+}
+
+if (
+  currentStatus !== requestedStatus &&
+  !ALLOWED_STATUS_TRANSITIONS[currentStatus]?.includes(
+    requestedStatus
+  )
+) {
+  throw new AppError(
+    `Cannot change application status from "${currentStatus}" to "${requestedStatus}".`,
+    409
+  );
+}
 
   application.status = updateData.status;
   application.statusUpdatedBy = userId;

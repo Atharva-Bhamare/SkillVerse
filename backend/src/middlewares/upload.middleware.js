@@ -1,15 +1,15 @@
+
 import multer from "multer";
 import path from "path";
 import fs from "fs-extra";
 
 import { FILE_UPLOAD } from "../config/constants.js";
+import AppError from "../utils/AppError.js";
 
-const TEMP_DIRECTORY = "temp";
+const TEMP_DIRECTORY = path.resolve(process.cwd(), "temp");
 
-// Ensure temp directory exists
 fs.ensureDirSync(TEMP_DIRECTORY);
 
-// Configure storage
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, TEMP_DIRECTORY);
@@ -17,52 +17,145 @@ const storage = multer.diskStorage({
 
   filename(req, file, cb) {
     const uniqueSuffix =
-      Date.now() + "-" + Math.round(Math.random() * 1e9);
+      `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
 
-    const extension = path.extname(file.originalname);
-
-    cb(null, `${uniqueSuffix}${extension}`);
+    cb(null, uniqueSuffix);
   },
 });
 
-// Generic uploader factory
-const createUploader = ({ allowedMimeTypes, maxFileSize }) => {
-  return multer({
-    storage,
+const hasValidSignature = async (filePath, kind) => {
+  const buffer = await fs.readFile(filePath);
+  
+  if (kind === "image") {
+    if (
+      buffer.length >= 3 &&
+      buffer[0] === 0xff &&
+      buffer[1] === 0xd8 &&
+      buffer[2] === 0xff
+    ) {
+      return true; // JPEG
+    }
 
-    limits: {
-      fileSize: maxFileSize,
-    },
+    if (
+      buffer.length >= 8 &&
+      buffer.subarray(0, 8).equals(
+        Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
+      )
+    ) {
+      return true; // PNG
+    }
 
-    fileFilter(req, file, cb) {
-      if (allowedMimeTypes.includes(file.mimetype)) {
-        return cb(null, true);
-      }
+    if (
+      buffer.length >= 12 &&
+      buffer.toString("ascii", 0, 4) === "RIFF" &&
+      buffer.toString("ascii", 8, 12) === "WEBP"
+    ) {
+      return true; // WebP
+    }
 
-      return cb(
-        new Error("Unsupported file type."),
-        false
-      );
-    },
-  });
+    return false;
+  }
+
+  if (kind === "document") {
+    return buffer.subarray(0, 5).toString("ascii") === "%PDF-";
+  }
+
+  return false;
 };
 
+const createUploader = ({ allowedMimeTypes, maxFileSize }) =>
+  multer({
+    storage,
+    limits: {
+      fileSize: maxFileSize,
+      files: 1,
+    },
+    fileFilter(req, file, cb) {
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        return cb(
+          new AppError("Unsupported file type.", 400)
+        );
+      }
 
- // Image uploader
- const imageUploader = createUploader({
-  allowedMimeTypes: FILE_UPLOAD.IMAGE_MIME_TYPES,
-  maxFileSize: FILE_UPLOAD.IMAGE_MAX_SIZE,
-});
+      cb(null, true);
+    },
+  });
 
-export const uploadImage = imageUploader.single("avatar");
+const createSecureUpload = (options, fieldName, kind) => {
+  const upload = createUploader(options).single(fieldName);
 
-// PDF / Document uploader
-const documentUploader = createUploader({
-  allowedMimeTypes: FILE_UPLOAD.DOCUMENT_MIME_TYPES,
-  maxFileSize: FILE_UPLOAD.DOCUMENT_MAX_SIZE,
-});
+  return (req, res, next) => {
+    upload(req, res, async (error) => {
+      if (error) {
+        if (req.file?.path) {
+          await fs.remove(req.file.path).catch(() => {});
+        }
 
-export const uploadDocument = documentUploader.single("document");
+        if (error instanceof multer.MulterError) {
+          const message =
+            error.code === "LIMIT_FILE_SIZE"
+              ? "File exceeds the maximum allowed size."
+              : "Invalid file upload.";
+
+          return next(new AppError(message, 400));
+        }
+
+        return next(
+          error instanceof AppError
+            ? error
+            : new AppError("File upload failed.", 400)
+        );
+      }
+
+      if (!req.file) {
+        return next();
+      }
+
+      try {
+        const valid = await hasValidSignature(
+          req.file.path,
+          kind
+        );
+
+        if (!valid) {
+          await fs.remove(req.file.path);
+          return next(
+            new AppError(
+              "File contents do not match an allowed file type.",
+              400
+            )
+          );
+        }
+
+        next();
+      } catch {
+        if (req.file?.path) {
+          await fs.remove(req.file.path).catch(() => {});
+        }
+
+        next(new AppError("Unable to validate uploaded file.", 400));
+      }
+    });
+  };
+};
+
+export const uploadImage = createSecureUpload(
+  {
+    allowedMimeTypes: FILE_UPLOAD.IMAGE_MIME_TYPES,
+    maxFileSize: FILE_UPLOAD.IMAGE_MAX_SIZE,
+  },
+  "avatar",
+  "image"
+);
+
+export const uploadDocument = createSecureUpload(
+  {
+    allowedMimeTypes: FILE_UPLOAD.DOCUMENT_MIME_TYPES,
+    maxFileSize: FILE_UPLOAD.DOCUMENT_MAX_SIZE,
+  },
+  "document",
+  "document"
+);
 
 export default {
   uploadImage,

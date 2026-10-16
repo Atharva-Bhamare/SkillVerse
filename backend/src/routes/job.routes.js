@@ -71,7 +71,6 @@ router.delete(
   deactivateJob
 );
 
-
 router.patch(
   "/:jobId/reactivate",
   authorize(ROLES.ADMIN, ROLES.PLACEMENT_OFFICER),
@@ -79,6 +78,5 @@ router.patch(
   validate,
   reactivateJob
 );
-
 
 export default router;

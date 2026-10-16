@@ -9,7 +9,10 @@ import {
 
 import validate from "../middlewares/validate.middleware.js";
 
-import { uploadImage } from "../middlewares/upload.middleware.js";
+import {
+  uploadImage,
+  uploadDocument,
+} from "../middlewares/upload.middleware.js";
 
 import { authenticate } from "../middlewares/authenticate.middleware.js";
 
@@ -46,6 +49,13 @@ router.patch(
   authenticate,
   uploadImage,
   studentController.updateStudentAvatar
+);
+
+router.patch(
+  "/profile/resume",
+  authenticate,
+  uploadDocument,
+  studentController.updateStudentResume
 );
 
 export default router;

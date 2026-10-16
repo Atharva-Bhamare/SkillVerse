@@ -68,6 +68,15 @@ const errorHandler = (err, req, res, next) => {
       401
     );
   }
+  
+else if (err.name === "MulterError") {
+  const message =
+    err.code === "LIMIT_FILE_SIZE"
+      ? "File exceeds the maximum allowed size."
+      : "Invalid file upload.";
+
+  error = new AppError(message, 400);
+}
 
   /* =====================================================
      Unknown Errors

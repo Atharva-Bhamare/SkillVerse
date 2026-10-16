@@ -198,3 +198,44 @@ export const updateStudentAvatar = async (
 
   return student;
 };
+
+export const updateStudentResume = async (userId, file) => {
+  if (!file) {
+    throw new AppError("Resume PDF is required.", 400);
+  }
+
+  const student = await findStudentOrThrow(userId);
+  const previousPublicId = student.resume?.publicId;
+
+  const uploadedResume = await uploadToCloudinary(
+    file.path,
+    "students/resumes"
+  );
+
+  try {
+    student.resume = {
+      url: uploadedResume.url,
+      publicId: uploadedResume.publicId,
+    };
+
+    await saveStudent(student);
+  } catch (error) {
+    try {
+      await deleteFromCloudinary(uploadedResume.publicId);
+    } catch {
+      // The uploaded file may need manual cleanup.
+    }
+
+    throw error;
+  }
+
+  if (previousPublicId) {
+    try {
+      await deleteFromCloudinary(previousPublicId);
+    } catch {
+      // Keep the successful profile update.
+    }
+  }
+
+  return student;
+};

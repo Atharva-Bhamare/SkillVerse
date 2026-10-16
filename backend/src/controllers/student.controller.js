@@ -72,3 +72,18 @@ export const updateStudentAvatar = asyncHandler(
     });
   }
 );
+
+export const updateStudentResume = asyncHandler(
+  async (req, res) => {
+    const student = await studentService.updateStudentResume(
+      req.user.id,
+      req.file
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Resume uploaded successfully.",
+      data: buildStudentResponse(student),
+    });
+  }
+);

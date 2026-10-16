@@ -31,11 +31,16 @@ const studentSchema = new mongoose.Schema(
       maxlength: 1000,
       default: "",
     },
+  
+  avatar: {
+    type: fileSchema,
+    default: () => ({}),
+  },
 
-    avatar: {
-      type: fileSchema,
-      default: () => ({}),
-    },
+  resume: {
+    type: fileSchema,
+    default: () => ({}),
+  },
 
     // ==========================
     // Academic Information
