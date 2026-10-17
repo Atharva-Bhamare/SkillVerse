@@ -4,6 +4,8 @@ import Application from "../models/application.model.js";
 import Job from "../models/job.model.js";
 import AppError from "../utils/AppError.js";
 import Student from "../models/student.model.js";
+import logger from "../config/logger.js";
+import { createNotification } from "./notification.service.js";
 
 const MANAGEMENT_ROLES = ["admin", "placement_officer"];
 
@@ -132,18 +134,16 @@ const createApplication = async (
     resume = student?.resume?.url ?? null;
   }
 
+  let application;
+
   try {
-    const application = await Application.create({
+    application = await Application.create({
       student: studentId,
       job: job._id,
       resume,
       coverLetter: applicationData.coverLetter ?? "",
       status: "pending",
     });
-
-    return Application.findById(application._id).populate(
-      APPLICATION_POPULATE_OPTIONS
-    );
   } catch (error) {
     // Protect against concurrent duplicate submissions.
     if (error.code === 11000) {
@@ -155,6 +155,28 @@ const createApplication = async (
 
     throw error;
   }
+
+  // Notify the user who posted the job.
+  try {
+    if (job.postedBy) {
+      await createNotification({
+        recipient: job.postedBy,
+        type: "new_application",
+        title: "New Job Application",
+        message: "A student has applied for your job posting.",
+        relatedApplication: application._id,
+        relatedJob: job._id,
+      });
+    }
+  } catch (error) {
+    logger.error(
+      `Failed to create new application notification: ${error.message}`
+    );
+  }
+
+  return Application.findById(application._id).populate(
+    APPLICATION_POPULATE_OPTIONS
+  );
 };
 
 const getApplicationById = async (
@@ -246,30 +268,30 @@ const updateApplicationStatus = async (
   const application = await getApplicationForManagement(
     applicationId
   );
-  
-const currentStatus = application.status;
-const requestedStatus = updateData.status;
 
-if (currentStatus === "withdrawn") {
-  throw new AppError(
-    "A withdrawn application cannot be updated.",
-    409
-  );
-}
+  const currentStatus = application.status;
+  const requestedStatus = updateData.status;
 
-if (
-  currentStatus !== requestedStatus &&
-  !ALLOWED_STATUS_TRANSITIONS[currentStatus]?.includes(
-    requestedStatus
-  )
-) {
-  throw new AppError(
-    `Cannot change application status from "${currentStatus}" to "${requestedStatus}".`,
-    409
-  );
-}
+  if (currentStatus === "withdrawn") {
+    throw new AppError(
+      "A withdrawn application cannot be updated.",
+      409
+    );
+  }
 
-  application.status = updateData.status;
+  if (
+    currentStatus !== requestedStatus &&
+    !ALLOWED_STATUS_TRANSITIONS[currentStatus]?.includes(
+      requestedStatus
+    )
+  ) {
+    throw new AppError(
+      `Cannot change application status from "${currentStatus}" to "${requestedStatus}".`,
+      409
+    );
+  }
+
+  application.status = requestedStatus;
   application.statusUpdatedBy = userId;
 
   if (updateData.notes !== undefined) {
@@ -277,6 +299,25 @@ if (
   }
 
   await application.save();
+
+  // Notify the student only when the status actually changes.
+  if (currentStatus !== requestedStatus) {
+    try {
+      await createNotification({
+        recipient: application.student,
+        type: "application_status",
+        title: "Application Status Updated",
+        message: `Your application status has changed to ${requestedStatus}.`,
+        relatedApplication: application._id,
+        relatedJob: application.job,
+      });
+    } catch (error) {
+      // Notification failure should not undo a successful status update.
+      logger.error(
+        `Failed to create application status notification: ${error.message}`
+      );
+    }
+  }
 
   return Application.findById(application._id).populate(
     APPLICATION_POPULATE_OPTIONS

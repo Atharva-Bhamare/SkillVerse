@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth.routes.js";
 import companyRoutes from "./routes/company.routes.js";
 import jobRoutes from "./routes/job.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 
 import notFound from "./middlewares/notFound.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
@@ -79,6 +80,8 @@ app.use("/api/companies", companyRoutes);
 app.use("/api/jobs", jobRoutes);
 
 app.use("/api/applications", applicationRoutes);
+
+app.use("/api/notifications", notificationRoutes);
 
 /* =====================================================
    404 Handler
