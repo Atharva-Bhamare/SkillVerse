@@ -1,15 +1,13 @@
+
 import jwt from "jsonwebtoken";
 import config from "../config/env.js";
-
-/* =====================================================
-   Access Token
-===================================================== */
 
 export const generateAccessToken = (user) => {
   return jwt.sign(
     {
-      id: user._id,
+      id: user._id.toString(),
       role: user.role,
+      tokenType: "access",
     },
     config.jwtSecret,
     {
@@ -19,19 +17,22 @@ export const generateAccessToken = (user) => {
 };
 
 export const verifyAccessToken = (token) => {
-  return jwt.verify(token, config.jwtSecret);
-};
+  const decoded = jwt.verify(token, config.jwtSecret);
 
-/* =====================================================
-   Refresh Token
-===================================================== */
+  if (decoded.tokenType !== "access") {
+    throw new jwt.JsonWebTokenError("Invalid access token type.");
+  }
+
+  return decoded;
+};
 
 export const generateRefreshToken = (user) => {
   return jwt.sign(
     {
-      id: user._id,
+      id: user._id.toString(),
+      tokenType: "refresh",
     },
-    config.jwtSecret,
+    config.jwtRefreshSecret,
     {
       expiresIn: "30d",
     }
@@ -39,5 +40,11 @@ export const generateRefreshToken = (user) => {
 };
 
 export const verifyRefreshToken = (token) => {
-  return jwt.verify(token, config.jwtSecret);
+  const decoded = jwt.verify(token, config.jwtRefreshSecret);
+
+  if (decoded.tokenType !== "refresh") {
+    throw new jwt.JsonWebTokenError("Invalid refresh token type.");
+  }
+
+  return decoded;
 };

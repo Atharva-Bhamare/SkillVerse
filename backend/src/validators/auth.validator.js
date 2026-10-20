@@ -1,9 +1,6 @@
 import { body } from "express-validator";
 
-import {
-  stringRequired,
-  stringOptional,
-} from "./common.validator.js";
+import { stringRequired } from "./common.validator.js";
 
 export const registerValidator = [
   stringRequired("fullName", "Full name"),
@@ -26,7 +23,6 @@ export const registerValidator = [
       return true;
     }),
 
-  stringOptional("role", "Role"),
 ];
 
 export const loginValidator = [

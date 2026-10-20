@@ -19,7 +19,7 @@ const findUserByEmail = async (email, includePassword = false) => {
 };
 
 const register = async (userData) => {
-  const { fullName, email, password, role } = userData;
+  const { fullName, email, password } = userData;
 
   const existingUser = await findUserByEmail(email);
 
@@ -31,7 +31,7 @@ const register = async (userData) => {
     fullName,
     email,
     password,
-    role,
+    role: "student",
   });
 
   const accessToken = generateAccessToken(user);

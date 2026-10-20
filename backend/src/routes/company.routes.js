@@ -14,12 +14,21 @@ import {
   updateCompanyValidator,
   companyIdValidator,
   listCompaniesValidator,
+  assignOfficerValidator,
 } from "../validators/company.validator.js";
 
 const router = express.Router();
 
 // All company routes require authentication.
 router.use(authenticate);
+
+router.patch(
+  "/:companyId/officers/:officerId",
+  authorize(ROLES.ADMIN),
+  assignOfficerValidator,
+  validate,
+  companyController.assignOfficerToCompany
+);
 
 // Read company information.
 router.get(
@@ -39,7 +48,7 @@ router.get(
 // Only admins and placement officers can manage companies.
 router.post(
   "/",
-  authorize(ROLES.ADMIN, ROLES.PLACEMENT_OFFICER),
+  authorize(ROLES.ADMIN),
   createCompanyValidator,
   validate,
   companyController.createCompany
@@ -47,7 +56,7 @@ router.post(
 
 router.patch(
   "/:companyId",
-  authorize(ROLES.ADMIN, ROLES.PLACEMENT_OFFICER),
+  authorize(ROLES.ADMIN),
   updateCompanyValidator,
   validate,
   companyController.updateCompany
@@ -55,7 +64,7 @@ router.patch(
 
 router.delete(
   "/:companyId",
-  authorize(ROLES.ADMIN, ROLES.PLACEMENT_OFFICER),
+  authorize(ROLES.ADMIN),
   companyIdValidator,
   validate,
   companyController.deactivateCompany

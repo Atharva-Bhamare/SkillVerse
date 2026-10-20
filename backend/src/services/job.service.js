@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import Job from "../models/job.model.js";
 import Company from "../models/company.model.js";
+import User from "../models/user.model.js";
 import AppError from "../utils/AppError.js";
 
 const MANAGEMENT_ROLES = ["admin", "placement_officer"];
@@ -24,9 +25,39 @@ const escapeRegex = (value) => {
       }
       return char;
     }).join("");
-  };  
+  };
 
 const isManagementRole = (role) => MANAGEMENT_ROLES.includes(role);
+
+const getAssignedCompanyForOfficer = async (userId) => {
+
+  if (!mongoose.isValidObjectId(userId)) {
+    throw new AppError("Invalid placement officer ID.", 400);
+  }
+
+  // Keep the rest of your existing function unchanged.
+
+  const officer = await User.findOne({
+    _id: userId,
+    role: "placement_officer",
+    isActive: true,
+  }).select("company");
+
+  if (!officer) {
+    throw new AppError("Active placement officer not found.", 404);
+  }
+
+  if (!officer.company) {
+    throw new AppError(
+      "You must be assigned to a company before managing jobs.",
+      403
+    );
+  }
+
+  const company = await validateCompany(officer.company);
+
+  return company._id;
+};
 
 const validateJobId = (jobId) => {
   if (!mongoose.isValidObjectId(jobId)) {
@@ -64,13 +95,22 @@ const validateDeadline = (deadline) => {
   }
 };
 
-const getJobForManagement = async (jobId) => {
+const getJobForManagement = async (jobId, userId, userRole) => {
   validateJobId(jobId);
 
-  const job = await Job.findOne({
+  const query = {
     _id: jobId,
     isActive: true,
-  }).populate(POPULATE_OPTIONS);
+  };
+
+  if (userRole === "placement_officer") {
+    const assignedCompanyId = await getAssignedCompanyForOfficer(userId);
+
+    query.postedBy = userId;
+    query.company = assignedCompanyId;
+  }
+
+  const job = await Job.findOne(query).populate(POPULATE_OPTIONS);
 
   if (!job) {
     throw new AppError("Job not found.", 404);
@@ -84,7 +124,18 @@ const createJob = async (jobData, userId, userRole) => {
     throw new AppError("You are not authorized to create jobs.", 403);
   }
 
-  await validateCompany(jobData.company);
+  const company = await validateCompany(jobData.company);
+
+  if (userRole === "placement_officer") {
+    const assignedCompanyId = await getAssignedCompanyForOfficer(userId);
+
+    if (company._id.toString() !== assignedCompanyId.toString()) {
+      throw new AppError(
+        "You can create jobs only for your assigned company.",
+        403
+      );
+    }
+  }
 
   const status = jobData.status ?? "draft";
 
@@ -101,7 +152,7 @@ const createJob = async (jobData, userId, userRole) => {
   return Job.findById(job._id).populate(POPULATE_OPTIONS);
 };
 
-const getJobById = async (jobId, userRole) => {
+const getJobById = async (jobId, userRole, userId) => {
   validateJobId(jobId);
 
   const query = {
@@ -112,6 +163,8 @@ const getJobById = async (jobId, userRole) => {
   if (!isManagementRole(userRole)) {
     query.status = "open";
     query.applicationDeadline = { $gt: new Date() };
+  } else if (userRole === "placement_officer") {
+    query.company = await getAssignedCompanyForOfficer(userId);
   }
 
   const job = await Job.findOne(query).populate(POPULATE_OPTIONS);
@@ -123,7 +176,7 @@ const getJobById = async (jobId, userRole) => {
   return job;
 };
 
-const listJobs = async (filters = {}, userRole) => {
+const listJobs = async (filters = {}, userRole, userId) => {
   const page = Math.max(Number(filters.page) || 1, 1);
   const limit = Math.min(Math.max(Number(filters.limit) || 10, 1), 100);
   const skip = (page - 1) * limit;
@@ -135,6 +188,12 @@ const listJobs = async (filters = {}, userRole) => {
   if (!isManagementRole(userRole)) {
     query.status = "open";
     query.applicationDeadline = { $gt: new Date() };
+  } else if (userRole === "placement_officer") {
+    query.company = await getAssignedCompanyForOfficer(userId);
+
+    if (filters.status) {
+      query.status = filters.status;
+    }
   } else if (filters.status) {
     query.status = filters.status;
   }
@@ -216,14 +275,25 @@ const listJobs = async (filters = {}, userRole) => {
   };
 };
 
-const updateJob = async (jobId, updateData, userRole) => {
+const updateJob = async (jobId, updateData, userId, userRole) => {
   if (!isManagementRole(userRole)) {
     throw new AppError("You are not authorized to update jobs.", 403);
   }
 
-  const job = await getJobForManagement(jobId);
+  const job = await getJobForManagement(
+    jobId,
+    userId,
+    userRole
+  );
 
   if (updateData.company !== undefined) {
+    if (userRole === "placement_officer") {
+      throw new AppError(
+        "Placement officers cannot change a job's assigned company.",
+        403
+      );
+    }
+
     await validateCompany(updateData.company);
   }
 
@@ -310,12 +380,16 @@ const updateJob = async (jobId, updateData, userRole) => {
   return Job.findById(job._id).populate(POPULATE_OPTIONS);
 };
 
-const deactivateJob = async (jobId, userRole) => {
+const deactivateJob = async (jobId, userId, userRole) => {
   if (!isManagementRole(userRole)) {
     throw new AppError("You are not authorized to deactivate jobs.", 403);
   }
 
-  const job = await getJobForManagement(jobId);
+  const job = await getJobForManagement(
+    jobId,
+    userId,
+    userRole
+  );
 
   job.isActive = false;
   await job.save();
@@ -324,7 +398,7 @@ const deactivateJob = async (jobId, userRole) => {
 };
 
 
-const reactivateJob = async (jobId, userRole) => {
+const reactivateJob = async (jobId, userId, userRole) => {
   if (!isManagementRole(userRole)) {
     throw new AppError(
       "You are not authorized to reactivate jobs.",
@@ -334,7 +408,14 @@ const reactivateJob = async (jobId, userRole) => {
 
   validateJobId(jobId);
 
-  const job = await Job.findById(jobId);
+  const query = { _id: jobId };
+
+if (userRole === "placement_officer") {
+  query.postedBy = userId;
+  query.company = await getAssignedCompanyForOfficer(userId);
+}
+
+  const job = await Job.findOne(query);
 
   if (!job) {
     throw new AppError("Job not found.", 404);
@@ -344,13 +425,9 @@ const reactivateJob = async (jobId, userRole) => {
     throw new AppError("Job is already active.", 409);
   }
 
-  // Reopen only if the deadline is still in the future.
-  if (job.applicationDeadline <= new Date()) {
-    throw new AppError(
-      "This job's application deadline has passed. Update the deadline before reopening it.",
-      400
-    );
-  }
+  await validateCompany(job.company);
+
+  validateDeadline(job.applicationDeadline);
 
   job.isActive = true;
   job.status = "open";

@@ -142,3 +142,17 @@ export const listCompaniesValidator = [
     .isLength({ max: 150 })
     .withMessage("Location cannot exceed 150 characters."),
 ];
+
+export const assignOfficerValidator = [
+  param("companyId")
+    .isMongoId()
+    .withMessage("A valid company ID is required."),
+
+  param("officerId")
+    .isMongoId()
+    .withMessage("A valid placement officer ID is required."),
+
+  body("action")
+    .isIn(["assign", "unassign"])
+    .withMessage("Action must be either 'assign' or 'unassign'."),
+];

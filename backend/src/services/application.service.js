@@ -127,12 +127,11 @@ const createApplication = async (
   }
 
   // Use the profile resume when no resume URL is supplied.
-  let resume = applicationData.resume ?? null;
+  const student = await Student.findOne({
+    user: studentId,
+  });
 
-  if (!resume) {
-    const student = await Student.findOne({ user: studentId });
-    resume = student?.resume?.url ?? null;
-  }
+  const resume = student?.resume?.url ?? null;
 
   let application;
 

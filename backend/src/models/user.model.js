@@ -34,6 +34,13 @@ const userSchema = new mongoose.Schema(
       default: ROLES.STUDENT,
     },
 
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+      default: null,
+      index: true,
+    },
+
     avatar: {
       type: String,
       default: "",

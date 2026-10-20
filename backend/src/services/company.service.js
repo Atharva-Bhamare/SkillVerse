@@ -1,6 +1,7 @@
 
 import mongoose from "mongoose";
-
+import User from "../models/user.model.js";
+import { ROLES } from "../config/constants.js";
 import Company from "../models/company.model.js";
 import AppError from "../utils/AppError.js";
 
@@ -193,10 +194,70 @@ const deactivateCompany = async (companyId) => {
   return true;
 };
 
+const assignOfficerToCompany = async (
+  companyId,
+  officerId,
+  action
+) => {
+  const company = await findActiveCompanyById(companyId);
+
+  if (!mongoose.isValidObjectId(officerId)) {
+    throw new AppError("A valid placement officer ID is required.", 400);
+  }
+
+  const officer = await User.findOne({
+    _id: officerId,
+    role: ROLES.PLACEMENT_OFFICER,
+    isActive: true,
+  });
+
+  if (!officer) {
+    throw new AppError("Active placement officer not found.", 404);
+  }
+
+  if (action === "assign") {
+    officer.company = company._id;
+    await officer.save();
+
+    return {
+      officer,
+      company,
+      action: "assigned",
+    };
+  }
+
+  if (action === "unassign") {
+    if (
+      officer.company &&
+      officer.company.toString() !== company._id.toString()
+    ) {
+      throw new AppError(
+        "This placement officer is assigned to a different company.",
+        409
+      );
+    }
+
+    officer.company = null;
+    await officer.save();
+
+    return {
+      officer,
+      company,
+      action: "unassigned",
+    };
+  }
+
+  throw new AppError(
+    "Action must be either 'assign' or 'unassign'.",
+    400
+  );
+};
+
 export default {
   createCompany,
   getCompanyById,
   listCompanies,
   updateCompany,
   deactivateCompany,
+  assignOfficerToCompany,
 };

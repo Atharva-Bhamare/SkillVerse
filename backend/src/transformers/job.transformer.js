@@ -1,10 +1,13 @@
+const buildSalaryResponse = (salary) => {
+  const isDisclosed = salary?.isDisclosed ?? true;
 
-const buildSalaryResponse = (salary) => ({
-    min: salary?.min ?? null,
-    max: salary?.max ?? null,
+  return {
+    min: isDisclosed ? salary?.min ?? null : null,
+    max: isDisclosed ? salary?.max ?? null : null,
     currency: salary?.currency ?? "INR",
-    isDisclosed: salary?.isDisclosed ?? true,
-  });
+    isDisclosed,
+  };
+};
   
   const buildExperienceResponse = (experience) => ({
     minYears: experience?.minYears ?? 0,

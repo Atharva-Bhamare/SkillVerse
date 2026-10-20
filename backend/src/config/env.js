@@ -1,26 +1,22 @@
+
 import "dotenv/config";
 
 const requiredEnvVariables = [
   "PORT",
   "MONGO_URI",
   "JWT_SECRET",
+  "JWT_REFRESH_SECRET",
   "JWT_EXPIRES_IN",
   "CLIENT_URL",
   "NODE_ENV",
-
-  // Cloudinary
   "CLOUDINARY_CLOUD_NAME",
   "CLOUDINARY_API_KEY",
   "CLOUDINARY_API_SECRET",
 ];
 
-const missingVariables = [];
-
-requiredEnvVariables.forEach((variable) => {
-  if (!process.env[variable]?.trim()) {
-    missingVariables.push(variable);
-  }
-});
+const missingVariables = requiredEnvVariables.filter(
+  (variable) => !process.env[variable]?.trim()
+);
 
 if (missingVariables.length > 0) {
   console.error("\n======================================");
@@ -38,16 +34,16 @@ if (missingVariables.length > 0) {
   process.exit(1);
 }
 
-// ----------------------------
-// Format Validation
-// ----------------------------
+const port = Number(process.env.PORT);
 
-// PORT
-if (isNaN(Number(process.env.PORT))) {
-  throw new Error("PORT must be a valid number.");
+if (
+  !Number.isInteger(port) ||
+  port < 1 ||
+  port > 65535
+) {
+  throw new Error("PORT must be an integer between 1 and 65535.");
 }
 
-// Mongo URI
 if (
   !process.env.MONGO_URI.startsWith("mongodb://") &&
   !process.env.MONGO_URI.startsWith("mongodb+srv://")
@@ -57,14 +53,12 @@ if (
   );
 }
 
-// CLIENT_URL
 try {
   new URL(process.env.CLIENT_URL);
 } catch {
   throw new Error("CLIENT_URL must be a valid URL.");
 }
 
-// NODE_ENV
 const validEnvironments = [
   "development",
   "production",
@@ -77,33 +71,14 @@ if (!validEnvironments.includes(process.env.NODE_ENV)) {
   );
 }
 
-// Cloudinary
-if (!process.env.CLOUDINARY_CLOUD_NAME.trim()) {
-  throw new Error("CLOUDINARY_CLOUD_NAME cannot be empty.");
-}
-
-if (!process.env.CLOUDINARY_API_KEY.trim()) {
-  throw new Error("CLOUDINARY_API_KEY cannot be empty.");
-}
-
-if (!process.env.CLOUDINARY_API_SECRET.trim()) {
-  throw new Error("CLOUDINARY_API_SECRET cannot be empty.");
-}
-
 const config = Object.freeze({
-  port: Number(process.env.PORT),
-
+  port,
   mongoUri: process.env.MONGO_URI,
-
   jwtSecret: process.env.JWT_SECRET,
-
+  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN,
-
   clientUrl: process.env.CLIENT_URL,
-
   nodeEnv: process.env.NODE_ENV,
-
-  // Cloudinary
   cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
   cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,

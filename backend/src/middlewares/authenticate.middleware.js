@@ -1,8 +1,8 @@
 
-import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import AppError from "../utils/AppError.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { verifyAccessToken } from "../utils/jwt.js";
 
 export const authenticate = asyncHandler(async (req, res, next) => {
   const authorization = req.headers.authorization;
@@ -17,8 +17,7 @@ export const authenticate = asyncHandler(async (req, res, next) => {
     throw new AppError("Authentication required.", 401);
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+  const decoded = verifyAccessToken(token);
   const user = await User.findById(decoded.id);
 
   if (!user) {

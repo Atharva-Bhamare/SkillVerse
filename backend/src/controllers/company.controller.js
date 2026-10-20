@@ -75,3 +75,30 @@ export const deactivateCompany = asyncHandler(async (req, res) => {
     "Company deactivated successfully."
   );
 });
+
+export const assignOfficerToCompany = asyncHandler(async (req, res) => {
+  const result = await companyService.assignOfficerToCompany(
+    req.params.companyId,
+    req.params.officerId,
+    req.body.action
+  );
+
+  return sendSuccess(
+    res,
+    200,
+    `Placement officer ${result.action} successfully.`,
+    {
+      officer: {
+        id: result.officer._id,
+        fullName: result.officer.fullName,
+        email: result.officer.email,
+        role: result.officer.role,
+        company: result.officer.company,
+      },
+      company: {
+        id: result.company._id,
+        name: result.company.name,
+      },
+    }
+  );
+});

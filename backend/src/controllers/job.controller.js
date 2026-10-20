@@ -27,7 +27,8 @@ export const createJob = asyncHandler(async (req, res) => {
 export const getJobById = asyncHandler(async (req, res) => {
   const job = await jobService.getJobById(
     req.params.jobId,
-    req.user.role
+    req.user.role,
+    req.user.id
   );
 
   return sendSuccess(
@@ -39,9 +40,11 @@ export const getJobById = asyncHandler(async (req, res) => {
 });
 
 export const listJobs = asyncHandler(async (req, res) => {
+
   const result = await jobService.listJobs(
     req.query,
-    req.user.role
+    req.user.role,
+    req.user._id
   );
 
   return sendSuccess(
@@ -59,6 +62,7 @@ export const updateJob = asyncHandler(async (req, res) => {
   const job = await jobService.updateJob(
     req.params.jobId,
     req.body,
+    req.user.id,
     req.user.role
   );
 
@@ -73,6 +77,7 @@ export const updateJob = asyncHandler(async (req, res) => {
 export const deactivateJob = asyncHandler(async (req, res) => {
   const job = await jobService.deactivateJob(
     req.params.jobId,
+    req.user.id,
     req.user.role
   );
 
@@ -87,6 +92,7 @@ export const deactivateJob = asyncHandler(async (req, res) => {
 export const reactivateJob = asyncHandler(async (req, res) => {
   const job = await jobService.reactivateJob(
     req.params.jobId,
+    req.user.id,
     req.user.role
   );
 
