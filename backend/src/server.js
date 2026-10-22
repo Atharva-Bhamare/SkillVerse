@@ -1,15 +1,15 @@
 import "dotenv/config";
-import "./config/env.js";
+import config from "./config/env.js";
 
 import app from "./app.js";
-import connectDB from "./config/db.js";
+import connectDB, { disconnectDB } from "./config/db.js";
 import logger from "./config/logger.js";
 
 /* =====================================================
    Configuration
 ===================================================== */
 
-const PORT = process.env.PORT || 5000;
+const PORT = config.port;
 
 /* =====================================================
    Bootstrap Server
@@ -30,9 +30,25 @@ const startServer = async () => {
     const shutdown = (signal) => {
       logger.info(`${signal} received. Shutting down server...`);
 
-      server.close(() => {
-        logger.info("HTTP server closed.");
-        process.exit(0);
+      server.close(async (error) => {
+        if (error) {
+          logger.error(`HTTP server shutdown error: ${error.message}`);
+          process.exitCode = 1;
+        }
+
+        try {
+          await disconnectDB();
+        } catch {
+          process.exitCode = 1;
+        }
+
+        if (error) {
+          logger.error("HTTP server did not close cleanly.");
+        } else {
+          logger.info("HTTP server closed.");
+        }
+
+        process.exit();
       });
     };
 

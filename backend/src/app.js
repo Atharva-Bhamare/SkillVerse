@@ -4,6 +4,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
+import config from "./config/env.js";
+
 import studentRoutes from "./routes/student.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import companyRoutes from "./routes/company.routes.js";
@@ -27,12 +29,10 @@ app.use(helmet());
    CORS
 ===================================================== */
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
+app.use(cors({
+   origin: config.clientUrl,
+   credentials: true,
+ }));
 
 /* =====================================================
    Logging
