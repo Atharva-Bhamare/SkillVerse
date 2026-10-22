@@ -15,45 +15,56 @@ import {
 } from "../middlewares/upload.middleware.js";
 
 import { authenticate } from "../middlewares/authenticate.middleware.js";
+import authorize from "../middlewares/authorize.middleware.js";
 
 const router = Router();
 
-/* =====================================================  
+/* =====================================================
    Student Profile Routes
 ===================================================== */
 
+// Create student profile
 router.post(
   "/profile",
   authenticate,
+  authorize("student"),
   createStudentProfileValidator,
   validate,
   studentController.createStudentProfile
 );
 
+// Get student profile
 router.get(
   "/profile",
   authenticate,
+  authorize("student"),
   studentController.getStudentProfile
 );
 
+// Update student profile
 router.patch(
   "/profile",
   authenticate,
+  authorize("student"),
   updateStudentProfileValidator,
   validate,
   studentController.updateStudentProfile
 );
 
+// Update student avatar
 router.patch(
   "/profile/avatar",
   authenticate,
+  authorize("student"),
   uploadImage,
   studentController.updateStudentAvatar
 );
 
+// Update student resume
 router.patch(
   "/profile/resume",
   authenticate,
+  authorize("student"),
   uploadDocument,
   studentController.updateStudentResume
 );

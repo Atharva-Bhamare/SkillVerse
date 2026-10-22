@@ -46,13 +46,18 @@ if (process.env.NODE_ENV !== "test") {
    Body Parsers
 ===================================================== */
 
-app.use(express.json());
-
 app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
+   express.json({
+     limit: "1mb",
+   })
+ );
+
+ app.use(
+   express.urlencoded({
+     extended: true,
+     limit: "100kb",
+   })
+ );
 
 app.use(cookieParser());
 

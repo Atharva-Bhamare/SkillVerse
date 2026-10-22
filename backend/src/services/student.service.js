@@ -23,7 +23,7 @@ const findStudentOrThrow = async (
   if (populate) {
     query = query.populate(
       "user",
-      "name email role"
+      "fullName email role"
     );
   }
 
@@ -64,7 +64,7 @@ const normalizeSkills = (skills = []) => {
 
     if (!cleaned) continue;
 
-    // preserve original casing
+    // Preserve original casing while removing duplicates.
     uniqueSkills.set(cleaned.toLowerCase(), cleaned);
   }
 
@@ -115,8 +115,8 @@ export const createStudentProfile = async (
   await ensureProfileDoesNotExist(userId);
 
   const student = new Student({
-    user: userId,
     ...profileData,
+    user: userId,
     skills: normalizeSkills(profileData.skills),
   });
 
@@ -178,7 +178,6 @@ export const updateStudentAvatar = async (
       );
     } catch {
       // Ignore rollback failure.
-      // Logger (Winston) can be added here later.
     }
 
     throw error;
@@ -191,26 +190,35 @@ export const updateStudentAvatar = async (
       );
     } catch {
       // Old avatar cleanup failure should not
-      // fail the request.
-      // Logger (Winston) can be added here later.
+      // fail the successful profile update.
     }
   }
 
   return student;
 };
 
-export const updateStudentResume = async (userId, file) => {
+export const updateStudentResume = async (
+  userId,
+  file
+) => {
   if (!file) {
-    throw new AppError("Resume PDF is required.", 400);
+    throw new AppError(
+      "Resume PDF is required.",
+      400
+    );
   }
 
-  const student = await findStudentOrThrow(userId);
-  const previousPublicId = student.resume?.publicId;
+  const student =
+    await findStudentOrThrow(userId);
 
-  const uploadedResume = await uploadToCloudinary(
-    file.path,
-    "students/resumes"
-  );
+  const previousPublicId =
+    student.resume?.publicId;
+
+  const uploadedResume =
+    await uploadToCloudinary(
+      file.path,
+      "students/resumes"
+    );
 
   try {
     student.resume = {
@@ -221,7 +229,9 @@ export const updateStudentResume = async (userId, file) => {
     await saveStudent(student);
   } catch (error) {
     try {
-      await deleteFromCloudinary(uploadedResume.publicId);
+      await deleteFromCloudinary(
+        uploadedResume.publicId
+      );
     } catch {
       // The uploaded file may need manual cleanup.
     }
@@ -231,7 +241,9 @@ export const updateStudentResume = async (userId, file) => {
 
   if (previousPublicId) {
     try {
-      await deleteFromCloudinary(previousPublicId);
+      await deleteFromCloudinary(
+        previousPublicId
+      );
     } catch {
       // Keep the successful profile update.
     }

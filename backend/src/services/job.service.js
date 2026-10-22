@@ -106,7 +106,6 @@ const getJobForManagement = async (jobId, userId, userRole) => {
   if (userRole === "placement_officer") {
     const assignedCompanyId = await getAssignedCompanyForOfficer(userId);
 
-    query.postedBy = userId;
     query.company = assignedCompanyId;
   }
 
@@ -203,7 +202,18 @@ const listJobs = async (filters = {}, userRole, userId) => {
       throw new AppError("Invalid company ID.", 400);
     }
 
-    query.company = filters.company;
+    if (userRole === "placement_officer") {
+      const assignedCompanyId = query.company.toString();
+
+      if (filters.company.toString() !== assignedCompanyId) {
+        throw new AppError(
+          "You can only view jobs belonging to your assigned company.",
+          403
+        );
+      }
+    } else {
+      query.company = filters.company;
+    }
   }
 
   if (filters.employmentType) {
@@ -410,10 +420,9 @@ const reactivateJob = async (jobId, userId, userRole) => {
 
   const query = { _id: jobId };
 
-if (userRole === "placement_officer") {
-  query.postedBy = userId;
-  query.company = await getAssignedCompanyForOfficer(userId);
-}
+  if (userRole === "placement_officer") {
+    query.company = await getAssignedCompanyForOfficer(userId);
+  }
 
   const job = await Job.findOne(query);
 

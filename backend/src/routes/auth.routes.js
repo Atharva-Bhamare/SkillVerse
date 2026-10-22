@@ -11,6 +11,13 @@ import {
   changePasswordValidator,
 } from "../validators/auth.validator.js";
 
+import {
+  loginLimiter,
+  registerLimiter,
+  refreshLimiter,
+  changePasswordLimiter,
+} from "../middlewares/rateLimit.middleware.js";
+
 const router = express.Router();
 
 /*
@@ -21,6 +28,7 @@ const router = express.Router();
 
 router.post(
   "/register",
+  registerLimiter,
   registerValidator,
   validate,
   authController.register
@@ -28,12 +36,17 @@ router.post(
 
 router.post(
   "/login",
+  loginLimiter,
   loginValidator,
   validate,
   authController.login
 );
 
-router.post("/refresh", authController.refresh);
+router.post(
+  "/refresh",
+  refreshLimiter,
+  authController.refresh
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +69,7 @@ router.get(
 router.patch(
   "/change-password",
   authenticate,
+  changePasswordLimiter,
   changePasswordValidator,
   validate,
   authController.changePassword

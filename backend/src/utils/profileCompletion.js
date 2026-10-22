@@ -1,3 +1,4 @@
+
 export const calculateStudentProfileCompletion = (student) => {
   const fields = [
     Boolean(student.headline),
@@ -6,8 +7,8 @@ export const calculateStudentProfileCompletion = (student) => {
     Boolean(student.college),
     Boolean(student.degree),
     Boolean(student.specialization),
-    Boolean(student.graduationYear),
-    Boolean(student.cgpa),
+    student.graduationYear != null,
+    student.cgpa != null,
     Boolean(student.skills?.length),
     Boolean(student.socialLinks?.github),
     Boolean(student.socialLinks?.linkedin),

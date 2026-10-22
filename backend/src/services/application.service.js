@@ -1,9 +1,9 @@
-
 import mongoose from "mongoose";
 import Application from "../models/application.model.js";
 import Job from "../models/job.model.js";
 import AppError from "../utils/AppError.js";
 import Student from "../models/student.model.js";
+import User from "../models/user.model.js";
 import logger from "../config/logger.js";
 import { createNotification } from "./notification.service.js";
 
@@ -65,10 +65,38 @@ const ensureManagement = (userRole) => {
   }
 };
 
-const getApplicationForManagement = async (applicationId) => {
+const getOfficerCompanyId = async (userId) => {
+  const officer = await User.findById(userId).select("company").lean();
+
+  if (!officer?.company) {
+    throw new AppError(
+      "You must be assigned to a company to manage applications.",
+      403
+    );
+  }
+
+  return officer.company;
+};
+
+const getApplicationForManagement = async (
+  applicationId,
+  userId,
+  userRole
+) => {
   validateObjectId(applicationId, "application ID");
 
-  const application = await Application.findById(applicationId);
+  let query = { _id: applicationId };
+
+  if (userRole === "placement_officer") {
+    const companyId = await getOfficerCompanyId(userId);
+    const companyJobIds = await Job.find({
+      company: companyId,
+    }).distinct("_id");
+
+    query.job = { $in: companyJobIds };
+  }
+
+  const application = await Application.findOne(query);
 
   if (!application) {
     throw new AppError("Application not found.", 404);
@@ -189,6 +217,13 @@ const getApplicationById = async (
 
   if (!isManagementRole(userRole)) {
     query.student = userId;
+  } else if (userRole === "placement_officer") {
+    const companyId = await getOfficerCompanyId(userId);
+    const companyJobIds = await Job.find({
+      company: companyId,
+    }).distinct("_id");
+
+    query.job = { $in: companyJobIds };
   }
 
   const application = await Application.findOne(query).populate(
@@ -208,17 +243,37 @@ const listApplications = async (
   userRole
 ) => {
   const page = Math.max(Number(filters.page) || 1, 1);
+
   const limit = Math.min(
     Math.max(Number(filters.limit) || 10, 1),
     100
   );
-  const skip = (page - 1) * limit;
 
+  const skip = (page - 1) * limit;
   const query = {};
 
   if (isManagementRole(userRole)) {
+    if (userRole === "placement_officer") {
+      const companyId = await getOfficerCompanyId(userId);
+      const companyJobIds = await Job.find({
+        company: companyId,
+      }).distinct("_id");
+
+      query.job = { $in: companyJobIds };
+    }
+
     if (filters.job) {
       validateObjectId(filters.job, "job ID");
+
+      if (
+        userRole === "placement_officer" &&
+        !query.job.$in.some(
+          (id) => id.toString() === filters.job
+        )
+      ) {
+        throw new AppError("Application not found.", 404);
+      }
+
       query.job = filters.job;
     }
 
@@ -240,6 +295,7 @@ const listApplications = async (
       .sort({ appliedAt: -1 })
       .skip(skip)
       .limit(limit),
+
     Application.countDocuments(query),
   ]);
 
@@ -265,7 +321,9 @@ const updateApplicationStatus = async (
   ensureManagement(userRole);
 
   const application = await getApplicationForManagement(
-    applicationId
+    applicationId,
+    userId,
+    userRole
   );
 
   const currentStatus = application.status;
