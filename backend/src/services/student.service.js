@@ -168,6 +168,8 @@ export const updateStudentAvatar = async (
     student.avatar = {
       url: uploadedAvatar.url,
       publicId: uploadedAvatar.publicId,
+      originalName: file.originalname,
+      size: file.size,
     };
 
     await saveStudent(student);
@@ -224,6 +226,8 @@ export const updateStudentResume = async (
     student.resume = {
       url: uploadedResume.url,
       publicId: uploadedResume.publicId,
+      originalName: file.originalname,
+      size: file.size,
     };
 
     await saveStudent(student);
@@ -246,6 +250,45 @@ export const updateStudentResume = async (
       );
     } catch {
       // Keep the successful profile update.
+    }
+  }
+
+  return student;
+};
+
+
+export const removeStudentAvatar = async (userId) => {
+  const student = await findStudentOrThrow(userId);
+  const previousPublicId = student.avatar?.publicId;
+
+  student.avatar = {};
+  await saveStudent(student);
+
+  if (previousPublicId) {
+    try {
+      await deleteFromCloudinary(previousPublicId);
+    } catch {
+      // The database is cleared; a failed Cloudinary deletion
+      // may require cleanup later.
+    }
+  }
+
+  return student;
+};
+
+export const removeStudentResume = async (userId) => {
+  const student = await findStudentOrThrow(userId);
+  const previousPublicId = student.resume?.publicId;
+
+  student.resume = {};
+  await saveStudent(student);
+
+  if (previousPublicId) {
+    try {
+      await deleteFromCloudinary(previousPublicId);
+    } catch {
+      // The database is cleared; a failed Cloudinary deletion
+      // may require cleanup later.
     }
   }
 

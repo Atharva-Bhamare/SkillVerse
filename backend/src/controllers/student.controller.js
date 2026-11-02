@@ -87,3 +87,23 @@ export const updateStudentResume = asyncHandler(
     });
   }
 );
+
+export const removeStudentAvatar = asyncHandler(async (req, res) => {
+  const student = await studentService.removeStudentAvatar(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    message: "Avatar removed successfully.",
+    data: buildStudentResponse(student),
+  });
+});
+
+export const removeStudentResume = asyncHandler(async (req, res) => {
+  const student = await studentService.removeStudentResume(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    message: "Resume removed successfully.",
+    data: buildStudentResponse(student),
+  });
+});

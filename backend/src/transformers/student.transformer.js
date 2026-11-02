@@ -9,9 +9,16 @@ export const buildStudentResponse = (student) => ({
   
     avatar: {
       url: student.avatar?.url || "",
+      originalName: student.avatar?.originalName || "",
+      size: student.avatar?.size || 0,
     },
     
-    resume: student.resume ?? null,
+    resume: {
+      url: student.resume?.url || "",
+      originalName: student.resume?.originalName || "",
+      size: student.resume?.size || 0,
+      publicId: student.resume?.publicId || "",
+    },
   
     college: student.college,
   

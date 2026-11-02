@@ -69,4 +69,18 @@ router.patch(
   studentController.updateStudentResume
 );
 
+router.delete(
+  "/profile/avatar",
+  authenticate,
+  authorize("student"),
+  studentController.removeStudentAvatar
+);
+
+router.delete(
+  "/profile/resume",
+  authenticate,
+  authorize("student"),
+  studentController.removeStudentResume
+);
+
 export default router;

@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const fileSchema = new mongoose.Schema(
@@ -12,6 +13,19 @@ const fileSchema = new mongoose.Schema(
       type: String,
       default: "",
       trim: true,
+    },
+
+    originalName: {
+      type: String,
+      default: "",
+      trim: true,
+      maxlength: 255,
+    },
+
+    size: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
   },
   {
