@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Explore Jobs | SkillVerse</title>
+
+  <!-- Apply the saved theme before rendering -->
+  <script type="module" src="../js/utils/theme-init.js"></script>
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/themes.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+  <!-- Jobs page styles -->
+  <link rel="stylesheet" href="../css/jobs.css">
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- Shared navbar will be mounted here -->
+    <header id="site-header"></header>
+
+    <main class="jobs-page">
+      <section class="jobs-hero">
+        <div class="jobs-hero__content">
+          <span class="jobs-eyebrow">YOUR NEXT OPPORTUNITY</span>
+          <h1>Find a job that moves you forward.</h1>
+          <p>
+            Explore opportunities, discover companies, and take the next
+            step in your career with SkillVerse.
+          </p>
+        </div>
+
+        <div class="jobs-hero__icon" aria-hidden="true">✦</div>
+      </section>
+
+      <section class="jobs-toolbar" aria-label="Search and filter jobs">
+        <div class="jobs-search">
+          <label for="jobSearch">Search opportunities</label>
+          <div class="jobs-search__input">
+            <span aria-hidden="true">⌕</span>
+            <input
+              type="search"
+              id="jobSearch"
+              placeholder="Job title, skills, or keywords"
+              maxlength="100"
+              autocomplete="off"
+            >
+          </div>
+        </div>
+
+        <div class="jobs-filter">
+          <label for="employmentTypeFilter">Employment type</label>
+          <select id="employmentTypeFilter">
+            <option value="">All employment types</option>
+            <option value="full-time">Full-time</option>
+            <option value="part-time">Part-time</option>
+            <option value="internship">Internship</option>
+            <option value="contract">Contract</option>
+            <option value="temporary">Temporary</option>
+          </select>
+        </div>
+
+        <div class="jobs-filter">
+          <label for="workModeFilter">Work mode</label>
+          <select id="workModeFilter">
+            <option value="">All work modes</option>
+            <option value="onsite">On-site</option>
+            <option value="remote">Remote</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+        </div>
+
+        <button class="jobs-reset-button" id="resetJobFilters" type="button">
+          Reset
+        </button>
+      </section>
+
+      <section class="jobs-results" aria-labelledby="jobsResultsTitle">
+        <div class="jobs-results__header">
+          <div>
+            <h2 id="jobsResultsTitle">Explore opportunities</h2>
+            <p id="jobsResultsSummary">Find your next opportunity.</p>
+          </div>
+
+          <button class="jobs-refresh-button" id="refreshJobs" type="button">
+            <span aria-hidden="true">↻</span> Refresh
+          </button>
+        </div>
+
+        <div
+          id="jobsFeedback"
+          class="jobs-feedback"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <div
+          id="jobsLoading"
+          class="jobs-loading"
+          role="status"
+          hidden
+        >
+          <span class="jobs-spinner" aria-hidden="true"></span>
+          <p>Finding opportunities for you...</p>
+        </div>
+
+        <div id="jobsList" class="jobs-grid"></div>
+
+        <div id="jobsEmptyState" class="jobs-empty" hidden>
+          <div class="jobs-empty__icon" aria-hidden="true">⌕</div>
+          <h3>No matching jobs found</h3>
+          <p>
+            Try changing your search or filters to discover more opportunities.
+          </p>
+          <button id="clearEmptyFilters" type="button">
+            Clear filters
+          </button>
+        </div>
+
+        <nav class="jobs-pagination" aria-label="Jobs pagination">
+          <button id="previousJobsPage" type="button" disabled>
+            ← Previous
+          </button>
+
+          <span id="jobsPageInfo">Page 1</span>
+
+          <button id="nextJobsPage" type="button" disabled>
+            Next →
+          </button>
+        </nav>
+      </section>
+    </main>
+  </div>
+
+  <!-- Job details and application dialog will be added in a later step. -->
+
+  <script type="module" src="../js/pages/jobs.js"></script>
+</body>
+</html>

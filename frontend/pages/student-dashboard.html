@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8fafc">
+  <meta name="description" content="Your SkillVerse student dashboard.">
+  <title>Student Dashboard | SkillVerse</title>
+
+  <script src="../js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/themes.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/dashboards.css">
+</head>
+
+<body>
+  <header id="site-header"></header>
+
+  <main class="dashboard-main">
+    <section class="dashboard-welcome">
+      <div>
+        <p class="dashboard-eyebrow">STUDENT WORKSPACE</p>
+        <h1 id="welcome-title">Welcome to SkillVerse</h1>
+        <p class="dashboard-subtitle">
+          Your career journey starts here. Build your profile, explore opportunities,
+          and keep track of your applications.
+        </p>
+      </div>
+      <div class="dashboard-avatar" id="student-avatar" aria-hidden="true">S</div>
+    </section>
+
+    <p class="dashboard-feedback" id="dashboard-feedback" role="status" aria-live="polite">
+      Loading your account…
+    </p>
+
+    <section class="dashboard-section" aria-labelledby="overview-title">
+      <div class="dashboard-section-heading">
+        <div>
+          <p class="dashboard-eyebrow">YOUR OVERVIEW</p>
+          <h2 id="overview-title">Your career workspace</h2>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="dashboard-card">
+          <span class="dashboard-card-icon" aria-hidden="true">◎</span>
+          <h3>Student profile</h3>
+          <p>Manage your education, skills, links, and resume in one place.</p>
+          <a href="./student-profile.html">View Profile</a>
+        </article>
+
+<!-- Explore Jobs card -->
+<article class="dashboard-card">
+  <div class="dashboard-card__icon" aria-hidden="true">⌕</div>
+
+  <h3>Explore jobs</h3>
+
+  <p>
+    Discover opportunities that match your interests and career goals.
+  </p>
+
+  <a class="dashboard-card__action" href="./jobs.html">
+    Explore Jobs <span aria-hidden="true">→</span>
+  </a>
+</article>
+
+<!-- My Applications card -->
+<article class="dashboard-card">
+  <div class="dashboard-card__icon" aria-hidden="true">↗</div>
+
+  <h3>My applications</h3>
+
+  <p>
+    Keep your applications organized and follow their latest statuses.
+  </p>
+
+  <a class="dashboard-card__action" href="applications.html">
+    My Applications <span aria-hidden="true">→</span>
+  </a>
+</article>
+      </div>
+    </section>
+
+    <section class="dashboard-section dashboard-account" aria-labelledby="account-title">
+      <div class="dashboard-section-heading">
+        <div>
+          <p class="dashboard-eyebrow">ACCOUNT</p>
+          <h2 id="account-title">Your account details</h2>
+        </div>
+      </div>
+
+      <div class="dashboard-account-details">
+        <div>
+          <span class="dashboard-detail-label">Full name</span>
+          <p id="student-name">Loading…</p>
+        </div>
+        <div>
+          <span class="dashboard-detail-label">Email address</span>
+          <p id="student-email">Loading…</p>
+        </div>
+        <div>
+          <span class="dashboard-detail-label">Account role</span>
+          <p id="student-role">Loading…</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <span>SkillVerse</span>
+      <span>Discover your next opportunity.</span>
+    </footer>
+  </main>
+
+  <script type="module" src="../js/pages/student-dashboard.js"></script>
+</body>
+</html>

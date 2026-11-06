@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="Create your SkillVerse student account.">
+  <title>Create account | SkillVerse</title>
+
+<script src="./js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/themes.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+  <link rel="stylesheet" href="./css/auth.css">
+
+  <script type="module" src="./js/pages/register.js"></script>
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-main" aria-labelledby="auth-title">
+      <div class="auth-container">
+        <a class="auth-brand" href="./index.html" aria-label="SkillVerse home">
+          <span class="auth-brand-mark" aria-hidden="true">S</span>
+          <span>SkillVerse</span>
+        </a>
+
+        <p class="auth-eyebrow">Start your journey</p>
+        <h1 class="auth-title" id="auth-title">Create your account.</h1>
+        <p class="auth-description">
+          Set up your student account to begin building your career profile.
+        </p>
+
+        <div
+          class="auth-message"
+          id="auth-message"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <form class="auth-form" id="register-form" novalidate>
+          <div class="auth-field">
+            <label for="fullName">Full name</label>
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              autocomplete="name"
+              placeholder="Enter your full name"
+              maxlength="100"
+              required
+              aria-describedby="fullName-error"
+            >
+            <span class="auth-field-error" id="fullName-error"></span>
+          </div>
+
+          <div class="auth-field">
+            <label for="email">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              maxlength="254"
+              required
+              aria-describedby="email-error"
+            >
+            <span class="auth-field-error" id="email-error"></span>
+          </div>
+
+          <div class="auth-field">
+            <label for="password">Password</label>
+            <div class="auth-password-wrap">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Create a password"
+                required
+                aria-describedby="password-hint password-error"
+              >
+              <button
+                class="auth-password-toggle"
+                type="button"
+                data-password-toggle="password"
+                aria-controls="password"
+                aria-pressed="false"
+              >Show</button>
+            </div>
+            <small id="password-hint">
+              Use the password requirements enforced by your server.
+            </small>
+            <span class="auth-field-error" id="password-error"></span>
+          </div>
+
+          <div class="auth-field">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="auth-password-wrap">
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Enter your password again"
+                required
+                aria-describedby="confirmPassword-error"
+              >
+              <button
+                class="auth-password-toggle"
+                type="button"
+                data-password-toggle="confirmPassword"
+                aria-controls="confirmPassword"
+                aria-pressed="false"
+              >Show</button>
+            </div>
+            <span class="auth-field-error" id="confirmPassword-error"></span>
+          </div>
+
+          <button class="auth-submit" id="register-submit" type="submit">
+            Create student account
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          Already have an account?
+          <a href="./login.html">Sign in</a>
+        </p>
+
+        <a class="auth-back-link" href="./index.html">← Back to home</a>
+      </div>
+    </section>
+
+    <aside class="auth-aside" aria-label="About SkillVerse">
+      <div class="auth-aside-content">
+        <p class="auth-aside-kicker">A better way forward</p>
+        <h2>Your next opportunity starts with a strong profile.</h2>
+        <p>
+          Get ready to organize your skills, discover opportunities, and follow
+          your application journey.
+        </p>
+        <ul class="auth-benefits">
+          <li><span class="auth-benefit-mark" aria-hidden="true">✓</span>
+            Create your professional presence.</li>
+          <li><span class="auth-benefit-mark" aria-hidden="true">✓</span>
+            Keep your career information organized.</li>
+          <li><span class="auth-benefit-mark" aria-hidden="true">✓</span>
+            Track opportunities as your journey progresses.</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>

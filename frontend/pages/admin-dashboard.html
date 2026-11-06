@@ -1,0 +1,189 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8fafc" />
+  <title>Admin Dashboard | SkillVerse</title>
+
+  <script src="../js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="../css/dashboards.css" />
+  <link rel="stylesheet" href="../css/admin-dashboard.css" />
+</head>
+
+<body>
+  <header id="site-header"></header>
+
+  <main class="admin-dashboard-main">
+    <section class="admin-welcome">
+      <div>
+        <p class="dashboard-eyebrow">PLATFORM ADMINISTRATION</p>
+        <h1 id="admin-welcome-title">Admin Dashboard</h1>
+        <p class="dashboard-subtitle">
+          Monitor recruitment activity and manage the SkillVerse platform.
+        </p>
+      </div>
+
+      <button
+        class="button button--secondary"
+        id="dashboard-refresh"
+        type="button"
+      >
+        ↻ Refresh
+      </button>
+    </section>
+
+    <section class="admin-stats-grid" aria-label="Platform statistics">
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon">▤</div>
+        <p>Total jobs</p>
+        <h2 id="stat-total-jobs">—</h2>
+        <span>All platform job records</span>
+      </article>
+
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon">✓</div>
+        <p>Open jobs</p>
+        <h2 id="stat-open-jobs">—</h2>
+        <span>Open and within deadline</span>
+      </article>
+
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon">▣</div>
+        <p>Active jobs</p>
+        <h2 id="stat-active-jobs">—</h2>
+        <span>Currently active records</span>
+      </article>
+
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon">♙</div>
+        <p>Total applications</p>
+        <h2 id="stat-total-applications">—</h2>
+        <span>Across the platform</span>
+      </article>
+    </section>
+
+    <section class="admin-content-grid">
+      <article class="admin-panel">
+        <div class="admin-panel-heading">
+          <div>
+            <p class="dashboard-eyebrow">LAST SEVEN DAYS</p>
+            <h2>Application activity</h2>
+          </div>
+        </div>
+
+        <div
+          id="application-trend"
+          class="admin-trend"
+          aria-label="Applications received each day over the last seven days"
+        >
+          <p class="admin-empty">Loading application activity...</p>
+        </div>
+      </article>
+
+      <article class="admin-panel">
+        <div class="admin-panel-heading">
+          <div>
+            <p class="dashboard-eyebrow">RECRUITMENT PIPELINE</p>
+            <h2>Application statuses</h2>
+          </div>
+        </div>
+
+        <div id="application-statuses" class="admin-status-list">
+          <p class="admin-empty">Loading application statuses...</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="admin-panel admin-recent-panel">
+      <div class="admin-panel-heading">
+        <div>
+          <p class="dashboard-eyebrow">LATEST ACTIVITY</p>
+          <h2>Recent applications</h2>
+          <p class="dashboard-subtitle">
+            The five most recently submitted applications.
+          </p>
+        </div>
+
+        <a
+          class="dashboard-card__action"
+          href="admin-jobs.html"
+        >
+          Job oversight →
+        </a>
+      </div>
+
+      <div id="recent-applications" class="admin-recent-list">
+        <p class="admin-empty">Loading recent applications...</p>
+      </div>
+    </section>
+
+    <section class="dashboard-section admin-quick-actions">
+      <h2>Management workspace</h2>
+      <p class="dashboard-subtitle">
+        Manage organizations and oversee job postings across SkillVerse.
+      </p>
+
+      <div class="dashboard-grid">
+        <article class="dashboard-card">
+          <div>
+            <p class="dashboard-eyebrow">ORGANIZATIONS</p>
+            <h3>Company management</h3>
+            <p>
+              Search company records, create organizations, edit details,
+              and assign placement officers.
+            </p>
+          </div>
+          <a class="dashboard-card__action" href="admin-companies.html">
+            Manage companies →
+          </a>
+        </article>
+
+        <article class="dashboard-card">
+          <div>
+            <p class="dashboard-eyebrow">JOB OVERSIGHT</p>
+            <h3>Platform jobs</h3>
+            <p>
+              Review job listings, inspect their details, and manage
+              job availability.
+            </p>
+          </div>
+          <a class="dashboard-card__action" href="admin-jobs.html">
+            Manage jobs →
+          </a>
+        </article>
+
+        <article class="dashboard-card">
+          <div>
+            <p class="dashboard-eyebrow">RECRUITMENT</p>
+            <h3>Application insights</h3>
+            <p>
+              Track application volumes and review the current
+              recruitment pipeline.
+            </p>
+          </div>
+          <a class="dashboard-card__action" href="#recent-applications">
+            View recent activity →
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>SkillVerse · Administration workspace</p>
+      <p>© <span id="current-year"></span> SkillVerse</p>
+    </footer>
+  </main>
+
+  <script type="module" src="../js/pages/admin-dashboard.js"></script>
+</body>
+</html>

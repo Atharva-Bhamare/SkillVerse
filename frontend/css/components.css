@@ -1,0 +1,399 @@
+/* Buttons */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    transition:
+      color var(--motion-fast) ease,
+      background-color var(--motion-fast) ease,
+      border-color var(--motion-fast) ease,
+      box-shadow var(--motion-fast) ease,
+      transform var(--motion-fast) ease;
+  }
+  
+  .button:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  
+  .button:disabled {
+    opacity: 0.6;
+  }
+  
+  .button--primary {
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  
+  .button--primary:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .button--secondary {
+    color: var(--color-text);
+    background: var(--color-surface);
+    border-color: var(--color-border-strong);
+  }
+  
+  .button--secondary:hover:not(:disabled) {
+    background: var(--color-surface-muted);
+  }
+  
+  .button--ghost {
+    color: var(--color-text-secondary);
+    background: transparent;
+  }
+  
+  .button--ghost:hover:not(:disabled) {
+    color: var(--color-text);
+    background: var(--color-surface-muted);
+  }
+  
+  .button--danger {
+    color: white;
+    background: var(--color-danger);
+  }
+  
+  /* Icon buttons */
+  .icon-button {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    background: transparent;
+    font-size: 1.15rem;
+    transition:
+      color var(--motion-fast) ease,
+      background-color var(--motion-fast) ease;
+  }
+  
+  .icon-button:hover {
+    color: var(--color-text);
+    background: var(--color-surface-muted);
+  }
+  
+  .theme-toggle {
+    border-color: var(--color-border);
+  }
+  
+  /* Toast notifications */
+  .toast-region {
+    position: fixed;
+    z-index: var(--z-toast);
+    top: calc(var(--navbar-height) + 1rem);
+    right: 1rem;
+    display: grid;
+    gap: var(--space-3);
+    width: min(390px, calc(100vw - 2rem));
+    pointer-events: none;
+  }
+  
+  .toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+    pointer-events: auto;
+    animation: toast-enter var(--motion-normal) var(--ease-standard);
+  }
+  
+  .toast__indicator {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 9px;
+    margin-top: 0.4rem;
+    border-radius: 50%;
+    background: var(--color-info);
+  }
+  
+  .toast--success .toast__indicator {
+    background: var(--color-success);
+  }
+  
+  .toast--error .toast__indicator {
+    background: var(--color-danger);
+  }
+  
+  .toast--warning .toast__indicator {
+    background: var(--color-warning);
+  }
+  
+  .toast__content {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .toast__title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+  
+  .toast__message {
+    margin-top: 0.2rem;
+    font-size: var(--text-sm);
+    overflow-wrap: anywhere;
+  }
+  
+  .toast__close {
+    padding: 0.1rem 0.3rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    background: transparent;
+    font-size: 1.2rem;
+  }
+  
+  .toast__close:hover {
+    background: var(--color-surface-muted);
+  }
+  
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgb(2 6 23 / 0.55);
+  }
+  
+  .modal {
+    width: min(100%, 520px);
+    max-height: min(85vh, 760px);
+    overflow-y: auto;
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .modal__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  
+  .modal__title {
+    font-size: var(--text-xl);
+  }
+  
+  .modal__body {
+    margin-top: var(--space-5);
+  }
+  
+  .modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  
+  /* Loading indicator */
+  .loading-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+  
+  .spinner {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    border: 2px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 700ms linear infinite;
+  }
+  
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-muted);
+  }
+  
+  .skeleton::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(148 163 184 / 0.16),
+      transparent
+    );
+    animation: skeleton-shimmer 1.5s infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes toast-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes skeleton-shimmer {
+    to { transform: translateX(100%); }
+  }
+  
+  /* General reusable states */
+  .empty-state,
+  .error-state {
+    padding: var(--space-8);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+  
+  .empty-state h3,
+  .error-state h3 {
+    margin-bottom: var(--space-3);
+  }
+  
+  .empty-state p,
+  .error-state p {
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: var(--text-sm);
+  }
+  
+  .empty-state .button,
+  .error-state .button {
+    margin-top: var(--space-5);
+  }
+  
+/* SkillVerse toast notifications */
+.notification-container {
+  position: fixed;
+  top: calc(var(--navbar-height, 72px) + 16px);
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.app-notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 16px;
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: 12px;
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text, #111827);
+  box-shadow: 0 12px 35px rgb(0 0 0 / 18%);
+  pointer-events: auto;
+  animation: notification-enter 220ms ease-out;
+}
+
+.app-notification--success {
+  border-left: 4px solid #16a34a;
+}
+
+.app-notification--error {
+  border-left: 4px solid #dc2626;
+}
+
+.app-notification__icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-surface-muted, #f3f4f6);
+  font-weight: 700;
+}
+
+.app-notification--success .app-notification__icon {
+  color: #16a34a;
+}
+
+.app-notification--error .app-notification__icon {
+  color: #dc2626;
+}
+
+.app-notification__text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.app-notification__close {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.app-notification__close:hover {
+  opacity: 1;
+}
+
+@keyframes notification-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-container {
+    top: calc(var(--navbar-height, 64px) + 10px);
+    right: 12px;
+    width: calc(100vw - 24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-notification {
+    animation: none;
+  }
+}

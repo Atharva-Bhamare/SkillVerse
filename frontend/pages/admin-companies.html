@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8fafc" />
+  <title>Company Management | SkillVerse</title>
+  <script src="../js/utils/theme-init.js"></script>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="../css/admin-companies.css" />
+</head>
+
+<body>
+  <header id="site-header"></header>
+  <main class="companies-main">
+    <section class="companies-heading">
+      <div>
+        <p class="dashboard-eyebrow">ADMIN WORKSPACE</p>
+        <h1>Company Management</h1>
+        <p class="companies-subtitle">Manage organizations, update company details, and oversee company records.</p>
+      </div>
+      <button class="button button--primary" id="add-company-button" type="button">+ Add company</button>
+    </section>
+
+    <section class="companies-toolbar" aria-label="Company search and filters">
+      <div class="companies-search">
+        <label for="company-search">Search companies</label>
+        <input id="company-search" type="search" placeholder="Search by name, industry, or location..."
+          autocomplete="off" />
+      </div>
+      <div class="companies-filter">
+        <label for="industry-filter">Industry</label>
+        <input id="industry-filter" type="text" placeholder="e.g. Information Technology" />
+      </div>
+      <button class="button button--secondary" id="reset-company-filters" type="button">Reset</button>
+    </section>
+
+    <section class="company-form-panel" id="company-form-panel" hidden>
+      <div class="company-form-heading">
+        <div>
+          <p class="dashboard-eyebrow">COMPANY DETAILS</p>
+          <h2 id="company-form-title">Add a company</h2>
+        </div>
+        <button class="company-close-button" id="close-company-form" type="button"
+          aria-label="Close company form">×</button>
+      </div>
+      <form id="company-form">
+        <div class="company-form-grid">
+          <div class="company-field"><label for="company-name">Company name *</label><input id="company-name"
+              name="name" required minlength="2" maxlength="100" /></div>
+          <div class="company-field"><label for="company-industry">Industry</label><input id="company-industry"
+              name="industry" maxlength="100" /></div>
+          <div class="company-field"><label for="company-location">Location</label><input id="company-location"
+              name="location" maxlength="150" /></div>
+          <div class="company-field"><label for="company-website">Website</label><input id="company-website"
+              name="website" type="url" placeholder="https://example.com" /></div>
+          <div class="company-field"><label for="company-email">Contact email</label><input id="company-email"
+              name="contactEmail" type="email" /></div>
+          <div class="company-field"><label for="company-phone">Contact phone</label><input id="company-phone"
+              name="contactPhone" type="tel" maxlength="20" /></div>
+          <div class="company-field company-field--full"><label for="company-description">Description</label><textarea
+              id="company-description" name="description" rows="4" maxlength="2000"
+              placeholder="Describe the organization..."></textarea></div>
+        </div>
+        <div class="company-form-actions">
+          <button class="button button--secondary" id="cancel-company-form" type="button">Cancel</button>
+          <button class="button button--primary" id="save-company-button" type="submit">Save company</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="companies-results">
+      <div class="companies-results-heading">
+        <div>
+          <h2>Companies</h2>
+          <p id="companies-count">Loading company records...</p>
+        </div>
+        <button class="button button--secondary" id="refresh-companies" type="button">↻ Refresh</button>
+      </div>
+
+      <div class="company-view-tabs" role="group" aria-label="Company status view">
+        <button class="company-view-tab is-active" type="button" data-company-view="true" aria-pressed="true">Active
+          Companies</button>
+        <button class="company-view-tab" type="button" data-company-view="false" aria-pressed="false">Inactive
+          Companies</button>
+        <button class="company-view-tab" type="button" data-company-view="all" aria-pressed="false">All
+          Companies</button>
+      </div>
+
+      <div id="companies-list" class="companies-list" aria-live="polite">
+        <div class="companies-loading">Loading companies...</div>
+      </div>
+      <nav class="companies-pagination" aria-label="Company list pagination">
+        <button class="button button--secondary" id="companies-previous" type="button">Previous</button>
+        <span id="companies-page-label">Page 1</span>
+        <button class="button button--secondary" id="companies-next" type="button">Next</button>
+      </nav>
+    </section>
+    <footer class="dashboard-footer">
+      <p>SkillVerse · Company management</p>
+      <p>© <span id="current-year"></span> SkillVerse</p>
+    </footer>
+  </main>
+
+  <!-- Placement officer management modal -->
+  <section class="officer-modal" id="officer-modal" hidden aria-labelledby="officer-modal-title" aria-modal="true"
+    role="dialog">
+    <button class="officer-modal-backdrop" id="officer-modal-backdrop" type="button"
+      aria-label="Close officer management"></button>
+    <div class="officer-modal-panel" role="document">
+      <header class="officer-modal-header">
+        <div>
+          <p class="dashboard-eyebrow">COMPANY ASSIGNMENTS</p>
+          <h2 id="officer-modal-title">Manage placement officers</h2>
+          <p id="officer-modal-subtitle">View and manage company assignments.</p>
+        </div>
+        <div class="officer-modal-header-actions">
+          <button class="button button--secondary" id="refresh-officers" type="button">↻ Refresh</button>
+          <button class="company-close-button" id="close-officer-modal" type="button"
+            aria-label="Close officer management">×</button>
+        </div>
+      </header>
+
+      <div class="officer-inactive-notice" id="officer-company-inactive-notice" hidden>
+        This company is inactive. Existing assignments are retained. You can unassign officers, but cannot assign
+        officers to this company.
+      </div>
+
+      <section class="officer-modal-section">
+        <div class="officer-section-heading">
+          <div>
+            <h3>Currently assigned</h3>
+            <p>Placement officers associated with this company.</p>
+          </div>
+        </div>
+        <div class="assigned-officers-list" id="assigned-officers-list" aria-live="polite">
+          <div class="officer-loading">Loading placement officers...</div>
+        </div>
+      </section>
+
+      <section class="officer-modal-section officer-action-grid">
+        <div class="officer-action-card">
+          <div class="officer-section-heading">
+            <div>
+              <h3>Assign an officer</h3>
+              <p>Choose an active officer who is not assigned elsewhere.</p>
+            </div>
+          </div>
+          <label for="assign-officer-select">Unassigned placement officer</label>
+          <select id="assign-officer-select">
+            <option value="">Loading officers...</option>
+          </select>
+          <button class="button button--primary" id="assign-officer-button" type="button" disabled>Assign
+            officer</button>
+        </div>
+
+        <div class="officer-action-card">
+          <div class="officer-section-heading">
+            <div>
+              <h3>Transfer an officer</h3>
+              <p>Move an active assigned officer to another active company.</p>
+            </div>
+          </div>
+          <label for="transfer-officer-select">Currently assigned officer</label>
+          <select id="transfer-officer-select">
+            <option value="">Loading officers...</option>
+          </select>
+          <label for="transfer-company-select">Destination company</label>
+          <select id="transfer-company-select">
+            <option value="">Loading companies...</option>
+          </select>
+          <button class="button button--secondary" id="transfer-officer-button" type="button" disabled>Transfer
+            officer</button>
+        </div>
+      </section>
+      <p class="officer-modal-footnote">An officer can be assigned to only one company at a time. Company deactivation
+        does not remove existing assignments.</p>
+    </div>
+  </section>
+
+  <script type="module" src="../js/pages/admin-companies.js"></script>
+</body>
+
+</html>

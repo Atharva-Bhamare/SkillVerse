@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1120">
+  <meta name="description" content="Track your SkillVerse job applications and their latest status.">
+
+  <title>My Applications | SkillVerse</title>
+
+  <script src="../js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/themes.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/dashboards.css">
+  <link rel="stylesheet" href="../css/applications.css">
+</head>
+
+<body>
+  <header id="site-header"></header>
+
+  <main class="applications-page">
+    <section class="applications-hero">
+      <div class="applications-hero__content">
+        <span class="applications-eyebrow">YOUR CAREER JOURNEY</span>
+        <h1>My Applications</h1>
+        <p>
+          Keep track of your opportunities, follow your application progress,
+          and stay informed about your next career move.
+        </p>
+      </div>
+
+      <a class="applications-explore-link" href="./jobs.html">
+        <span aria-hidden="true">↗</span>
+        Explore jobs
+      </a>
+    </section>
+
+    <section class="applications-overview" aria-label="Application overview">
+      <article class="applications-stat">
+        <span class="applications-stat__label">Total applications</span>
+        <strong id="totalApplications">—</strong>
+        <span class="applications-stat__hint">Applications submitted</span>
+      </article>
+
+      <article class="applications-stat">
+        <span class="applications-stat__label">In progress</span>
+        <strong id="activeApplications">—</strong>
+        <span class="applications-stat__hint">Awaiting a final outcome</span>
+      </article>
+
+      <article class="applications-stat">
+        <span class="applications-stat__label">Offers received</span>
+        <strong id="acceptedApplications">—</strong>
+        <span class="applications-stat__hint">Accepted applications</span>
+      </article>
+    </section>
+
+    <section class="applications-content">
+      <div class="applications-section-heading">
+        <div>
+          <h2>Your applications</h2>
+          <p id="applicationsCount">Loading your applications...</p>
+        </div>
+
+        <button
+          class="applications-refresh-button"
+          id="refreshApplications"
+          type="button"
+        >
+          <span aria-hidden="true">↻</span>
+          Refresh
+        </button>
+      </div>
+
+      <div class="applications-toolbar">
+        <label class="applications-search">
+          <span class="applications-search__label">Search applications</span>
+          <input
+            id="applicationSearch"
+            type="search"
+            placeholder="Search by job title or company..."
+            autocomplete="off"
+          >
+        </label>
+
+        <label class="applications-filter">
+          <span class="applications-filter__label">Application status</span>
+          <select id="applicationStatusFilter">
+            <option value="all">All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="reviewing">Reviewing</option>
+            <option value="shortlisted">Shortlisted</option>
+            <option value="interview">Interview</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </label>
+
+        <button
+          class="applications-reset-button"
+          id="resetApplicationFilters"
+          type="button"
+        >
+          Reset
+        </button>
+      </div>
+
+      <div
+        id="applicationsFeedback"
+        class="applications-feedback"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+
+      <div id="applicationsLoading" class="applications-loading" hidden>
+        <span class="applications-spinner" aria-hidden="true"></span>
+        <p>Loading your applications...</p>
+      </div>
+
+      <div id="applicationsList" class="applications-list"></div>
+
+      <div id="applicationsEmptyState" class="applications-empty" hidden>
+        <div class="applications-empty__icon" aria-hidden="true">◎</div>
+        <h3 id="applicationsEmptyTitle">Your next opportunity starts here</h3>
+        <p id="applicationsEmptyMessage">
+          You haven't applied for any jobs yet. Explore available opportunities
+          and submit your first application.
+        </p>
+        <a href="./jobs.html" class="applications-empty__link">
+          Explore opportunities
+        </a>
+      </div>
+
+      <div class="applications-pagination" id="applicationsPagination" hidden>
+        <button id="previousApplicationsPage" type="button" disabled>
+          Previous
+        </button>
+        <span id="applicationsPageInfo">Page 1</span>
+        <button id="nextApplicationsPage" type="button" disabled>
+          Next
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="../js/pages/my-applications.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8fafc" />
+
+  <meta
+    name="description"
+    content="Review and manage applications submitted for your company's jobs."
+  />
+
+  <title>Manage Applications | SkillVerse</title>
+
+  <script type="module" src="../js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="../css/dashboards.css" />
+  <link rel="stylesheet" href="../css/placement-applications.css" />
+
+  <script
+    type="module"
+    src="../js/pages/placement-applications.js"
+  ></script>
+</head>
+
+<body>
+  <div
+    id="toast-region"
+    class="toast-region"
+    aria-live="polite"
+  ></div>
+
+  <div class="placement-applications-page">
+    <header id="site-header"></header>
+
+    <main class="placement-applications-main">
+
+      <!-- Page heading -->
+      <section class="applications-hero">
+        <div>
+          <p class="applications-eyebrow">
+            PLACEMENT OFFICER WORKSPACE
+          </p>
+
+          <h1>Manage Applications</h1>
+
+          <p class="applications-subtitle">
+            Review student applications, explore resumes, and manage
+            recruitment progress for your company's job openings.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="applications-button applications-button--secondary"
+          id="refreshApplications"
+        >
+          <span aria-hidden="true">↻</span>
+          Refresh
+        </button>
+      </section>
+
+      <!-- Filters -->
+      <section class="applications-toolbar">
+        <div class="applications-search">
+          <label for="applicationSearch">
+            Search applications
+          </label>
+
+          <input
+            type="search"
+            id="applicationSearch"
+            placeholder="Search student name, email, or job title..."
+            autocomplete="off"
+          />
+
+          <small>
+            Search is applied to the applications on the current page.
+          </small>
+        </div>
+
+        <div class="applications-filter">
+          <label for="applicationStatusFilter">
+            Filter by status
+          </label>
+
+          <select id="applicationStatusFilter">
+            <option value="">All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="reviewing">Reviewing</option>
+            <option value="shortlisted">Shortlisted</option>
+            <option value="rejected">Rejected</option>
+            <option value="accepted">Accepted</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </div>
+
+        <button
+          type="button"
+          id="resetApplicationFilters"
+          class="applications-button applications-button--secondary"
+        >
+          Reset filters
+        </button>
+      </section>
+
+      <!-- Results summary -->
+      <section class="applications-results-heading">
+        <div>
+          <h2>Student Applications</h2>
+          <p id="applicationsResultsSummary">
+            Loading applications...
+          </p>
+        </div>
+      </section>
+
+      <!-- Loading state -->
+      <div
+        id="applicationsLoading"
+        class="applications-loading"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="applications-spinner" aria-hidden="true"></span>
+        <p>Loading applications...</p>
+      </div>
+
+      <!-- Application cards -->
+      <section
+        id="applicationsList"
+        class="applications-list"
+        aria-label="Student applications"
+        hidden
+      ></section>
+
+      <!-- Empty state -->
+      <section
+        id="applicationsEmpty"
+        class="applications-empty"
+        hidden
+      >
+        <div class="applications-empty-icon" aria-hidden="true">
+          <span>▤</span>
+        </div>
+
+        <h3 id="applicationsEmptyTitle">
+          No applications found
+        </h3>
+
+        <p id="applicationsEmptyDescription">
+          Applications will appear here when students apply for your
+          company's job openings.
+        </p>
+
+        <button
+          type="button"
+          id="clearApplicationsEmpty"
+          class="applications-button applications-button--primary"
+          hidden
+        >
+          Clear filters
+        </button>
+      </section>
+
+      <!-- Pagination -->
+      <nav
+        id="applicationsPagination"
+        class="applications-pagination"
+        aria-label="Application pages"
+        hidden
+      >
+        <button
+          type="button"
+          id="previousApplicationsPage"
+          class="applications-button applications-button--secondary"
+          disabled
+        >
+          Previous
+        </button>
+
+        <span id="applicationsPageInfo">
+          Page 1
+        </span>
+
+        <button
+          type="button"
+          id="nextApplicationsPage"
+          class="applications-button applications-button--secondary"
+          disabled
+        >
+          Next
+        </button>
+      </nav>
+
+      <footer class="applications-footer">
+        SkillVerse Placement Management
+      </footer>
+
+    </main>
+  </div>
+</body>
+</html>

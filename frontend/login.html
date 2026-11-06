@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="Sign in to your SkillVerse career workspace.">
+  <title>Sign in | SkillVerse</title>
+
+  <!-- Apply saved theme before loading stylesheets -->
+  <script src="./js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/themes.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+  <link rel="stylesheet" href="./css/auth.css">
+
+  <script type="module" src="./js/pages/login.js"></script>
+</head>
+
+<body>
+  <main class="auth-page">
+    <section class="auth-main" aria-labelledby="auth-title">
+      <div class="auth-container">
+        <a class="auth-brand" href="./index.html" aria-label="SkillVerse home">
+          <span class="auth-brand-mark" aria-hidden="true">S</span>
+          <span>SkillVerse</span>
+        </a>
+
+        <p class="auth-eyebrow">Welcome back</p>
+        <h1 class="auth-title" id="auth-title">Sign in to your workspace.</h1>
+        <p class="auth-description">
+          Continue managing your profile, opportunities, and placement journey.
+        </p>
+
+        <div class="auth-message" id="auth-message" role="status" aria-live="polite" hidden></div>
+
+        <form class="auth-form" id="login-form" novalidate>
+          <!-- Email field -->
+          <div class="auth-field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com"
+              maxlength="254" required aria-describedby="email-error">
+            <span class="auth-field-error" id="email-error"></span>
+          </div>
+
+          <!-- Workspace role selector: NEW -->
+          <div class="auth-field">
+
+            <label for="workspaceRole">Sign in as</label>
+
+            <div class="workspace-role-control">
+              <span class="workspace-role-icon" id="workspaceRoleIcon" aria-hidden="true"></span>
+
+              <select id="workspaceRole" name="workspaceRole" required
+                aria-describedby="workspaceRole-help workspaceRole-error">
+                <option value="student" selected>Student</option>
+                <option value="placement_officer">Placement Officer</option>
+                <option value="admin">Administrator</option>
+              </select>
+            </div>
+
+            <small id="workspaceRole-help">
+              Choose your workspace. Access depends on your registered account role.
+            </small>
+
+            <span class="auth-field-error" id="workspaceRole-error"></span>
+          </div>
+
+          <!-- Password field -->
+          <div class="auth-field">
+            <label for="password">Password</label>
+            <div class="auth-password-wrap">
+              <input id="password" name="password" type="password" autocomplete="current-password"
+                placeholder="Enter your password" required aria-describedby="password-error">
+              <button class="auth-password-toggle" type="button" data-password-toggle="password"
+                aria-controls="password" aria-pressed="false">Show</button>
+            </div>
+            <span class="auth-field-error" id="password-error"></span>
+          </div>
+
+          <button class="auth-submit" id="login-submit" type="submit">
+            Sign in
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          New to SkillVerse?
+          <a href="./register.html">Create a student account</a>
+        </p>
+
+        <a class="auth-back-link" href="./index.html">← Back to home</a>
+      </div>
+    </section>
+
+    <aside class="auth-aside" aria-label="About SkillVerse">
+      <div class="auth-aside-content">
+        <p class="auth-aside-kicker">Your career, connected</p>
+        <h2>Make your next move with confidence.</h2>
+        <p>
+          Keep your professional profile organized and explore opportunities
+          through one connected career workspace.
+        </p>
+        <ul class="auth-benefits">
+          <li>
+            <span class="auth-benefit-mark" aria-hidden="true">✓</span>
+            Build and maintain your professional profile.
+          </li>
+          <li>
+            <span class="auth-benefit-mark" aria-hidden="true">✓</span>
+            Explore opportunities and track applications.
+          </li>
+          <li>
+            <span class="auth-benefit-mark" aria-hidden="true">✓</span>
+            Keep your placement journey in one place.
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+</body>
+
+</html>

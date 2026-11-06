@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta
+      name="description"
+      content="Manage and oversee all jobs published on the SkillVerse platform."
+    />
+
+    <title>Job Management | SkillVerse Admin</title>
+
+    <!-- Initialize the saved theme before rendering -->
+    <script type="module" src="../js/utils/theme-init.js"></script>
+
+    <!-- Shared styles -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <link rel="stylesheet" href="../css/dashboards.css" />
+
+    <!-- Page-specific styles -->
+    <link rel="stylesheet" href="../css/admin-jobs.css" />
+
+    <!-- Page JavaScript -->
+    <script type="module" src="../js/pages/admin-jobs.js"></script>
+  </head>
+
+  <body>
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+    <div class="admin-jobs-page">
+      <header id="site-header"></header>
+
+      <main class="admin-jobs-main">
+        <!-- Page heading -->
+        <section class="admin-jobs-heading">
+          <div class="admin-jobs-heading-content">
+            <p class="admin-jobs-eyebrow">ADMINISTRATION / JOB MANAGEMENT</p>
+
+            <h1>Job Management</h1>
+
+            <p class="admin-jobs-subtitle">
+              Monitor, review, and manage job opportunities published across
+              the SkillVerse platform.
+            </p>
+          </div>
+
+          <div class="admin-jobs-heading-actions">
+            <button
+              type="button"
+              class="button button--secondary"
+              id="refresh-jobs-button"
+            >
+              <span aria-hidden="true">↻</span>
+              Refresh
+            </button>
+
+            <button
+              type="button"
+              class="button button--primary"
+              id="create-job-button"
+            >
+              <span aria-hidden="true">＋</span>
+              Create job
+            </button>
+          </div>
+        </section>
+
+        <!-- Page feedback -->
+        <div
+          id="admin-jobs-feedback"
+          class="admin-jobs-feedback"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <!-- Job management overview -->
+        <section
+          class="admin-jobs-overview"
+          aria-label="Job management overview"
+        >
+          <div class="admin-jobs-overview-card">
+            <span class="admin-jobs-overview-label">Total jobs</span>
+            <strong id="total-jobs-count">—</strong>
+            <span class="admin-jobs-overview-description">
+              Platform-wide job listings
+            </span>
+          </div>
+
+          <div class="admin-jobs-overview-card">
+            <span class="admin-jobs-overview-label">Open jobs</span>
+            <strong id="open-jobs-count">—</strong>
+            <span class="admin-jobs-overview-description">
+              Currently accepting applications
+            </span>
+          </div>
+
+          <div class="admin-jobs-overview-card">
+            <span class="admin-jobs-overview-label">Closed jobs</span>
+            <strong id="closed-jobs-count">—</strong>
+            <span class="admin-jobs-overview-description">
+              No longer accepting applications
+            </span>
+          </div>
+        </section>
+
+        <!-- Create / edit job form -->
+        <section
+          class="admin-jobs-form-panel"
+          id="job-form-panel"
+          aria-labelledby="job-form-title"
+          hidden
+        >
+          <div class="admin-jobs-section-heading">
+            <div>
+              <p class="admin-jobs-section-eyebrow">JOB DETAILS</p>
+              <h2 id="job-form-title">Create a new job</h2>
+              <p id="job-form-description">
+                Enter the job information and assign it to a company.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="admin-jobs-close-button"
+              id="cancel-job-button"
+              aria-label="Close job form"
+            >
+              ×
+            </button>
+          </div>
+
+          <form id="admin-job-form">
+            <div class="admin-jobs-form-grid">
+              <div class="admin-jobs-field admin-jobs-field--full">
+                <label for="job-company">Company *</label>
+                <select id="job-company" name="company" required>
+                  <option value="">Select a company</option>
+                </select>
+                <small>Choose the company offering this position.</small>
+              </div>
+
+              <div class="admin-jobs-field admin-jobs-field--full">
+                <label for="job-title">Job title *</label>
+                <input
+                  type="text"
+                  id="job-title"
+                  name="title"
+                  placeholder="e.g. Full Stack Developer"
+                  maxlength="120"
+                  required
+                />
+              </div>
+
+              <div class="admin-jobs-field admin-jobs-field--full">
+                <label for="job-description">Job description *</label>
+                <textarea
+                  id="job-description"
+                  name="description"
+                  rows="5"
+                  placeholder="Describe the role, responsibilities, and expectations..."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="admin-jobs-field">
+                <label for="job-employment-type">Employment type *</label>
+                <select
+                  id="job-employment-type"
+                  name="employmentType"
+                  required
+                >
+                  <option value="">Select employment type</option>
+                  <option value="full-time">Full-time</option>
+                  <option value="part-time">Part-time</option>
+                  <option value="internship">Internship</option>
+                  <option value="contract">Contract</option>
+                </select>
+              </div>
+
+              <div class="admin-jobs-field">
+                <label for="job-work-mode">Work mode *</label>
+                <select id="job-work-mode" name="workMode" required>
+                  <option value="">Select work mode</option>
+                  <option value="onsite">On-site</option>
+                  <option value="remote">Remote</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
+
+              <div class="admin-jobs-field">
+                <label for="job-location">Location *</label>
+                <input
+                  type="text"
+                  id="job-location"
+                  name="location"
+                  placeholder="e.g. Pune, Maharashtra"
+                  maxlength="150"
+                  required
+                />
+              </div>
+
+              <div class="admin-jobs-field">
+                <label for="job-openings">Number of openings *</label>
+                <input
+                  type="number"
+                  id="job-openings"
+                  name="openings"
+                  min="1"
+                  step="1"
+                  value="1"
+                  required
+                />
+              </div>
+
+              <div class="admin-jobs-field">
+                <label for="job-deadline">Application deadline *</label>
+                <input
+                  type="date"
+                  id="job-deadline"
+                  name="deadline"
+                  required
+                />
+              </div>
+
+              <div class="admin-jobs-field admin-jobs-field--full">
+                <label for="job-responsibilities">Responsibilities</label>
+                <textarea
+                  id="job-responsibilities"
+                  name="responsibilities"
+                  rows="4"
+                  placeholder="Enter the key responsibilities..."
+                ></textarea>
+                <small>Separate individual points with new lines.</small>
+              </div>
+
+              <div class="admin-jobs-field admin-jobs-field--full">
+                <label for="job-requirements">Requirements</label>
+                <textarea
+                  id="job-requirements"
+                  name="requirements"
+                  rows="4"
+                  placeholder="Enter the required qualifications..."
+                ></textarea>
+                <small>Separate individual points with new lines.</small>
+              </div>
+
+              <div class="admin-jobs-field admin-jobs-field--full">
+                <label for="job-skills">Required skills</label>
+                <input
+                  type="text"
+                  id="job-skills"
+                  name="skills"
+                  placeholder="e.g. JavaScript, React, Node.js"
+                />
+                <small>Separate skills with commas.</small>
+              </div>
+            </div>
+
+            <div class="admin-jobs-form-actions">
+              <button
+                type="button"
+                class="button button--secondary"
+                id="reset-job-button"
+              >
+                Reset
+              </button>
+
+              <button
+                type="button"
+                class="button button--secondary"
+                id="cancel-job-form-button"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="button button--primary"
+                id="save-job-button"
+              >
+                Create job
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Jobs listing -->
+        <section
+          class="admin-jobs-list-section"
+          aria-labelledby="jobs-list-title"
+        >
+          <div class="admin-jobs-section-heading">
+            <div>
+              <p class="admin-jobs-section-eyebrow">PLATFORM OVERVIEW</p>
+              <h2 id="jobs-list-title">All job listings</h2>
+              <p>
+                View and manage opportunities posted by registered companies.
+              </p>
+            </div>
+
+            <span class="admin-jobs-count" id="jobs-count">
+              Loading jobs...
+            </span>
+          </div>
+
+          <!-- Job activation views -->
+          <div
+            class="admin-jobs-tabs"
+            role="group"
+            aria-label="Job activation filters"
+          >
+            <button
+              type="button"
+              class="admin-jobs-tab is-active"
+              data-job-view="true"
+              aria-pressed="true"
+            >
+              Active Jobs
+            </button>
+
+            <button
+              type="button"
+              class="admin-jobs-tab"
+              data-job-view="false"
+              aria-pressed="false"
+            >
+              Inactive Jobs
+            </button>
+
+            <button
+              type="button"
+              class="admin-jobs-tab"
+              data-job-view="all"
+              aria-pressed="false"
+            >
+              All Jobs
+            </button>
+          </div>
+
+          <!-- Search and filters -->
+          <div class="admin-jobs-filters">
+            <div class="admin-jobs-search">
+              <label for="job-search">Search jobs</label>
+              <input
+                type="search"
+                id="job-search"
+                placeholder="Search by job title or company..."
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="admin-jobs-filter">
+              <label for="job-status-filter">Status</label>
+              <select id="job-status-filter">
+                <option value="">All statuses</option>
+                <option value="draft">Draft</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+
+            <div class="admin-jobs-filter">
+              <label for="job-company-filter">Company</label>
+              <select id="job-company-filter">
+                <option value="">All companies</option>
+              </select>
+            </div>
+
+            <div class="admin-jobs-filter">
+              <label for="job-type-filter">Employment type</label>
+              <select id="job-type-filter">
+                <option value="">All types</option>
+                <option value="full-time">Full-time</option>
+                <option value="part-time">Part-time</option>
+                <option value="internship">Internship</option>
+                <option value="contract">Contract</option>
+              </select>
+            </div>
+
+            <div class="admin-jobs-filter admin-jobs-filter--action">
+              <span class="admin-jobs-filter-spacer" aria-hidden="true"></span>
+              <button
+                type="button"
+                class="button button--secondary admin-jobs-clear-filters"
+                id="reset-job-filters"
+              >
+                Clear filters
+              </button>
+            </div>
+          </div>
+
+          <!-- Listing container -->
+          <div
+            class="admin-jobs-list"
+            id="admin-jobs-list"
+            aria-live="polite"
+            aria-busy="true"
+          >
+            <div class="admin-jobs-loading">
+              Loading job listings...
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <nav
+            class="admin-jobs-pagination"
+            id="jobs-pagination"
+            aria-label="Job listing pagination"
+          >
+            <button
+              type="button"
+              class="button button--secondary"
+              id="previous-jobs-page"
+              disabled
+            >
+              Previous
+            </button>
+
+            <span id="jobs-page-label">Page 1 of 1</span>
+
+            <button
+              type="button"
+              class="button button--secondary"
+              id="next-jobs-page"
+              disabled
+            >
+              Next
+            </button>
+          </nav>
+        </section>
+      </main>
+
+      <footer class="admin-jobs-footer">
+        <p>
+          © <span id="current-year"></span> SkillVerse. All rights reserved.
+        </p>
+        <span>Administrator Workspace</span>
+      </footer>
+    </div>
+  </body>
+</html>

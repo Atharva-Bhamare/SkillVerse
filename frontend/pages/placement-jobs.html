@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8fafc" />
+  <title>Manage Jobs | SkillVerse</title>
+
+  <script src="../js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="../css/dashboards.css" />
+  <link rel="stylesheet" href="../css/placement-jobs.css" />
+</head>
+
+<body>
+  <header id="site-header"></header>
+
+  <main class="placement-jobs-main">
+    <section class="placement-jobs-hero">
+      <div>
+        <p class="dashboard-eyebrow">PLACEMENT WORKSPACE</p>
+        <h1>Manage job openings</h1>
+        <p class="dashboard-subtitle">
+          Create and manage recruitment opportunities for your assigned company.
+        </p>
+      </div>
+    </section>
+
+    <section class="placement-jobs-panel" aria-labelledby="create-job-heading">
+      <div class="placement-panel-heading">
+        <div>
+          <p class="dashboard-eyebrow">NEW OPPORTUNITY</p>
+          <h2 id="create-job-heading">Create a job</h2>
+          <p class="placement-muted">
+            Fields marked with * are required.
+          </p>
+        </div>
+      </div>
+
+      <form id="create-job-form" class="placement-job-form">
+        <div class="placement-form-field">
+          <label for="job-title">Job title *</label>
+          <input
+            id="job-title"
+            name="title"
+            type="text"
+            minlength="3"
+            maxlength="150"
+            placeholder="e.g. Software Development Engineer"
+            required
+          />
+        </div>
+
+        <div class="placement-form-field">
+          <label for="job-description">Job description *</label>
+          <textarea
+            id="job-description"
+            name="description"
+            minlength="20"
+            maxlength="10000"
+            rows="5"
+            placeholder="Describe the role, responsibilities, and opportunity..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="placement-form-row">
+          <div class="placement-form-field">
+            <label for="employment-type">Employment type *</label>
+            <select id="employment-type" name="employmentType" required>
+              <option value="">Select employment type</option>
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
+              <option value="internship">Internship</option>
+              <option value="contract">Contract</option>
+              <option value="temporary">Temporary</option>
+            </select>
+          </div>
+
+          <div class="placement-form-field">
+            <label for="work-mode">Work mode *</label>
+            <select id="work-mode" name="workMode" required>
+              <option value="">Select work mode</option>
+              <option value="onsite">On-site</option>
+              <option value="remote">Remote</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="placement-form-row">
+          <div class="placement-form-field">
+            <label for="job-location">Location</label>
+            <input
+              id="job-location"
+              name="location"
+              type="text"
+              maxlength="150"
+              placeholder="e.g. Pune, Maharashtra"
+            />
+          </div>
+
+          <div class="placement-form-field">
+            <label for="job-openings">Number of openings *</label>
+            <input
+              id="job-openings"
+              name="openings"
+              type="number"
+              min="1"
+              max="10000"
+              step="1"
+              value="1"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="placement-form-field">
+          <label for="application-deadline">Application deadline *</label>
+          <input
+            id="application-deadline"
+            name="applicationDeadline"
+            type="date"
+            required
+          />
+        </div>
+
+        <div class="placement-form-field">
+          <label for="job-responsibilities">Responsibilities</label>
+          <textarea
+            id="job-responsibilities"
+            name="responsibilities"
+            rows="3"
+            placeholder="Enter one responsibility per line"
+          ></textarea>
+          <small>Optional. Enter each responsibility on a separate line.</small>
+        </div>
+
+        <div class="placement-form-field">
+          <label for="job-requirements">Requirements</label>
+          <textarea
+            id="job-requirements"
+            name="requirements"
+            rows="3"
+            placeholder="Enter one requirement per line"
+          ></textarea>
+          <small>Optional. Enter each requirement on a separate line.</small>
+        </div>
+
+        <div class="placement-form-field">
+          <label for="job-skills">Required skills</label>
+          <input
+            id="job-skills"
+            name="skills"
+            type="text"
+            placeholder="JavaScript, Node.js, MongoDB"
+          />
+          <small>Optional. Separate skills with commas.</small>
+        </div>
+
+        <div class="placement-form-row">
+          <div class="placement-form-field">
+            <label for="job-status">Initial status *</label>
+            <select id="job-status" name="status" required>
+              <option value="draft">Draft — save without publishing</option>
+              <option value="open">Open — publish opportunity</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="placement-form-actions">
+            <button id="create-job-button" type="submit">
+              Create job
+            </button>
+          
+            <button
+              id="cancel-edit-button"
+              type="button"
+              class="placement-secondary-button"
+              hidden
+            >
+              Cancel edit
+            </button>
+          
+            <button
+              id="reset-job-button"
+              type="reset"
+              class="placement-secondary-button"
+            >
+              Clear form
+            </button>
+          </div>          
+      </form>
+    </section>
+
+    <section class="placement-jobs-panel" aria-labelledby="jobs-list-heading">
+      <div class="placement-panel-heading placement-list-heading">
+        <div>
+          <p class="dashboard-eyebrow">YOUR COMPANY</p>
+          <h2 id="jobs-list-heading">Existing jobs</h2>
+          <p class="placement-muted">
+            Jobs returned by the SkillVerse API for your account.
+          </p>
+        </div>
+
+        <button id="refresh-jobs-button" type="button" class="placement-secondary-button">
+          Refresh jobs
+        </button>
+      </div>
+
+      <div id="jobs-list" class="placement-jobs-list">
+        <p class="placement-muted">Loading jobs...</p>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>SkillVerse · Placement workspace</p>
+      <p>© <span id="current-year"></span> SkillVerse</p>
+    </footer>
+  </main>
+
+  <script type="module" src="../js/pages/placement-jobs.js"></script>
+</body>
+</html>

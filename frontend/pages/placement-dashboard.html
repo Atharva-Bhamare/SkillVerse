@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8fafc" />
+  <title>Placement Dashboard | SkillVerse</title>
+
+  <script src="../js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="../css/dashboards.css" />
+</head>
+
+<body>
+  <header id="site-header"></header>
+
+  <main class="dashboard-main">
+    <section class="dashboard-welcome">
+      <div>
+        <p class="dashboard-eyebrow">PLACEMENT WORKSPACE</p>
+        <h1 id="welcome-title">Welcome to SkillVerse</h1>
+        <p class="dashboard-subtitle">
+          Manage job opportunities and review applications for your assigned company.
+        </p>
+      </div>
+
+      <div class="dashboard-avatar" id="officer-avatar" aria-label="Placement officer initials">
+        P
+      </div>
+    </section>
+
+    <section
+      id="dashboard-feedback"
+      class="dashboard-feedback"
+      data-state="info"
+      role="status"
+      aria-live="polite"
+    >
+      Loading your placement workspace...
+    </section>
+
+    <section class="dashboard-section">
+      <h2>Your workspace</h2>
+      <p class="dashboard-subtitle">
+        Your management access is limited by your assigned company and account permissions.
+      </p>
+
+      <div class="dashboard-grid">
+        <article class="dashboard-card">
+          <div>
+            <p class="dashboard-eyebrow">JOB MANAGEMENT</p>
+            <h3>Manage jobs</h3>
+            <p>
+              Create job openings and manage opportunities associated with your company.
+            </p>
+          </div>
+          <a class="dashboard-card__action" href="placement-jobs.html">
+            Open job management
+          </a>
+        </article>
+
+        <article class="dashboard-card">
+          <div>
+            <p class="dashboard-eyebrow">CANDIDATE REVIEW</p>
+            <h3>Applications</h3>
+            <p>
+              Review student applications and manage their recruitment status.
+            </p>
+          </div>
+          <a class="dashboard-card__action" href="placement-applications.html">
+            Review applications
+          </a>
+        </article>
+
+        <article class="dashboard-card">
+          <div>
+            <p class="dashboard-eyebrow">ORGANIZATION</p>
+            <h3>Company assignment</h3>
+            <p id="company-assignment">
+              Checking your assigned company...
+            </p>
+          </div>
+          <span class="dashboard-card__action" aria-label="Company assignment status">
+            Assigned company
+          </span>
+        </article>
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <h2>Account details</h2>
+
+      <div class="dashboard-account">
+        <div class="dashboard-account-details">
+          <div>
+            <span class="dashboard-eyebrow">FULL NAME</span>
+            <p id="officer-name">Loading...</p>
+          </div>
+
+          <div>
+            <span class="dashboard-eyebrow">EMAIL ADDRESS</span>
+            <p id="officer-email">Loading...</p>
+          </div>
+
+          <div>
+            <span class="dashboard-eyebrow">ROLE</span>
+            <p id="officer-role">Placement Officer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>SkillVerse · Placement workspace</p>
+      <p>© <span id="current-year"></span> SkillVerse</p>
+    </footer>
+  </main>
+
+  <script type="module" src="../js/pages/placement-dashboard.js"></script>
+</body>
+</html>

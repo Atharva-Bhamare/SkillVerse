@@ -1,0 +1,1006 @@
+/* =========================================================
+   SKILLVERSE — ADMIN JOB MANAGEMENT
+   Visual system aligned with the Admin Companies workspace.
+   File: frontend/css/admin-jobs.css
+========================================================= */
+
+/* 1. Page foundation */
+.admin-jobs-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg, #f8fafc);
+  color: var(--color-text, #172033);
+}
+
+.admin-jobs-page *,
+.admin-jobs-page *::before,
+.admin-jobs-page *::after {
+  box-sizing: border-box;
+}
+
+.admin-jobs-main {
+  width: min(1440px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 38px 0 64px;
+  flex: 1;
+}
+
+/* 2. Page heading */
+.admin-jobs-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.admin-jobs-eyebrow,
+.admin-jobs-section-eyebrow {
+  margin: 0 0 9px;
+  color: var(--color-primary, #6366f1);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-jobs-heading h1 {
+  margin: 0;
+  color: var(--color-text, #172033);
+  font-size: clamp(1.9rem, 4vw, 2.55rem);
+  font-weight: 850;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+
+.admin-jobs-subtitle {
+  max-width: 650px;
+  margin: 12px 0 0;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.admin-jobs-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.admin-jobs-heading-actions button {
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+/* 3. Feedback */
+.admin-jobs-feedback {
+  margin: 0 0 20px;
+  padding: 13px 16px;
+  border: 1px solid var(--color-border, #dbe2ea);
+  border-radius: 12px;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #172033);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.admin-jobs-feedback[hidden],
+.admin-jobs-form-panel[hidden] {
+  display: none;
+}
+
+/* 4. Overview cards */
+.admin-jobs-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+  margin-bottom: 28px;
+}
+
+.admin-jobs-overview-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 145px;
+  padding: 21px 22px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-sm, 0 2px 8px rgb(15 23 42 / 4%));
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.admin-jobs-overview-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary, #818cf8);
+  box-shadow: var(--shadow-md, 0 8px 24px rgb(15 23 42 / 8%));
+}
+
+.admin-jobs-overview-label {
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.84rem;
+  font-weight: 650;
+}
+
+.admin-jobs-overview-card strong {
+  display: block;
+  margin-top: 11px;
+  color: var(--color-text, #172033);
+  font-size: 2rem;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-jobs-overview-description {
+  margin-top: 9px;
+  color: var(--color-text-muted, #94a3b8);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+/* 5. Shared panels */
+.admin-jobs-form-panel,
+.admin-jobs-list-section {
+  padding: 26px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 17px;
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-sm, 0 2px 8px rgb(15 23 42 / 4%));
+}
+
+.admin-jobs-form-panel {
+  margin-bottom: 28px;
+}
+
+.admin-jobs-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.admin-jobs-section-heading h2 {
+  margin: 0;
+  color: var(--color-text, #172033);
+  font-size: 1.28rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.admin-jobs-section-heading p:not(.admin-jobs-section-eyebrow) {
+  margin: 7px 0 0;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.admin-jobs-count {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 999px;
+  background: var(--color-surface-muted, #f1f5f9);
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+/* 6. Create/edit form */
+.admin-jobs-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 19px 22px;
+}
+
+.admin-jobs-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 7px;
+}
+
+.admin-jobs-field--full {
+  grid-column: 1 / -1;
+}
+
+.admin-jobs-field label {
+  color: var(--color-text, #172033);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.admin-jobs-field input,
+.admin-jobs-field select,
+.admin-jobs-field textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border-strong, #cbd5e1);
+  border-radius: 10px;
+  outline: none;
+  background: var(--color-bg, #fff);
+  color: var(--color-text, #172033);
+  font: inherit;
+  font-size: 0.88rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.admin-jobs-field textarea {
+  min-height: 108px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.admin-jobs-field input::placeholder,
+.admin-jobs-field textarea::placeholder {
+  color: var(--color-text-muted, #94a3b8);
+}
+
+.admin-jobs-field input:focus,
+.admin-jobs-field select:focus,
+.admin-jobs-field textarea:focus {
+  border-color: var(--color-primary, #6366f1);
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 13%);
+}
+
+.admin-jobs-field small {
+  color: var(--color-text-muted, #94a3b8);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.admin-jobs-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.admin-jobs-close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 37px;
+  height: 37px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 10px;
+  background: var(--color-surface-muted, #f1f5f9);
+  color: var(--color-text-secondary, #64748b);
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.admin-jobs-close-button:hover {
+  background: var(--color-surface-hover, #e2e8f0);
+  color: var(--color-text, #172033);
+}
+
+/* 7. Active/inactive/all segmented tabs */
+.admin-jobs-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0 0 18px;
+  padding: 5px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  background: var(--color-surface-muted, #f1f5f9);
+}
+
+.admin-jobs-tab {
+  min-height: 38px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-secondary, #64748b);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.admin-jobs-tab:hover {
+  color: var(--color-text, #172033);
+  background: var(--color-surface-hover, #e2e8f0);
+}
+
+.admin-jobs-tab.is-active {
+  border-color: var(--color-border, #e2e8f0);
+  background: var(--color-surface, #fff);
+  color: var(--color-primary, #4f46e5);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgb(15 23 42 / 7%));
+}
+
+/* 8. Search and filters */
+.admin-jobs-filters {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.7fr) repeat(3, minmax(135px, 1fr)) auto;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 21px;
+  padding: 16px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 13px;
+  background: var(--color-surface-muted, #f8fafc);
+}
+
+.admin-jobs-search,
+.admin-jobs-filter {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 7px;
+}
+
+.admin-jobs-search label,
+.admin-jobs-filter label,
+.admin-jobs-filter-spacer {
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.admin-jobs-search input,
+.admin-jobs-filter select {
+  width: 100%;
+  min-height: 41px;
+  padding: 9px 11px;
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-radius: 9px;
+  outline: none;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #172033);
+  font: inherit;
+  font-size: 0.83rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.admin-jobs-search input:focus,
+.admin-jobs-filter select:focus {
+  border-color: var(--color-primary, #6366f1);
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 12%);
+}
+
+.admin-jobs-search input::placeholder {
+  color: var(--color-text-muted, #94a3b8);
+}
+
+.admin-jobs-filter--action {
+  min-width: 112px;
+}
+
+.admin-jobs-filter-spacer {
+  display: block;
+  min-height: 0;
+}
+
+.admin-jobs-clear-filters {
+  min-height: 41px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+/* 9. Job cards */
+.admin-jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.admin-jobs-loading {
+  padding: 48px 20px;
+  color: var(--color-text-secondary, #64748b);
+  text-align: center;
+  font-size: 0.88rem;
+}
+
+.admin-job-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 13px;
+  background: var(--color-surface, #fff);
+  transition: border-color 170ms ease, box-shadow 170ms ease, transform 170ms ease;
+}
+
+.admin-job-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-border-strong, #cbd5e1);
+  box-shadow: var(--shadow-md, 0 8px 24px rgb(15 23 42 / 7%));
+}
+
+.admin-job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+}
+
+.admin-job-card-title {
+  min-width: 0;
+}
+
+.admin-job-card-title h3 {
+  margin: 0;
+  color: var(--color-text, #172033);
+  font-size: 1.04rem;
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.admin-job-company {
+  display: block;
+  margin-top: 5px;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+.admin-job-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 999px;
+  background: var(--color-surface-muted, #f8fafc);
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.72rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.admin-job-status::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.admin-job-status--active,
+.admin-job-status--open {
+  border-color: rgb(22 163 74 / 25%);
+  background: var(--color-success-bg, rgb(22 163 74 / 9%));
+  color: var(--color-success, #15803d);
+}
+
+.admin-job-status--inactive {
+  border-color: rgb(217 119 6 / 25%);
+  background: var(--color-warning-bg, rgb(217 119 6 / 9%));
+  color: var(--color-warning, #b45309);
+}
+
+.admin-job-status--closed {
+  border-color: rgb(220 38 38 / 22%);
+  background: rgb(220 38 38 / 8%);
+  color: #dc2626;
+}
+
+.admin-job-card-description {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.85rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.admin-job-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 17px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.admin-job-meta-item {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.78rem;
+}
+
+.admin-job-meta-item strong {
+  color: var(--color-text, #172033);
+  font-weight: 700;
+}
+
+.admin-job-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-job-card-actions button {
+  min-height: 36px;
+  padding: 7px 12px;
+  border-radius: 9px;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.admin-job-card-actions .button--danger {
+  border: 1px solid var(--color-danger, #dc2626);
+  background: var(--color-danger, #dc2626);
+  color: #fff;
+}
+
+.admin-job-card-actions .button--danger:hover {
+  filter: brightness(0.94);
+}
+
+/* 10. Empty/error states */
+.admin-jobs-empty {
+  padding: 54px 22px;
+  border: 1px dashed var(--color-border-strong, #cbd5e1);
+  border-radius: 13px;
+  background: var(--color-surface-muted, #f8fafc);
+  text-align: center;
+}
+
+.admin-jobs-empty h3 {
+  margin: 0;
+  color: var(--color-text, #172033);
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.admin-jobs-empty p {
+  max-width: 430px;
+  margin: 9px auto 17px;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* 11. Pagination */
+.admin-jobs-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.admin-jobs-pagination button {
+  min-height: 38px;
+  padding: 8px 14px;
+  border-radius: 9px;
+  font-size: 0.8rem;
+}
+
+.admin-jobs-pagination button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.admin-jobs-pagination span {
+  color: var(--color-text-secondary, #64748b);
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 12. Footer */
+.admin-jobs-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: min(1440px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 21px 0;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  color: var(--color-text-muted, #94a3b8);
+  font-size: 0.78rem;
+}
+
+.admin-jobs-footer p {
+  margin: 0;
+}
+
+/* 13. Dark theme */
+html[data-theme="dark"] .admin-jobs-field input,
+html[data-theme="dark"] .admin-jobs-field select,
+html[data-theme="dark"] .admin-jobs-field textarea,
+html[data-theme="dark"] .admin-jobs-search input,
+html[data-theme="dark"] .admin-jobs-filter select {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .admin-job-status--active,
+html[data-theme="dark"] .admin-job-status--open {
+  border-color: rgb(74 222 128 / 25%);
+  background: rgb(22 101 52 / 22%);
+  color: #86efac;
+}
+
+html[data-theme="dark"] .admin-job-status--inactive {
+  border-color: rgb(251 191 36 / 25%);
+  background: rgb(120 53 15 / 22%);
+  color: #fcd34d;
+}
+
+html[data-theme="dark"] .admin-job-status--closed {
+  border-color: rgb(248 113 113 / 25%);
+  background: rgb(127 29 29 / 20%);
+  color: #fca5a5;
+}
+
+/* 14. Responsive layout */
+@media (max-width: 1120px) {
+  .admin-jobs-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-jobs-search {
+    grid-column: 1 / -1;
+  }
+
+  .admin-jobs-filter--action {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .admin-jobs-main {
+    width: min(100% - 36px, 720px);
+    padding-top: 30px;
+  }
+
+  .admin-jobs-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .admin-jobs-heading-actions {
+    justify-content: flex-start;
+  }
+
+  .admin-jobs-overview {
+    gap: 12px;
+  }
+
+  .admin-jobs-overview-card {
+    min-height: 132px;
+    padding: 17px;
+  }
+
+  .admin-jobs-overview-card strong {
+    font-size: 1.8rem;
+  }
+
+  .admin-jobs-form-panel,
+  .admin-jobs-list-section {
+    padding: 21px;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-jobs-main {
+    width: calc(100% - 28px);
+    padding-top: 24px;
+    padding-bottom: 40px;
+  }
+
+  .admin-jobs-heading h1 {
+    font-size: 1.85rem;
+  }
+
+  .admin-jobs-subtitle {
+    font-size: 0.87rem;
+  }
+
+  .admin-jobs-heading-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .admin-jobs-heading-actions button {
+    justify-content: center;
+    padding-inline: 9px;
+  }
+
+  .admin-jobs-overview {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .admin-jobs-overview-card {
+    min-height: 118px;
+  }
+
+  .admin-jobs-form-panel,
+  .admin-jobs-list-section {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .admin-jobs-section-heading {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .admin-jobs-section-heading h2 {
+    font-size: 1.16rem;
+  }
+
+  .admin-jobs-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .admin-jobs-field--full {
+    grid-column: auto;
+  }
+
+  .admin-jobs-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 3px;
+    padding: 4px;
+  }
+
+  .admin-jobs-tab {
+    min-width: 0;
+    padding: 8px 5px;
+    font-size: 0.74rem;
+  }
+
+  .admin-jobs-filters {
+    grid-template-columns: 1fr;
+    padding: 13px;
+  }
+
+  .admin-jobs-search {
+    grid-column: auto;
+  }
+
+  .admin-jobs-filter--action {
+    width: 100%;
+  }
+
+  .admin-jobs-clear-filters {
+    width: 100%;
+  }
+
+  .admin-job-card {
+    padding: 15px;
+  }
+
+  .admin-job-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-job-card-actions {
+    justify-content: flex-start;
+  }
+
+  .admin-job-card-actions button {
+    flex: 1 1 auto;
+  }
+
+  .admin-jobs-form-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-jobs-form-actions button:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .admin-jobs-pagination {
+    gap: 8px;
+  }
+
+  .admin-jobs-pagination button {
+    padding-inline: 10px;
+  }
+
+  .admin-jobs-pagination span {
+    font-size: 0.75rem;
+  }
+
+  .admin-jobs-footer {
+    width: calc(100% - 28px);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 17px 0;
+  }
+}
+
+/* 15. Accessibility and reduced motion */
+.admin-jobs-page button:focus-visible {
+  outline: 3px solid var(--color-primary, #818cf8);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-jobs-page *,
+  .admin-jobs-page *::before,
+  .admin-jobs-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .admin-jobs-overview-card:hover,
+  .admin-job-card:hover {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   JOB STATUS BADGES — COMPACT HORIZONTAL LAYOUT
+========================================================= */
+
+.admin-job-card-header {
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+/* Keep job title and company name on their own row */
+.admin-job-card-title {
+  flex: 1 0 100%;
+  min-width: 0;
+}
+
+/* Keep all status badges together in one horizontal line */
+.admin-job-card-header .admin-job-status {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: fit-content;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Maintain the same arrangement on mobile */
+@media (max-width: 768px) {
+  .admin-job-card-header {
+    flex-direction: row !important;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .admin-job-card-title {
+    flex: 1 0 100%;
+  }
+
+  .admin-job-card-header .admin-job-status {
+    flex: 0 0 auto;
+  }
+}
+
+/* =========================================================
+   ADMIN JOBS — TWO-COLUMN DESKTOP LAYOUT
+   + TOP-RIGHT STATUS BADGES
+========================================================= */
+
+/* Desktop: display two job cards per row */
+.admin-jobs-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 16px;
+}
+
+/* Make each card fill its grid cell */
+.admin-job-card {
+  min-width: 0;
+  height: 100%;
+}
+
+/* Keep title/company on the left and badges on the right */
+.admin-job-card-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px 14px;
+}
+
+/* Allow the title section to occupy available space */
+.admin-job-card-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Keep badges together at the upper-right */
+.admin-job-card-header .admin-job-status {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: fit-content;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Keep the job actions aligned at the bottom */
+.admin-job-card-actions {
+  margin-top: auto;
+  justify-content: flex-end;
+}
+
+/* Loading and empty states should span both columns */
+.admin-jobs-loading,
+.admin-jobs-empty {
+  grid-column: 1 / -1;
+}
+
+/* Tablet: use a single column when cards would become too narrow */
+@media (max-width: 900px) {
+  .admin-jobs-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Mobile: title first, then badges in one horizontal row */
+@media (max-width: 600px) {
+  .admin-jobs-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 13px;
+  }
+
+  .admin-job-card-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .admin-job-card-title {
+    flex: 1 0 100%;
+    min-width: 0;
+  }
+
+  .admin-job-card-header .admin-job-status {
+    flex: 0 0 auto;
+  }
+
+  .admin-job-card-actions {
+    justify-content: flex-start;
+  }
+}

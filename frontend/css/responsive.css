@@ -1,0 +1,283 @@
+@media (max-width: 1000px) {
+    :root {
+      --container-padding: 1.25rem;
+    }
+  
+    .navbar {
+      gap: var(--space-4);
+    }
+  
+    .navbar__links {
+      gap: var(--space-4);
+    }
+  
+    .hero {
+      gap: var(--space-6);
+      min-height: auto;
+      padding-block: var(--space-16);
+    }
+  
+    .hero__visual {
+      padding: 0;
+    }
+  
+    .preview-window__body {
+      padding: var(--space-5);
+    }
+  
+    .feature-card {
+      padding: var(--space-6);
+    }
+  }
+  
+  @media (max-width: 760px) {
+    :root {
+      --navbar-height: 66px;
+      --container-padding: 1.125rem;
+    }
+  
+    .navbar__toggle {
+      display: inline-grid;
+      place-items: center;
+    }
+  
+    .navbar__links {
+      position: absolute;
+      top: calc(var(--navbar-height) - 1px);
+      inset-inline: 0;
+      display: none;
+      align-items: stretch;
+      gap: 0;
+      padding: var(--space-3) var(--container-padding) var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-md);
+    }
+  
+    .navbar__links.is-open {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .navbar__link {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+  
+    .navbar__link:last-child {
+      border-bottom: 0;
+    }
+  
+    .navbar__actions > .navbar__desktop-only {
+      display: none;
+    }
+  
+    .navbar__mobile-actions {
+      display: flex;
+      gap: var(--space-3);
+      padding-top: var(--space-4);
+    }
+  
+    .navbar__mobile-actions .button {
+      flex: 1;
+    }
+  
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+      padding-block: var(--space-12);
+    }
+  
+    .hero__content {
+      max-width: 650px;
+    }
+  
+    .hero__visual {
+      width: min(100%, 560px);
+      margin-inline: auto;
+    }
+  
+    .hero-decoration--one {
+      right: -0.25rem;
+    }
+  
+    .feature-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  
+    .feature-card {
+      padding: var(--space-6);
+    }
+  
+    .closing-cta {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  
+    .site-footer__inner {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+  }
+  
+  @media (max-width: 420px) {
+    :root {
+      --container-padding: 1rem;
+    }
+  
+    .brand {
+      font-size: 1.05rem;
+    }
+  
+    .brand__mark {
+      width: 33px;
+      height: 33px;
+    }
+  
+    .hero__actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  
+    .hero__actions .button {
+      width: 100%;
+    }
+  
+    .preview-window__body {
+      padding: var(--space-4);
+    }
+  
+    .preview-job__details span {
+      font-size: 0.62rem;
+    }
+  
+    .preview-job__logo {
+      width: 36px;
+      height: 36px;
+      flex-basis: 36px;
+    }
+  }
+  
+/* =========================================
+   Shared SkillVerse mobile navbar
+   Consistent across all pages
+   ========================================= */
+
+@media (max-width: 768px) {
+  #site-header .navbar {
+    position: relative;
+    gap: 0.75rem;
+  }
+
+  #site-header .navbar__toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  #site-header .navbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  #site-header .navbar__actions .navbar__desktop-only {
+    display: none !important;
+  }
+
+  /* Mobile dropdown panel */
+  #site-header #primary-navigation {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+
+    width: auto;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 1rem 1.25rem !important;
+
+    background: var(--color-surface, #111c30);
+    border: 1px solid var(--color-border, #334155);
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgb(0 0 0 / 12%);
+    box-sizing: border-box;
+  }
+
+  #site-header #primary-navigation.is-open {
+    display: flex !important;
+  }
+
+  /* Every navigation link: left-aligned with a divider */
+  #site-header #primary-navigation > .navbar__link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    align-self: stretch !important;
+    width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+
+    padding: 0.875rem 0.875rem !important;
+    margin: 0 !important;
+
+    text-align: left !important;
+    font-weight: 500 !important;
+    line-height: 1.5;
+    white-space: normal;
+
+    background: transparent !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--color-border, #334155) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  /* Keep the active link text-only */
+  #site-header #primary-navigation > .navbar__link[aria-current="page"] {
+    color: var(--color-primary) !important;
+    font-weight: 500 !important;
+  }
+
+  #site-header #primary-navigation > .navbar__link::before,
+  #site-header #primary-navigation > .navbar__link::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Sign out section at the bottom */
+  #site-header #primary-navigation .navbar__mobile-actions {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 0.875rem;
+    margin-top: 0.25rem;
+    border-top: 0;
+  }
+
+  #site-header #primary-navigation .navbar__mobile-actions .button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
