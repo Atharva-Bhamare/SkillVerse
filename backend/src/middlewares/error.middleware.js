@@ -49,6 +49,20 @@ const errorHandler = (err, req, res, next) => {
     error = new AppError("Invalid authentication token.", 401);
   }
 
+  // Malformed JSON
+  else if (
+    err instanceof SyntaxError &&
+    err.status === 400 &&
+    "body" in err
+  ) {
+    error = new AppError("Invalid JSON request body.", 400);
+  }
+
+  // Request payload too large
+  else if (err.status === 413 || err.statusCode === 413) {
+    error = new AppError("Request payload is too large.", 413);
+  }
+
   // File upload errors
   else if (err.name === "MulterError") {
     const message =
@@ -86,7 +100,7 @@ const errorHandler = (err, req, res, next) => {
   }
 
   if (!isProduction) {
-    response.stack = err.stack;
+    response.stack = error.stack;
   }
 
   return res.status(error.statusCode || 500).json(response);

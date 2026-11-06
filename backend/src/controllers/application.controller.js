@@ -10,10 +10,12 @@ import {
 } from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
+const getUserId = (req) => req.user.id ?? req.user._id;
+
 export const createApplication = asyncHandler(async (req, res) => {
   const application = await applicationService.createApplication(
     req.body,
-    req.user.id,
+    getUserId(req),
     req.user.role
   );
 
@@ -27,7 +29,7 @@ export const createApplication = asyncHandler(async (req, res) => {
 export const getApplicationById = asyncHandler(async (req, res) => {
   const application = await applicationService.getApplicationById(
     req.params.applicationId,
-    req.user.id,
+    getUserId(req),
     req.user.role
   );
 
@@ -42,7 +44,7 @@ export const getApplicationById = asyncHandler(async (req, res) => {
 export const listApplications = asyncHandler(async (req, res) => {
   const result = await applicationService.listApplications(
     req.query,
-    req.user.id,
+    getUserId(req),
     req.user.role
   );
 
@@ -62,7 +64,7 @@ export const updateApplicationStatus = asyncHandler(
     const application = await applicationService.updateApplicationStatus(
       req.params.applicationId,
       req.body,
-      req.user.id,
+      getUserId(req),
       req.user.role
     );
 
@@ -79,7 +81,7 @@ export const withdrawApplication = asyncHandler(
   async (req, res) => {
     const application = await applicationService.withdrawApplication(
       req.params.applicationId,
-      req.user.id,
+      getUserId(req),
       req.user.role
     );
 

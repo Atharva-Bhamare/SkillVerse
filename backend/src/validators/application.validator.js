@@ -1,8 +1,5 @@
 
 import { body, param, query } from "express-validator";
-import {
-  stringOptional,
-} from "./common.validator.js";
 
 export const createApplicationValidator = [
   body("job")
@@ -69,6 +66,11 @@ export const listApplicationsValidator = [
     .optional()
     .isMongoId()
     .withMessage("Job ID must be a valid MongoDB ID."),
+
+    query("student")
+    .optional()
+    .isMongoId()
+    .withMessage("Student ID must be a valid MongoDB ID."),
 ];
 
 export const updateApplicationStatusValidator = [

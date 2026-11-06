@@ -36,52 +36,73 @@ if (missingVariables.length > 0) {
 
 const port = Number(process.env.PORT);
 
-if (
-  !Number.isInteger(port) ||
-  port < 1 ||
-  port > 65535
-) {
+if (!Number.isInteger(port) || port < 1 || port > 65535) {
   throw new Error("PORT must be an integer between 1 and 65535.");
 }
 
+const mongoUri = process.env.MONGO_URI.trim();
+
 if (
-  !process.env.MONGO_URI.startsWith("mongodb://") &&
-  !process.env.MONGO_URI.startsWith("mongodb+srv://")
+  !mongoUri.startsWith("mongodb://") &&
+  !mongoUri.startsWith("mongodb+srv://")
 ) {
   throw new Error(
-    "MONGO_URI must start with mongodb:// or mongodb+srv://"
+    "MONGO_URI must start with mongodb:// or mongodb+srv://."
   );
 }
 
+let clientUrl;
+
 try {
-  new URL(process.env.CLIENT_URL);
+  clientUrl = new URL(process.env.CLIENT_URL.trim());
+
+  if (!["http:", "https:"].includes(clientUrl.protocol)) {
+    throw new Error();
+  }
 } catch {
-  throw new Error("CLIENT_URL must be a valid URL.");
+  throw new Error("CLIENT_URL must be a valid HTTP or HTTPS URL.");
 }
 
-const validEnvironments = [
-  "development",
-  "production",
-  "test",
-];
+const validEnvironments = ["development", "production", "test"];
+const nodeEnv = process.env.NODE_ENV.trim();
 
-if (!validEnvironments.includes(process.env.NODE_ENV)) {
+if (!validEnvironments.includes(nodeEnv)) {
   throw new Error(
     "NODE_ENV must be development, production or test."
   );
 }
 
+const jwtSecret = process.env.JWT_SECRET.trim();
+const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET.trim();
+
+if (jwtSecret.length < 32 || jwtRefreshSecret.length < 32) {
+  throw new Error("JWT secrets must contain at least 32 characters.");
+}
+
+if (jwtSecret === jwtRefreshSecret) {
+  throw new Error("JWT_SECRET and JWT_REFRESH_SECRET must be different.");
+}
+
+const jwtExpiresIn = process.env.JWT_EXPIRES_IN.trim();
+
+// Accept common jsonwebtoken duration formats.
+if (!/^\d+(\s?(s|m|h|d|w|y))?$/.test(jwtExpiresIn)) {
+  throw new Error(
+    "JWT_EXPIRES_IN must be a valid duration, e.g. 15m, 1h or 7d."
+  );
+}
+
 const config = Object.freeze({
   port,
-  mongoUri: process.env.MONGO_URI,
-  jwtSecret: process.env.JWT_SECRET,
-  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN,
-  clientUrl: process.env.CLIENT_URL,
-  nodeEnv: process.env.NODE_ENV,
-  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
+  mongoUri,
+  jwtSecret,
+  jwtRefreshSecret,
+  jwtExpiresIn,
+  clientUrl: clientUrl.origin,
+  nodeEnv,
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME.trim(),
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY.trim(),
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET.trim(),
 });
 
 export default config;

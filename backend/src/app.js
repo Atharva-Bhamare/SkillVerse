@@ -1,3 +1,4 @@
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -29,17 +30,19 @@ app.use(helmet());
    CORS
 ===================================================== */
 
-app.use(cors({
-   origin: config.clientUrl,
-   credentials: true,
- }));
+app.use(
+  cors({
+    origin: config.clientUrl,
+    credentials: true,
+  })
+);
 
 /* =====================================================
    Logging
 ===================================================== */
 
-if (process.env.NODE_ENV !== "test") {
-  app.use(morgan("dev"));
+if (config.nodeEnv !== "test") {
+  app.use(morgan(config.nodeEnv === "production" ? "combined" : "dev"));
 }
 
 /* =====================================================
@@ -47,17 +50,17 @@ if (process.env.NODE_ENV !== "test") {
 ===================================================== */
 
 app.use(
-   express.json({
-     limit: "1mb",
-   })
- );
+  express.json({
+    limit: "1mb",
+  })
+);
 
- app.use(
-   express.urlencoded({
-     extended: true,
-     limit: "100kb",
-   })
- );
+app.use(
+  express.urlencoded({
+    extended: true,
+    limit: "100kb",
+  })
+);
 
 app.use(cookieParser());
 
@@ -77,17 +80,11 @@ app.get("/api/health", (req, res) => {
 ===================================================== */
 
 app.use("/api/auth", authRoutes);
-
 app.use("/api/student", studentRoutes);
-
 app.use("/api/companies", companyRoutes);
-
 app.use("/api/jobs", jobRoutes);
-
 app.use("/api/applications", applicationRoutes);
-
 app.use("/api/notifications", notificationRoutes);
-
 app.use("/api/dashboard", dashboardRoutes);
 
 /* =====================================================

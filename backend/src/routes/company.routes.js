@@ -19,18 +19,10 @@ import {
 
 const router = express.Router();
 
-// All company routes require authentication.
+// Authenticate all company routes
 router.use(authenticate);
 
-router.patch(
-  "/:companyId/officers/:officerId",
-  authorize(ROLES.ADMIN),
-  assignOfficerValidator,
-  validate,
-  companyController.assignOfficerToCompany
-);
-
-// Read company information.
+// List companies
 router.get(
   "/",
   listCompaniesValidator,
@@ -39,13 +31,20 @@ router.get(
 );
 
 router.get(
+  "/officers",
+  authorize(ROLES.ADMIN),
+  companyController.listPlacementOfficers
+);
+
+// Get company by ID
+router.get(
   "/:companyId",
   companyIdValidator,
   validate,
   companyController.getCompanyById
 );
 
-// Only admins and placement officers can manage companies.
+// Create company (admin only)
 router.post(
   "/",
   authorize(ROLES.ADMIN),
@@ -54,6 +53,7 @@ router.post(
   companyController.createCompany
 );
 
+// Update company (admin only)
 router.patch(
   "/:companyId",
   authorize(ROLES.ADMIN),
@@ -62,12 +62,49 @@ router.patch(
   companyController.updateCompany
 );
 
+// Deactivate company (admin only)
+router.patch(
+  "/:companyId/deactivate",
+  authorize(ROLES.ADMIN),
+  companyIdValidator,
+  validate,
+  companyController.deactivateCompany
+);
+
+// Backward-compatible deactivation route
 router.delete(
   "/:companyId",
   authorize(ROLES.ADMIN),
   companyIdValidator,
   validate,
   companyController.deactivateCompany
+);
+
+// Reactivate company (admin only)
+router.patch(
+  "/:companyId/reactivate",
+  authorize(ROLES.ADMIN),
+  companyIdValidator,
+  validate,
+  companyController.reactivateCompany
+);
+
+// Permanently delete company and associated records (admin only)
+router.delete(
+  "/:companyId/permanent",
+  authorize(ROLES.ADMIN),
+  companyIdValidator,
+  validate,
+  companyController.permanentlyDeleteCompany
+);
+
+// Assign or remove placement officers (admin only)
+router.patch(
+  "/:companyId/officers/:officerId",
+  authorize(ROLES.ADMIN),
+  assignOfficerValidator,
+  validate,
+  companyController.assignOfficerToCompany
 );
 
 export default router;

@@ -1,12 +1,11 @@
+
 /* =====================================================
    User Roles
 ===================================================== */
 
 export const ROLES = Object.freeze({
   ADMIN: "admin",
-
   PLACEMENT_OFFICER: "placement_officer",
-
   STUDENT: "student",
 });
 
@@ -16,19 +15,18 @@ export const ROLES = Object.freeze({
 
 export const FILE_UPLOAD = Object.freeze({
   IMAGE_MAX_SIZE: 5 * 1024 * 1024,
-
   DOCUMENT_MAX_SIZE: 10 * 1024 * 1024,
 
-  IMAGE_MIME_TYPES: [
+  IMAGE_MIME_TYPES: Object.freeze([
     "image/jpeg",
     "image/png",
     "image/jpg",
     "image/webp",
-  ],
+  ]),
 
-  DOCUMENT_MIME_TYPES: [
+  DOCUMENT_MIME_TYPES: Object.freeze([
     "application/pdf",
-  ],
+  ]),
 });
 
 /* =====================================================
@@ -38,7 +36,7 @@ export const FILE_UPLOAD = Object.freeze({
 export const STUDENT = Object.freeze({
   AVATAR_FOLDER: "students/avatars",
 
-  ALLOWED_UPDATE_FIELDS: [
+  ALLOWED_UPDATE_FIELDS: Object.freeze([
     "headline",
     "bio",
     "college",
@@ -47,12 +45,16 @@ export const STUDENT = Object.freeze({
     "graduationYear",
     "cgpa",
     "socialLinks",
-  ],
+  ]),
 });
 
-export const LOG_LEVELS = {
+/* =====================================================
+   Logging
+===================================================== */
+
+export const LOG_LEVELS = Object.freeze({
   ERROR: "error",
   WARN: "warn",
   INFO: "info",
   DEBUG: "debug",
-};
+});

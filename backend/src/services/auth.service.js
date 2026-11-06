@@ -1,5 +1,7 @@
-import User from "../models/user.model.js";
 
+import crypto from "crypto";
+
+import User from "../models/user.model.js";
 import AppError from "../utils/AppError.js";
 
 import {
@@ -7,6 +9,30 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from "../utils/jwt.js";
+
+// Generate SHA-256 hash of a refresh token.
+const hashRefreshToken = (token) => {
+  return crypto.createHash("sha256").update(token).digest("hex");
+};
+
+// Safely compare two token hashes.
+const compareRefreshTokens = (storedHash, incomingToken) => {
+  if (!storedHash || !incomingToken) {
+    return false;
+  }
+
+  const storedBuffer = Buffer.from(storedHash, "hex");
+  const incomingBuffer = Buffer.from(
+    hashRefreshToken(incomingToken),
+    "hex"
+  );
+
+  if (storedBuffer.length !== incomingBuffer.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(storedBuffer, incomingBuffer);
+};
 
 const findUserByEmail = async (email, includePassword = false) => {
   const query = User.findOne({ email });
@@ -37,7 +63,8 @@ const register = async (userData) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
-  user.refreshToken = refreshToken;
+  user.refreshToken = hashRefreshToken(refreshToken);
+
   await user.save();
 
   return {
@@ -54,7 +81,7 @@ const login = async ({ email, password }) => {
     throw new AppError("Invalid email or password.", 401);
   }
 
-  if (!user.isActive) {
+  if (user.isActive === false) {
     throw new AppError("Your account has been deactivated.", 403);
   }
 
@@ -67,7 +94,7 @@ const login = async ({ email, password }) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
-  user.refreshToken = refreshToken;
+  user.refreshToken = hashRefreshToken(refreshToken);
   user.lastLogin = new Date();
 
   await user.save();
@@ -98,7 +125,7 @@ const refresh = async (refreshToken) => {
     throw new AppError("User not found.", 404);
   }
 
-  if (!user.isActive) {
+  if (user.isActive === false) {
     throw new AppError("Your account has been deactivated.", 403);
   }
 
@@ -106,14 +133,19 @@ const refresh = async (refreshToken) => {
     throw new AppError("Please login again.", 401);
   }
 
-  if (user.refreshToken !== refreshToken) {
+  const isRefreshTokenValid = compareRefreshTokens(
+    user.refreshToken,
+    refreshToken
+  );
+
+  if (!isRefreshTokenValid) {
     throw new AppError("Invalid refresh token.", 401);
   }
 
   const newAccessToken = generateAccessToken(user);
   const newRefreshToken = generateRefreshToken(user);
 
-  user.refreshToken = newRefreshToken;
+  user.refreshToken = hashRefreshToken(newRefreshToken);
 
   await user.save();
 

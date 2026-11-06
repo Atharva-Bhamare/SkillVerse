@@ -1,11 +1,17 @@
 
 import mongoose from "mongoose";
+
 import config from "./env.js";
 import logger from "./logger.js";
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(config.mongoUri);
+    const conn = await mongoose.connect(config.mongoUri, {
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 1,
+    });
 
     logger.info(`MongoDB Connected: ${conn.connection.host}`);
 
@@ -18,8 +24,10 @@ const connectDB = async () => {
 
 export const disconnectDB = async () => {
   try {
-    await mongoose.disconnect();
-    logger.info("MongoDB connection closed.");
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.disconnect();
+      logger.info("MongoDB connection closed.");
+    }
   } catch (error) {
     logger.error(`MongoDB Disconnection Error: ${error.message}`);
     throw error;

@@ -7,7 +7,7 @@ const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;
 const MAX_LIMIT = 50;
 
-const validateObjectId = (id, fieldName = "notification ID") => {
+const validateObjectId = (id, fieldName = "ID") => {
   if (!mongoose.isValidObjectId(id)) {
     throw new AppError(`Invalid ${fieldName}.`, 400);
   }
@@ -37,24 +37,33 @@ const parsePagination = (page, limit) => {
 
 // Create a notification for a user.
 export const createNotification = async (notificationData) => {
+  if (!notificationData || typeof notificationData !== "object") {
+    throw new AppError("Notification data is required.", 400);
+  }
+
+  validateObjectId(notificationData.recipient, "recipient ID");
+
   return Notification.create(notificationData);
 };
 
 // Fetch only the authenticated user's notifications.
 export const getMyNotifications = async (userId, query = {}) => {
+  validateObjectId(userId, "user ID");
+
   const { page, limit } = parsePagination(query.page, query.limit);
+
   const filter = { recipient: userId };
 
   const [notifications, total, unreadCount] = await Promise.all([
     Notification.find(filter)
-  .populate({
-    path: "relatedApplication",
-    select: "status job student",
-  })
-  .sort({ createdAt: -1, _id: -1 })
-  .skip((page - 1) * limit)
-  .limit(limit)
-  .lean(),
+      .populate({
+        path: "relatedApplication",
+        select: "status job student",
+      })
+      .sort({ createdAt: -1, _id: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean(),
 
     Notification.countDocuments(filter),
 
@@ -81,7 +90,8 @@ export const markNotificationAsRead = async (
   notificationId,
   userId
 ) => {
-  validateObjectId(notificationId);
+  validateObjectId(notificationId, "notification ID");
+  validateObjectId(userId, "user ID");
 
   const notification = await Notification.findOne({
     _id: notificationId,
@@ -103,6 +113,8 @@ export const markNotificationAsRead = async (
 
 // Mark all unread notifications belonging to the user as read.
 export const markAllNotificationsAsRead = async (userId) => {
+  validateObjectId(userId, "user ID");
+
   const readAt = new Date();
 
   const result = await Notification.updateMany(

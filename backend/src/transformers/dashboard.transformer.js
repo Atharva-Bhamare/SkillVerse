@@ -27,15 +27,22 @@ export const buildStudentDashboardResponse = (dashboard) => ({
     statusUpdatedAt: application.statusUpdatedAt,
 
     job: application.job
-      ? {
-          id: toId(application.job._id ?? application.job),
-          title: application.job.title ?? null,
-          company: application.job.company ?? null,
-          location: application.job.location ?? null,
-          employmentType: application.job.employmentType ?? null,
-          status: application.job.status ?? null,
-        }
-      : null,
+    ? {
+        id: toId(application.job._id ?? application.job),
+        title: application.job.title ?? null,
+        company: application.job.company
+          ? {
+              id: toId(application.job.company._id ?? application.job.company),
+              name: application.job.company.name ?? null,
+              industry: application.job.company.industry ?? null,
+              location: application.job.company.location ?? null,
+            }
+          : null,
+        location: application.job.location ?? null,
+        employmentType: application.job.employmentType ?? null,
+        status: application.job.status ?? null,
+      }
+    : null,
   })),
 });
 

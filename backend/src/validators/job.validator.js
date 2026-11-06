@@ -364,4 +364,9 @@ export const listJobsValidator = [
     .optional()
     .isIn(JOB_STATUSES)
     .withMessage("Invalid job status."),
+
+    query("isActive")
+    .optional()
+    .isIn(["true", "false", "all"])
+    .withMessage("isActive must be true, false, or all."),
 ];

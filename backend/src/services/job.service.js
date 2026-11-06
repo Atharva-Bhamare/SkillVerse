@@ -1,8 +1,12 @@
 
 import mongoose from "mongoose";
+
 import Job from "../models/job.model.js";
 import Company from "../models/company.model.js";
+import Application from "../models/application.model.js";
+import Notification from "../models/notification.model.js";
 import User from "../models/user.model.js";
+
 import AppError from "../utils/AppError.js";
 
 const MANAGEMENT_ROLES = ["admin", "placement_officer"];
@@ -18,45 +22,18 @@ const POPULATE_OPTIONS = [
   },
 ];
 
+const isManagementRole = (role) =>
+  MANAGEMENT_ROLES.includes(role);
+
 const escapeRegex = (value) => {
-    return String(value).split("").map((char) => {
-      if ("\\^$.*+?()[]{}|".includes(char)) {
-        return "\\" + char;
-      }
-      return char;
-    }).join("");
-  };
-
-const isManagementRole = (role) => MANAGEMENT_ROLES.includes(role);
-
-const getAssignedCompanyForOfficer = async (userId) => {
-
-  if (!mongoose.isValidObjectId(userId)) {
-    throw new AppError("Invalid placement officer ID.", 400);
-  }
-
-  // Keep the rest of your existing function unchanged.
-
-  const officer = await User.findOne({
-    _id: userId,
-    role: "placement_officer",
-    isActive: true,
-  }).select("company");
-
-  if (!officer) {
-    throw new AppError("Active placement officer not found.", 404);
-  }
-
-  if (!officer.company) {
-    throw new AppError(
-      "You must be assigned to a company before managing jobs.",
-      403
-    );
-  }
-
-  const company = await validateCompany(officer.company);
-
-  return company._id;
+  return String(value)
+    .split("")
+    .map((char) =>
+      "\\^$.*+?()[]{}|".includes(char)
+        ? `\\${char}`
+        : char
+    )
+    .join("");
 };
 
 const validateJobId = (jobId) => {
@@ -95,18 +72,71 @@ const validateDeadline = (deadline) => {
   }
 };
 
-const getJobForManagement = async (jobId, userId, userRole) => {
+const getAssignedCompanyForOfficer = async (userId) => {
+  if (!mongoose.isValidObjectId(userId)) {
+    throw new AppError("Invalid placement officer ID.", 400);
+  }
+
+  const officer = await User.findOne({
+    _id: userId,
+    role: "placement_officer",
+    isActive: true,
+  }).select("company");
+
+  if (!officer) {
+    throw new AppError("Active placement officer not found.", 404);
+  }
+
+  if (!officer.company) {
+    throw new AppError(
+      "You are not currently assigned to a company. Please contact the administrator.",
+      403
+    );
+  }
+
+  const company = await Company.findById(officer.company);
+
+  if (!company) {
+    throw new AppError(
+      "Your assigned company could not be found. Please contact the administrator to update your company assignment.",
+      404
+    );
+  }
+
+  if (!company.isActive) {
+    throw new AppError(
+      "Your assigned company is currently inactive. Please contact the administrator to reactivate it.",
+      403
+    );
+  }
+
+  return company._id;
+};
+
+// Management can retrieve inactive jobs when needed.
+// Deactivation itself still requires an active job.
+const getJobForManagement = async (
+  jobId,
+  userId,
+  userRole,
+  includeInactive = false
+) => {
   validateJobId(jobId);
+
+  if (!isManagementRole(userRole)) {
+    throw new AppError("You are not authorized to manage jobs.", 403);
+  }
 
   const query = {
     _id: jobId,
-    isActive: true,
   };
 
-  if (userRole === "placement_officer") {
-    const assignedCompanyId = await getAssignedCompanyForOfficer(userId);
+  if (!includeInactive) {
+    query.isActive = true;
+  }
 
-    query.company = assignedCompanyId;
+  if (userRole === "placement_officer") {
+    query.company = await getAssignedCompanyForOfficer(userId);
   }
 
   const job = await Job.findOne(query).populate(POPULATE_OPTIONS);
@@ -118,6 +148,7 @@ const getJobForManagement = async (jobId, userId, userRole) => {
   return job;
 };
 
+// Create job
 const createJob = async (jobData, userId, userRole) => {
   if (!isManagementRole(userRole)) {
     throw new AppError("You are not authorized to create jobs.", 403);
@@ -126,7 +157,8 @@ const createJob = async (jobData, userId, userRole) => {
   const company = await validateCompany(jobData.company);
 
   if (userRole === "placement_officer") {
-    const assignedCompanyId = await getAssignedCompanyForOfficer(userId);
+    const assignedCompanyId =
+      await getAssignedCompanyForOfficer(userId);
 
     if (company._id.toString() !== assignedCompanyId.toString()) {
       throw new AppError(
@@ -151,15 +183,22 @@ const createJob = async (jobData, userId, userRole) => {
   return Job.findById(job._id).populate(POPULATE_OPTIONS);
 };
 
+// Get individual job
 const getJobById = async (jobId, userRole, userId) => {
   validateJobId(jobId);
 
   const query = {
     _id: jobId,
-    isActive: true,
   };
 
   if (!isManagementRole(userRole)) {
+    // Students can only retrieve active jobs belonging to active companies.
+    const activeCompanyIds = await Company.find({
+      isActive: true,
+    }).distinct("_id");
+
+    query.isActive = true;
+    query.company = { $in: activeCompanyIds };
     query.status = "open";
     query.applicationDeadline = { $gt: new Date() };
   } else if (userRole === "placement_officer") {
@@ -175,27 +214,79 @@ const getJobById = async (jobId, userRole, userId) => {
   return job;
 };
 
+// List jobs
 const listJobs = async (filters = {}, userRole, userId) => {
   const page = Math.max(Number(filters.page) || 1, 1);
-  const limit = Math.min(Math.max(Number(filters.limit) || 10, 1), 100);
+
+  const limit = Math.min(
+    Math.max(Number(filters.limit) || 10, 1),
+    100
+  );
+
   const skip = (page - 1) * limit;
 
-  const query = {
-    isActive: true,
-  };
+  const query = {};
+
+  // --------------------------------------------------
+  // 1. STUDENT ACCESS
+  // Students can only see active jobs from active
+  // companies that are open and within the deadline.
+  // --------------------------------------------------
 
   if (!isManagementRole(userRole)) {
+    const activeCompanyIds = await Company.find({
+      isActive: true,
+    }).distinct("_id");
+
+    query.isActive = true;
+    query.company = { $in: activeCompanyIds };
     query.status = "open";
     query.applicationDeadline = { $gt: new Date() };
-  } else if (userRole === "placement_officer") {
-    query.company = await getAssignedCompanyForOfficer(userId);
+  }
 
+  // --------------------------------------------------
+  // 2. MANAGEMENT ACCESS
+  // Admin and placement officers can request:
+  // isActive=true  -> Active jobs
+  // isActive=false -> Inactive jobs
+  // isActive=all   -> Both active and inactive jobs
+  // --------------------------------------------------
+
+  else {
+    const activeFilter = filters.isActive ?? "true";
+
+    if (
+      activeFilter === "true" ||
+      activeFilter === true
+    ) {
+      query.isActive = true;
+    } else if (
+      activeFilter === "false" ||
+      activeFilter === false
+    ) {
+      query.isActive = false;
+    } else if (activeFilter !== "all") {
+      throw new AppError(
+        "Invalid isActive filter. Use true, false, or all.",
+        400
+      );
+    }
+
+    // Placement officers can only manage jobs
+    // belonging to their assigned company.
+    if (userRole === "placement_officer") {
+      query.company = await getAssignedCompanyForOfficer(userId);
+    }
+
+    // Optional job status filter.
     if (filters.status) {
       query.status = filters.status;
     }
-  } else if (filters.status) {
-    query.status = filters.status;
   }
+
+  // --------------------------------------------------
+  // 3. COMPANY FILTER
+  // --------------------------------------------------
 
   if (filters.company) {
     if (!mongoose.isValidObjectId(filters.company)) {
@@ -216,24 +307,40 @@ const listJobs = async (filters = {}, userRole, userId) => {
     }
   }
 
+  // --------------------------------------------------
+  // 4. EMPLOYMENT TYPE FILTER
+  // --------------------------------------------------
+
   if (filters.employmentType) {
     query.employmentType = filters.employmentType;
   }
+
+  // --------------------------------------------------
+  // 5. WORK MODE FILTER
+  // --------------------------------------------------
 
   if (filters.workMode) {
     query.workMode = filters.workMode;
   }
 
+  // --------------------------------------------------
+  // 6. LOCATION FILTER
+  // --------------------------------------------------
+
   if (filters.location) {
     query.location = {
-      $regex: escapeRegex(String(filters.location)),
+      $regex: escapeRegex(filters.location),
       $options: "i",
     };
   }
 
+  // --------------------------------------------------
+  // 7. SEARCH FILTER
+  // --------------------------------------------------
+
   if (filters.search) {
     const searchRegex = new RegExp(
-      escapeRegex(String(filters.search)),
+      escapeRegex(filters.search),
       "i"
     );
 
@@ -244,6 +351,10 @@ const listJobs = async (filters = {}, userRole, userId) => {
       { requirements: searchRegex },
     ];
   }
+
+  // --------------------------------------------------
+  // 8. SKILLS FILTER
+  // --------------------------------------------------
 
   if (filters.skills) {
     const skills = Array.isArray(filters.skills)
@@ -263,12 +374,17 @@ const listJobs = async (filters = {}, userRole, userId) => {
     }
   }
 
+  // --------------------------------------------------
+  // 9. FETCH JOBS AND PAGINATION
+  // --------------------------------------------------
+
   const [jobs, total] = await Promise.all([
     Job.find(query)
       .populate(POPULATE_OPTIONS)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit),
+
     Job.countDocuments(query),
   ]);
 
@@ -285,15 +401,18 @@ const listJobs = async (filters = {}, userRole, userId) => {
   };
 };
 
+// Update job
 const updateJob = async (jobId, updateData, userId, userRole) => {
   if (!isManagementRole(userRole)) {
     throw new AppError("You are not authorized to update jobs.", 403);
   }
 
+  // Allow management to update an inactive job too.
   const job = await getJobForManagement(
     jobId,
     userId,
-    userRole
+    userRole,
+    true
   );
 
   if (updateData.company !== undefined) {
@@ -308,6 +427,7 @@ const updateJob = async (jobId, updateData, userId, userRole) => {
   }
 
   const nextStatus = updateData.status ?? job.status;
+
   const nextDeadline =
     updateData.applicationDeadline ?? job.applicationDeadline;
 
@@ -348,7 +468,8 @@ const updateJob = async (jobId, updateData, userId, userRole) => {
 
   if (
     nextExperience.maxYears != null &&
-    Number(nextExperience.maxYears) < Number(nextExperience.minYears)
+    Number(nextExperience.maxYears) <
+      Number(nextExperience.minYears)
   ) {
     throw new AppError(
       "Maximum experience must be greater than or equal to minimum experience.",
@@ -390,9 +511,13 @@ const updateJob = async (jobId, updateData, userId, userRole) => {
   return Job.findById(job._id).populate(POPULATE_OPTIONS);
 };
 
+// Deactivate job
 const deactivateJob = async (jobId, userId, userRole) => {
   if (!isManagementRole(userRole)) {
-    throw new AppError("You are not authorized to deactivate jobs.", 403);
+    throw new AppError(
+      "You are not authorized to deactivate jobs.",
+      403
+    );
   }
 
   const job = await getJobForManagement(
@@ -402,12 +527,13 @@ const deactivateJob = async (jobId, userId, userRole) => {
   );
 
   job.isActive = false;
+
   await job.save();
 
   return job;
 };
 
-
+// Reactivate job
 const reactivateJob = async (jobId, userId, userRole) => {
   if (!isManagementRole(userRole)) {
     throw new AppError(
@@ -436,16 +562,102 @@ const reactivateJob = async (jobId, userId, userRole) => {
 
   await validateCompany(job.company);
 
-  validateDeadline(job.applicationDeadline);
+  // Only validate the deadline if the job's existing status is open.
+  // Preserve draft, closed, or cancelled status.
+  if (job.status === "open") {
+    validateDeadline(job.applicationDeadline);
+  }
 
   job.isActive = true;
-  job.status = "open";
 
   await job.save();
 
   return Job.findById(job._id).populate(POPULATE_OPTIONS);
 };
 
+// Permanently delete job, its applications, and related notifications.
+const permanentlyDeleteJob = async (
+  jobId,
+  userId,
+  userRole
+) => {
+  if (!isManagementRole(userRole)) {
+    throw new AppError(
+      "You are not authorized to permanently delete jobs.",
+      403
+    );
+  }
+
+  validateJobId(jobId);
+
+  const session = await mongoose.startSession();
+
+  let deletionResult;
+
+  try {
+    await session.withTransaction(async () => {
+      const query = { _id: jobId };
+
+      if (userRole === "placement_officer") {
+        query.company = await getAssignedCompanyForOfficer(userId);
+      }
+
+      const job = await Job.findOne(query).session(session);
+
+      if (!job) {
+        throw new AppError("Job not found.", 404);
+      }
+      
+      // Prevent permanent deletion of active jobs.
+      if (job.isActive) {
+        throw new AppError(
+          "Deactivate the job before permanently deleting it.",
+          400
+        );
+      }
+      
+      const applications = await Application.find({
+        job: job._id,
+      })
+        .select("_id")
+        .session(session);
+
+      const applicationIds = applications.map(
+        (application) => application._id
+      );
+
+      const notificationResult = await Notification.deleteMany(
+        {
+          $or: [
+            { relatedJob: job._id },
+            { relatedApplication: { $in: applicationIds } },
+          ],
+        },
+        { session }
+      );
+
+      const applicationResult = await Application.deleteMany(
+        { job: job._id },
+        { session }
+      );
+
+      await Job.deleteOne(
+        { _id: job._id },
+        { session }
+      );
+
+      deletionResult = {
+        deletedJob: true,
+        deletedApplications: applicationResult.deletedCount,
+        deletedNotifications: notificationResult.deletedCount,
+      };
+    });
+
+    return deletionResult;
+  } finally {
+    await session.endSession();
+  }
+};
 
 export default {
   createJob,
@@ -454,4 +666,5 @@ export default {
   updateJob,
   deactivateJob,
   reactivateJob,
+  permanentlyDeleteJob,
 };

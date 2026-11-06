@@ -2,6 +2,7 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs-extra";
+import crypto from "crypto";
 
 import { FILE_UPLOAD } from "../config/constants.js";
 import AppError from "../utils/AppError.js";
@@ -16,10 +17,7 @@ const storage = multer.diskStorage({
   },
 
   filename(req, file, cb) {
-    const uniqueSuffix =
-      `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-
-    cb(null, uniqueSuffix);
+    cb(null, crypto.randomUUID());
   },
 });
 
@@ -92,12 +90,15 @@ const createSecureUpload = (options, fieldName, kind) => {
         }
 
         if (error instanceof multer.MulterError) {
-          const message =
-            error.code === "LIMIT_FILE_SIZE"
-              ? "File exceeds the maximum allowed size."
-              : "Invalid file upload.";
-
-          return next(new AppError(message, 400));
+          const isFileTooLarge = error.code === "LIMIT_FILE_SIZE";
+        
+          const message = isFileTooLarge
+            ? "File exceeds the maximum allowed size."
+            : "Invalid file upload.";
+        
+          return next(
+            new AppError(message, isFileTooLarge ? 413 : 400)
+          );
         }
 
         return next(

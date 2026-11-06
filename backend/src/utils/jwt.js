@@ -2,7 +2,15 @@
 import jwt from "jsonwebtoken";
 import config from "../config/env.js";
 
+const validateUser = (user) => {
+  if (!user?._id) {
+    throw new Error("A valid user is required to generate tokens.");
+  }
+};
+
 export const generateAccessToken = (user) => {
+  validateUser(user);
+
   return jwt.sign(
     {
       id: user._id.toString(),
@@ -19,14 +27,16 @@ export const generateAccessToken = (user) => {
 export const verifyAccessToken = (token) => {
   const decoded = jwt.verify(token, config.jwtSecret);
 
-  if (decoded.tokenType !== "access") {
-    throw new jwt.JsonWebTokenError("Invalid access token type.");
+  if (decoded.tokenType !== "access" || !decoded.id) {
+    throw new jwt.JsonWebTokenError("Invalid access token.");
   }
 
   return decoded;
 };
 
 export const generateRefreshToken = (user) => {
+  validateUser(user);
+
   return jwt.sign(
     {
       id: user._id.toString(),
@@ -42,8 +52,8 @@ export const generateRefreshToken = (user) => {
 export const verifyRefreshToken = (token) => {
   const decoded = jwt.verify(token, config.jwtRefreshSecret);
 
-  if (decoded.tokenType !== "refresh") {
-    throw new jwt.JsonWebTokenError("Invalid refresh token type.");
+  if (decoded.tokenType !== "refresh" || !decoded.id) {
+    throw new jwt.JsonWebTokenError("Invalid refresh token.");
   }
 
   return decoded;

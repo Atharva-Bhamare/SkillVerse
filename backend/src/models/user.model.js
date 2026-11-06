@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Email is required."],
+      match: [
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Please provide a valid email address.",
+      ],
       unique: true,
       lowercase: true,
       trim: true,
@@ -76,8 +80,12 @@ userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-userSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+userSchema.methods.comparePassword = function (password) {
+  if (!this.password) {
+    throw new Error("Password is not available for comparison.");
+  }
+
+  return bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.toJSON = function () {

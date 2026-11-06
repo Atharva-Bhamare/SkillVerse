@@ -4,6 +4,7 @@ import Notification from "../models/notification.model.js";
 import AppError from "../utils/AppError.js";
 import Job from "../models/job.model.js";
 import User from "../models/user.model.js";
+import Company from "../models/company.model.js";
 
 const RECENT_APPLICATIONS_LIMIT = 5;
 
@@ -194,19 +195,33 @@ export const getPlacementDashboard = async (
 
   if (userRole === "placement_officer") {
     const officer = await User.findById(userId)
-      .select("company")
-      .lean();
-
-    if (!officer?.company) {
-      throw new AppError(
-        "You must be assigned to a company to access the placement dashboard.",
-        403
-      );
-    }
-
-    jobFilter = {
-      company: officer.company,
-    };
+    .select("company")
+    .lean();
+  
+  if (!officer?.company) {
+    throw new AppError(
+      "You must be assigned to a company to access the placement dashboard.",
+      403
+    );
+  }
+  
+  const company = await Company.findOne({
+    _id: officer.company,
+    isActive: true,
+  })
+    .select("_id")
+    .lean();
+  
+  if (!company) {
+    throw new AppError(
+      "Your assigned company is inactive or unavailable.",
+      403
+    );
+  }
+  
+  jobFilter = {
+    company: company._id,
+  };
   }
 
   const jobs = await Job.find(jobFilter)
@@ -256,6 +271,7 @@ export const getPlacementDashboard = async (
 
     Job.countDocuments({
       ...jobFilter,
+      isActive: true,
       status: "open",
       applicationDeadline: {
         $gt: new Date(),

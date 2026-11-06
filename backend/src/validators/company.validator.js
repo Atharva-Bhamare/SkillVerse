@@ -141,6 +141,11 @@ export const listCompaniesValidator = [
     .trim()
     .isLength({ max: 150 })
     .withMessage("Location cannot exceed 150 characters."),
+
+    query("isActive")
+    .optional()
+    .isIn(["true", "false", "all"])
+    .withMessage("isActive must be true, false, or all."),
 ];
 
 export const assignOfficerValidator = [
@@ -153,6 +158,8 @@ export const assignOfficerValidator = [
     .withMessage("A valid placement officer ID is required."),
 
   body("action")
-    .isIn(["assign", "unassign"])
-    .withMessage("Action must be either 'assign' or 'unassign'."),
+    .isIn(["assign", "transfer", "unassign"])
+    .withMessage(
+      "Action must be assign, transfer, or unassign."
+    ),
 ];

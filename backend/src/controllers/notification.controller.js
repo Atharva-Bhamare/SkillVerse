@@ -1,14 +1,17 @@
 
 import asyncHandler from "../utils/asyncHandler.js";
 import * as notificationService from "../services/notification.service.js";
+
 import {
   buildNotificationResponse,
   buildNotificationsResponse,
 } from "../transformers/notification.transformer.js";
 
+const getUserId = (req) => req.user.id ?? req.user._id;
+
 export const getMyNotifications = asyncHandler(async (req, res) => {
   const result = await notificationService.getMyNotifications(
-    req.user.id,
+    getUserId(req),
     req.query
   );
 
@@ -25,7 +28,7 @@ export const getMyNotifications = asyncHandler(async (req, res) => {
 export const markNotificationAsRead = asyncHandler(async (req, res) => {
   const notification = await notificationService.markNotificationAsRead(
     req.params.notificationId,
-    req.user.id
+    getUserId(req)
   );
 
   res.status(200).json({
@@ -38,7 +41,7 @@ export const markNotificationAsRead = asyncHandler(async (req, res) => {
 export const markAllNotificationsAsRead = asyncHandler(
   async (req, res) => {
     const result =
-      await notificationService.markAllNotificationsAsRead(req.user.id);
+      await notificationService.markAllNotificationsAsRead(getUserId(req));
 
     res.status(200).json({
       success: true,

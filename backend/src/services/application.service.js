@@ -1,6 +1,8 @@
+
 import mongoose from "mongoose";
 import Application from "../models/application.model.js";
 import Job from "../models/job.model.js";
+import Company from "../models/company.model.js";
 import AppError from "../utils/AppError.js";
 import Student from "../models/student.model.js";
 import User from "../models/user.model.js";
@@ -66,7 +68,9 @@ const ensureManagement = (userRole) => {
 };
 
 const getOfficerCompanyId = async (userId) => {
-  const officer = await User.findById(userId).select("company").lean();
+  const officer = await User.findById(userId)
+    .select("company")
+    .lean();
 
   if (!officer?.company) {
     throw new AppError(
@@ -85,10 +89,11 @@ const getApplicationForManagement = async (
 ) => {
   validateObjectId(applicationId, "application ID");
 
-  let query = { _id: applicationId };
+  const query = { _id: applicationId };
 
   if (userRole === "placement_officer") {
     const companyId = await getOfficerCompanyId(userId);
+
     const companyJobIds = await Job.find({
       company: companyId,
     }).distinct("_id");
@@ -142,6 +147,21 @@ const createApplication = async (
     );
   }
 
+  // Ensure the company associated with the job is active.
+  const activeCompany = await Company.findOne({
+    _id: job.company,
+    isActive: true,
+  })
+    .select("_id")
+    .lean();
+
+  if (!activeCompany) {
+    throw new AppError(
+      "You cannot apply for a job posted by an inactive company.",
+      400
+    );
+  }
+
   const existingApplication = await Application.findOne({
     student: studentId,
     job: job._id,
@@ -154,7 +174,8 @@ const createApplication = async (
     );
   }
 
-  // Use the profile resume when no resume URL is supplied.
+  // Always use the resume uploaded in the student's profile.
+  // Ignore any resume URL submitted separately in the request.
   const student = await Student.findOne({
     user: studentId,
   });
@@ -219,6 +240,7 @@ const getApplicationById = async (
     query.student = userId;
   } else if (userRole === "placement_officer") {
     const companyId = await getOfficerCompanyId(userId);
+
     const companyJobIds = await Job.find({
       company: companyId,
     }).distinct("_id");
@@ -255,6 +277,7 @@ const listApplications = async (
   if (isManagementRole(userRole)) {
     if (userRole === "placement_officer") {
       const companyId = await getOfficerCompanyId(userId);
+
       const companyJobIds = await Job.find({
         company: companyId,
       }).distinct("_id");
@@ -369,7 +392,6 @@ const updateApplicationStatus = async (
         relatedJob: application.job,
       });
     } catch (error) {
-      // Notification failure should not undo a successful status update.
       logger.error(
         `Failed to create application status notification: ${error.message}`
       );

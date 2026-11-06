@@ -1,9 +1,8 @@
-import AppError from "../utils/AppError.js";
 
+import AppError from "../utils/AppError.js";
 import { ROLES } from "../config/constants.js";
 
 const authorize = (...allowedRoles) => {
-  // Validate the roles passed to the middleware
   const validRoles = Object.values(ROLES);
 
   const invalidRoles = allowedRoles.filter(
@@ -19,19 +18,13 @@ const authorize = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req.user) {
       return next(
-        new AppError(
-          "Authentication required.",
-          401
-        )
+        new AppError("Authentication required.", 401)
       );
     }
 
-    if (!req.user.isActive) {
+    if (req.user.isActive === false) {
       return next(
-        new AppError(
-          "Your account has been deactivated.",
-          403
-        )
+        new AppError("Your account has been deactivated.", 403)
       );
     }
 

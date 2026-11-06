@@ -10,10 +10,12 @@ import {
 } from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
+const getUserId = (req) => req.user.id ?? req.user._id;
+
 export const createJob = asyncHandler(async (req, res) => {
   const job = await jobService.createJob(
     req.body,
-    req.user.id,
+    getUserId(req),
     req.user.role
   );
 
@@ -28,7 +30,7 @@ export const getJobById = asyncHandler(async (req, res) => {
   const job = await jobService.getJobById(
     req.params.jobId,
     req.user.role,
-    req.user.id
+    getUserId(req)
   );
 
   return sendSuccess(
@@ -40,11 +42,10 @@ export const getJobById = asyncHandler(async (req, res) => {
 });
 
 export const listJobs = asyncHandler(async (req, res) => {
-
   const result = await jobService.listJobs(
     req.query,
     req.user.role,
-    req.user._id
+    getUserId(req)
   );
 
   return sendSuccess(
@@ -62,7 +63,7 @@ export const updateJob = asyncHandler(async (req, res) => {
   const job = await jobService.updateJob(
     req.params.jobId,
     req.body,
-    req.user.id,
+    getUserId(req),
     req.user.role
   );
 
@@ -77,7 +78,7 @@ export const updateJob = asyncHandler(async (req, res) => {
 export const deactivateJob = asyncHandler(async (req, res) => {
   const job = await jobService.deactivateJob(
     req.params.jobId,
-    req.user.id,
+    getUserId(req),
     req.user.role
   );
 
@@ -92,7 +93,7 @@ export const deactivateJob = asyncHandler(async (req, res) => {
 export const reactivateJob = asyncHandler(async (req, res) => {
   const job = await jobService.reactivateJob(
     req.params.jobId,
-    req.user.id,
+    getUserId(req),
     req.user.role
   );
 
@@ -101,5 +102,20 @@ export const reactivateJob = asyncHandler(async (req, res) => {
     200,
     "Job reactivated successfully.",
     buildJobResponse(job)
+  );
+});
+
+export const permanentlyDeleteJob = asyncHandler(async (req, res) => {
+  const result = await jobService.permanentlyDeleteJob(
+    req.params.jobId,
+    getUserId(req),
+    req.user.role
+  );
+
+  return sendSuccess(
+    res,
+    200,
+    "Job permanently deleted successfully.",
+    result
   );
 });

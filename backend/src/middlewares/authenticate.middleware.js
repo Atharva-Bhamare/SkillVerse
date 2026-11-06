@@ -18,6 +18,11 @@ export const authenticate = asyncHandler(async (req, res, next) => {
   }
 
   const decoded = verifyAccessToken(token);
+
+  if (!decoded?.id) {
+    throw new AppError("Invalid authentication token.", 401);
+  }
+  
   const user = await User.findById(decoded.id);
 
   if (!user) {

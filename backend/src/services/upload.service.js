@@ -7,6 +7,10 @@ import logger from "../config/logger.js";
 
 export const uploadToCloudinary = async (filePath, folder) => {
   try {
+    if (!filePath) {
+      throw new AppError("File path is required.", 400);
+    }
+
     if (!(await fs.pathExists(filePath))) {
       throw new AppError("Uploaded file not found.", 400);
     }
@@ -19,6 +23,8 @@ export const uploadToCloudinary = async (filePath, folder) => {
     return {
       url: result.secure_url,
       publicId: result.public_id,
+      resourceType: result.resource_type,
+      format: result.format,
     };
   } catch (error) {
     if (error instanceof AppError) {
@@ -29,18 +35,32 @@ export const uploadToCloudinary = async (filePath, folder) => {
 
     throw new AppError("Failed to upload file.", 500);
   } finally {
-    try {
-      await fs.remove(filePath);
-    } catch (error) {
-      logger.error(`Temporary file cleanup failed: ${error.message}`);
+    if (filePath) {
+      try {
+        await fs.remove(filePath);
+      } catch (error) {
+        logger.error(`Temporary file cleanup failed: ${error.message}`);
+      }
     }
   }
 };
 
-export const deleteFromCloudinary = async (publicId) => {
+export const deleteFromCloudinary = async (
+  publicId,
+  resourceType = "image"
+) => {
   if (!publicId) {
     return;
   }
 
-  await cloudinary.uploader.destroy(publicId);
+  try {
+    await cloudinary.uploader.destroy(publicId, {
+      resource_type: resourceType,
+      invalidate: true,
+    });
+  } catch (error) {
+    logger.error(`Cloudinary deletion failed: ${error.message}`);
+
+    throw new AppError("Failed to delete file from Cloudinary.", 500);
+  }
 };

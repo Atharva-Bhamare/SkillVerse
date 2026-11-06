@@ -8,6 +8,7 @@ import {
   updateJob,
   deactivateJob,
   reactivateJob,
+  permanentlyDeleteJob,
 } from "../controllers/job.controller.js";
 
 import {
@@ -62,7 +63,7 @@ router.patch(
   updateJob
 );
 
-// Soft-delete a job.
+// Soft-delete (deactivate) a job.
 router.delete(
   "/:jobId",
   authorize(ROLES.ADMIN, ROLES.PLACEMENT_OFFICER),
@@ -71,12 +72,22 @@ router.delete(
   deactivateJob
 );
 
+// Reactivate a previously deactivated job.
 router.patch(
   "/:jobId/reactivate",
   authorize(ROLES.ADMIN, ROLES.PLACEMENT_OFFICER),
   jobIdValidator,
   validate,
   reactivateJob
+);
+
+// Permanently delete a job and its associated records.
+router.delete(
+  "/:jobId/permanent",
+  authorize(ROLES.ADMIN),
+  jobIdValidator,
+  validate,
+  permanentlyDeleteJob
 );
 
 export default router;
