@@ -12,6 +12,11 @@ const requiredEnvVariables = [
   "CLOUDINARY_CLOUD_NAME",
   "CLOUDINARY_API_KEY",
   "CLOUDINARY_API_SECRET",
+  "SMTP_HOST",
+  "SMTP_PORT",
+  "SMTP_USER",
+  "SMTP_PASS",
+  "EMAIL_FROM",
 ];
 
 const missingVariables = requiredEnvVariables.filter(
@@ -92,12 +97,31 @@ if (!/^\d+(\s?(s|m|h|d|w|y))?$/.test(jwtExpiresIn)) {
   );
 }
 
+const smtpHost = process.env.SMTP_HOST.trim();
+const smtpPort = Number(process.env.SMTP_PORT);
+const smtpUser = process.env.SMTP_USER.trim();
+const smtpPass = process.env.SMTP_PASS.trim();
+const emailFrom = process.env.EMAIL_FROM.trim();
+
+if (!Number.isInteger(smtpPort) || smtpPort < 1 || smtpPort > 65535) {
+  throw new Error("SMTP_PORT must be an integer between 1 and 65535.");
+}
+
+if (!smtpHost || !smtpUser || !smtpPass || !emailFrom) {
+  throw new Error("SMTP configuration values cannot be empty.");
+}
+
 const config = Object.freeze({
   port,
   mongoUri,
   jwtSecret,
   jwtRefreshSecret,
   jwtExpiresIn,
+  smtpHost,
+  smtpPort,
+  smtpUser,
+  smtpPass,
+  emailFrom,
   clientUrl: clientUrl.origin,
   nodeEnv,
   cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME.trim(),

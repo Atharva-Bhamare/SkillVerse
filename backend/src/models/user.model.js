@@ -55,6 +55,18 @@ const userSchema = new mongoose.Schema(
       default: true,
     },
 
+    // Existing accounts remain verified by default.
+    // New Placement Officer applicants will explicitly be unverified.
+    emailVerified: {
+      type: Boolean,
+      default: true,
+    },
+
+    emailVerifiedAt: {
+      type: Date,
+      default: null,
+    },
+
     lastLogin: {
       type: Date,
       default: null,

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1120" />
+  <meta name="description" content="Review and manage SkillVerse Placement Officer applications." />
+
+  <title>Officer Applications | SkillVerse Admin</title>
+
+  <script src="../js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="../css/dashboards.css" />
+  <link rel="stylesheet" href="../css/admin-officer-applications.css" />
+</head>
+
+<body>
+  <header id="site-header"></header>
+
+  <main class="officer-admin-main">
+    <section class="officer-admin-welcome">
+      <div>
+        <p class="dashboard-eyebrow">PLATFORM ADMINISTRATION</p>
+        <h1>Placement Officer Applications</h1>
+        <p class="dashboard-subtitle">
+          Review applications, verify applicant details, and manage access
+          to the SkillVerse placement workspace.
+        </p>
+      </div>
+
+      <button class="button button--secondary" id="refresh-applications" type="button">
+        ↻ Refresh
+      </button>
+    </section>
+
+    <section class="officer-admin-stats" aria-label="Application statistics">
+      <article class="officer-admin-stat">
+        <span class="officer-admin-stat-icon officer-admin-stat-icon--pending">◷</span>
+        <div>
+          <p>Pending review</p>
+          <h2 id="count-pending">—</h2>
+        </div>
+      </article>
+
+      <article class="officer-admin-stat">
+        <span class="officer-admin-stat-icon officer-admin-stat-icon--approved">✓</span>
+        <div>
+          <p>Approved</p>
+          <h2 id="count-approved">—</h2>
+        </div>
+      </article>
+
+      <article class="officer-admin-stat">
+        <span class="officer-admin-stat-icon officer-admin-stat-icon--rejected">×</span>
+        <div>
+          <p>Rejected</p>
+          <h2 id="count-rejected">—</h2>
+        </div>
+      </article>
+
+      <article class="officer-admin-stat">
+        <span class="officer-admin-stat-icon officer-admin-stat-icon--total">▤</span>
+        <div>
+          <p>Total applications</p>
+          <h2 id="count-total">—</h2>
+        </div>
+      </article>
+    </section>
+
+    <section class="officer-admin-panel">
+      <div class="officer-admin-panel-heading">
+        <div>
+          <p class="dashboard-eyebrow">APPLICATION MANAGEMENT</p>
+          <h2>Applicant records</h2>
+          <p class="officer-admin-muted">
+            Search applicants and filter applications by their review status.
+          </p>
+        </div>
+      </div>
+
+      <form class="officer-admin-toolbar" id="application-filters">
+        <!-- Search field -->
+        <div class="officer-admin-field officer-admin-search-field">
+          <label for="application-search">Search applicants</label>
+      
+          <div class="officer-admin-search">
+            <span aria-hidden="true">⌕</span>
+            <input
+              id="application-search"
+              type="search"
+              placeholder="Name, email, or organization..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
+      
+        <!-- Status filter -->
+        <div class="officer-admin-field officer-admin-filter-field">
+          <label for="application-status-filter">Application status</label>
+      
+          <select id="application-status-filter">
+            <option value="">All applications</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      
+        <!-- Action buttons -->
+        <div class="officer-admin-filter-actions">
+          <button class="button button--primary" type="submit">
+            Search
+          </button>
+      
+          <button
+            class="button button--secondary"
+            id="clear-filters"
+            type="button"
+          >
+            Clear
+          </button>
+        </div>
+      </form>      
+
+      <div class="officer-admin-results-meta">
+        <p id="results-summary">Loading applications...</p>
+        <label for="application-limit">Show
+          <select id="application-limit">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+          per page
+        </label>
+      </div>
+
+      <div class="officer-admin-table-wrap">
+        <table class="officer-admin-table">
+          <thead>
+            <tr>
+              <th scope="col">Applicant</th>
+              <th scope="col">Organization</th>
+              <th scope="col">Designation</th>
+              <th scope="col">Email verification</th>
+              <th scope="col">Submitted</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="applications-table-body">
+            <tr>
+              <td colspan="7" class="officer-admin-table-message">
+                Loading applications...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="officer-admin-mobile-list" id="applications-mobile-list"></div>
+
+      <div class="officer-admin-pagination">
+        <p id="pagination-info">Page 1</p>
+        <div>
+          <button class="button button--secondary" id="previous-page" type="button" disabled>
+            ← Previous
+          </button>
+          <button class="button button--secondary" id="next-page" type="button" disabled>
+            Next →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>SkillVerse · Administration workspace</p>
+      <p>© <span id="current-year"></span> SkillVerse</p>
+    </footer>
+  </main>
+
+  <!-- Application details dialog -->
+  <dialog class="officer-admin-dialog" id="application-details-dialog" aria-labelledby="details-title">
+    <div class="officer-admin-dialog-header">
+      <div>
+        <p class="dashboard-eyebrow">APPLICATION REVIEW</p>
+        <h2 id="details-title">Applicant details</h2>
+      </div>
+      <button class="icon-button" type="button" data-close-details aria-label="Close dialog">×</button>
+    </div>
+
+    <div class="officer-admin-dialog-body" id="application-details-content">
+      <p class="officer-admin-muted">Loading application details...</p>
+    </div>
+
+    <div class="officer-admin-dialog-footer" id="application-details-actions">
+      <button class="button button--secondary" type="button" data-close-details>Close</button>
+    </div>
+  </dialog>
+
+  <!-- Rejection dialog -->
+  <dialog class="officer-admin-dialog officer-admin-reject-dialog" id="rejection-dialog" aria-labelledby="rejection-title">
+    <form id="rejection-form">
+      <div class="officer-admin-dialog-header">
+        <div>
+          <p class="dashboard-eyebrow">APPLICATION DECISION</p>
+          <h2 id="rejection-title">Reject application</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-rejection aria-label="Close dialog">×</button>
+      </div>
+
+      <div class="officer-admin-dialog-body">
+        <p class="officer-admin-muted">
+          Provide a clear reason. The applicant will receive this reason by email.
+        </p>
+
+        <label class="officer-admin-field-label" for="rejection-reason">
+          Rejection reason
+        </label>
+        <textarea
+          id="rejection-reason"
+          minlength="5"
+          maxlength="500"
+          rows="5"
+          placeholder="Explain why this application is being rejected..."
+          required
+        ></textarea>
+        <p class="officer-admin-field-hint">5–500 characters.</p>
+        <p class="officer-admin-form-error" id="rejection-error" role="alert"></p>
+      </div>
+
+      <div class="officer-admin-dialog-footer">
+        <button class="button button--secondary" type="button" data-close-rejection>
+          Cancel
+        </button>
+        <button class="button button--danger" id="confirm-rejection" type="submit">
+          Reject application
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="../js/pages/admin-officer-applications.js"></script>
+</body>
+</html>

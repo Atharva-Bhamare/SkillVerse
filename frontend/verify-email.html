@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1120" />
+  <meta name="description" content="Verify your SkillVerse placement officer application email." />
+
+  <title>Verify Your Email | SkillVerse</title>
+
+  <script src="./js/utils/theme-init.js"></script>
+
+  <link rel="stylesheet" href="./css/variables.css" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/themes.css" />
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+  <link rel="stylesheet" href="./css/verify-email.css" />
+
+  <script type="module" src="./js/pages/verify-email.js"></script>
+</head>
+
+<body>
+  <main class="verify-page">
+
+    <section class="verify-layout" aria-label="Email verification">
+
+      <!-- LEFT: BRANDING AND ONBOARDING JOURNEY -->
+      <aside class="verify-aside">
+
+        <a class="verify-brand" href="./index.html" aria-label="SkillVerse home">
+          <span class="verify-brand-icon">S</span>
+          <span>SkillVerse</span>
+        </a>
+
+        <div class="verify-aside-content">
+          <span class="verify-aside-label">
+            PLACEMENT OFFICER ONBOARDING
+          </span>
+
+          <h2>
+            One step closer to
+            <span>your new workspace.</span>
+          </h2>
+
+          <p>
+            Complete your email verification to move forward with your
+            Placement Officer application.
+          </p>
+
+          <div class="verify-journey">
+
+            <div class="verify-journey-item is-completed" id="journey-application">
+              <div class="verify-journey-marker">
+                <span>✓</span>
+              </div>
+              <div>
+                <strong>Application submitted</strong>
+                <p>Your application details are received.</p>
+              </div>
+            </div>
+
+            <div class="verify-journey-line"></div>
+
+            <div class="verify-journey-item is-active" id="journey-email">
+              <div class="verify-journey-marker">
+                <span>2</span>
+              </div>
+              <div>
+                <strong>Email verification</strong>
+                <p>Confirm ownership of your email address.</p>
+              </div>
+            </div>
+
+            <div class="verify-journey-line"></div>
+
+            <div class="verify-journey-item" id="journey-review">
+              <div class="verify-journey-marker">
+                <span>3</span>
+              </div>
+              <div>
+                <strong>Administrator review</strong>
+                <p>Await the final application decision.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="verify-aside-footer">
+          <p>A more organized way to manage your career journey.</p>
+        </div>
+
+      </aside>
+
+
+      <!-- RIGHT: VERIFICATION CONTENT -->
+      <section class="verify-main">
+
+        <div class="verify-card">
+
+          <div class="verify-card-top">
+            <div class="verify-card-tag">
+              <span class="verify-card-tag-dot"></span>
+              SECURE EMAIL VERIFICATION
+            </div>
+
+            <span class="verify-card-step">STEP 02 / 03</span>
+          </div>
+
+          <div class="verify-content">
+
+            <div class="verify-icon verify-icon-loading"
+                 id="verify-icon"
+                 aria-hidden="true">
+              <span class="verify-spinner" id="verify-spinner"></span>
+            </div>
+
+            <p class="verify-eyebrow" id="verify-eyebrow">
+              EMAIL VERIFICATION
+            </p>
+
+            <h1 id="verify-title">Verifying your email...</h1>
+
+            <p class="verify-description"
+               id="verify-description"
+               aria-live="polite">
+              Please wait while we securely verify your email address.
+            </p>
+
+            <div class="verify-status"
+                 id="verify-status"
+                 role="status"
+                 aria-live="polite">
+              <span class="verify-status-dot"></span>
+              <span id="verify-status-text">Connecting securely...</span>
+            </div>
+
+            <!-- SUCCESS NEXT STEP -->
+            <div class="verify-next-step" id="verify-next-step" hidden>
+
+              <div class="verify-next-icon" aria-hidden="true">✓</div>
+
+              <div>
+                <h2>What happens next?</h2>
+                <p>
+                  Your email is verified. An administrator will review your
+                  application before your Placement Officer account is activated.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- RESEND EMAIL -->
+            <div class="verify-resend" id="verify-resend" hidden>
+
+              <div class="verify-resend-heading">
+                <div class="verify-resend-icon">
+                  <span aria-hidden="true">✉</span>
+                </div>
+
+                <div>
+                  <h2>Need another verification link?</h2>
+                  <p>
+                    Request a fresh link using your application email address.
+                  </p>
+                </div>
+              </div>
+
+              <form id="resend-form" novalidate>
+
+                <div class="verify-field">
+                  <label for="resend-email">Email address</label>
+
+                  <input
+                    type="email"
+                    id="resend-email"
+                    name="email"
+                    placeholder="you@organization.com"
+                    autocomplete="email"
+                    required
+                  />
+
+                  <span class="verify-field-error"
+                        id="resend-email-error"></span>
+                </div>
+
+                <button
+                  class="verify-button verify-button-primary"
+                  type="submit"
+                  id="resend-button">
+                  Resend verification email
+                  <span aria-hidden="true">→</span>
+                </button>
+
+              </form>
+
+              <p class="verify-resend-message"
+                 id="resend-message"
+                 role="status"
+                 aria-live="polite"></p>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="verify-actions" id="verify-actions" hidden>
+
+              <a class="verify-button verify-button-primary"
+                 id="verify-primary-action"
+                 href="./index.html">
+                Back to SkillVerse
+                <span aria-hidden="true">→</span>
+              </a>
+
+            </div>
+
+          </div>
+
+          <div class="verify-card-footer">
+            <span class="verify-security-icon" aria-hidden="true">♢</span>
+            <span>Your verification is securely processed by SkillVerse.</span>
+          </div>
+
+        </div>
+
+        <div class="verify-bottom-links">
+          <a href="./index.html">← Return to SkillVerse home</a>
+          <span>© <span id="verify-year"></span> SkillVerse</span>
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+  <script>
+    document.querySelector("#verify-year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

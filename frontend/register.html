@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
   <meta name="description" content="Create your SkillVerse student account.">
   <title>Create account | SkillVerse</title>
 
-<script src="./js/utils/theme-init.js"></script>
+  <script src="./js/utils/theme-init.js"></script>
 
   <link rel="stylesheet" href="./css/variables.css">
   <link rel="stylesheet" href="./css/reset.css">
@@ -20,6 +20,7 @@
 
   <script type="module" src="./js/pages/register.js"></script>
 </head>
+
 <body>
   <main class="auth-page">
     <section class="auth-main" aria-labelledby="auth-title">
@@ -35,64 +36,30 @@
           Set up your student account to begin building your career profile.
         </p>
 
-        <div
-          class="auth-message"
-          id="auth-message"
-          role="status"
-          aria-live="polite"
-          hidden
-        ></div>
+        <div class="auth-message" id="auth-message" role="status" aria-live="polite" hidden></div>
 
         <form class="auth-form" id="register-form" novalidate>
           <div class="auth-field">
             <label for="fullName">Full name</label>
-            <input
-              id="fullName"
-              name="fullName"
-              type="text"
-              autocomplete="name"
-              placeholder="Enter your full name"
-              maxlength="100"
-              required
-              aria-describedby="fullName-error"
-            >
+            <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Enter your full name"
+              maxlength="100" required aria-describedby="fullName-error">
             <span class="auth-field-error" id="fullName-error"></span>
           </div>
 
           <div class="auth-field">
             <label for="email">Email address</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              placeholder="you@example.com"
-              maxlength="254"
-              required
-              aria-describedby="email-error"
-            >
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com"
+              maxlength="254" required aria-describedby="email-error">
             <span class="auth-field-error" id="email-error"></span>
           </div>
 
           <div class="auth-field">
             <label for="password">Password</label>
             <div class="auth-password-wrap">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="new-password"
-                placeholder="Create a password"
-                required
-                aria-describedby="password-hint password-error"
-              >
-              <button
-                class="auth-password-toggle"
-                type="button"
-                data-password-toggle="password"
-                aria-controls="password"
-                aria-pressed="false"
-              >Show</button>
+              <input id="password" name="password" type="password" autocomplete="new-password"
+                placeholder="Create a password" required aria-describedby="password-hint password-error">
+              <button class="auth-password-toggle" type="button" data-password-toggle="password"
+                aria-controls="password" aria-pressed="false">Show</button>
             </div>
             <small id="password-hint">
               Use the password requirements enforced by your server.
@@ -103,22 +70,10 @@
           <div class="auth-field">
             <label for="confirmPassword">Confirm password</label>
             <div class="auth-password-wrap">
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                autocomplete="new-password"
-                placeholder="Enter your password again"
-                required
-                aria-describedby="confirmPassword-error"
-              >
-              <button
-                class="auth-password-toggle"
-                type="button"
-                data-password-toggle="confirmPassword"
-                aria-controls="confirmPassword"
-                aria-pressed="false"
-              >Show</button>
+              <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password"
+                placeholder="Enter your password again" required aria-describedby="confirmPassword-error">
+              <button class="auth-password-toggle" type="button" data-password-toggle="confirmPassword"
+                aria-controls="confirmPassword" aria-pressed="false">Show</button>
             </div>
             <span class="auth-field-error" id="confirmPassword-error"></span>
           </div>
@@ -131,6 +86,13 @@
         <p class="auth-switch">
           Already have an account?
           <a href="./login.html">Sign in</a>
+        </p>
+
+        <p class="auth-switch officer-auth-switch">
+          Registering as a Placement Officer?
+          <a href="./officer-application.html">
+            Go to Placement Officer application
+          </a>
         </p>
 
         <a class="auth-back-link" href="./index.html">← Back to home</a>
@@ -157,4 +119,5 @@
     </aside>
   </main>
 </body>
+
 </html>

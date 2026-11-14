@@ -1,0 +1,860 @@
+.officer-admin-main {
+    width: min(calc(100% - 2 * var(--container-padding)), var(--container-width));
+    margin-inline: auto;
+    padding-top: 120px;
+    padding-bottom: 32px;
+  }
+  
+  .officer-admin-welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  
+  .officer-admin-welcome h1 {
+    margin: 8px 0 12px;
+    color: var(--color-text);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+  }
+  
+  .officer-admin-welcome .dashboard-subtitle {
+    max-width: 700px;
+  }
+  
+  .officer-admin-welcome .button {
+    flex-shrink: 0;
+    min-height: 46px;
+  }
+  
+  .officer-admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .officer-admin-stat {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 17px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .officer-admin-stat-icon {
+    display: grid;
+    width: 45px;
+    height: 45px;
+    flex: 0 0 45px;
+    place-items: center;
+    border-radius: 14px;
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+  
+  .officer-admin-stat-icon--pending {
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
+  }
+  
+  .officer-admin-stat-icon--approved {
+    background: var(--color-success-bg);
+    color: var(--color-success);
+  }
+  
+  .officer-admin-stat-icon--rejected {
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+  }
+  
+  .officer-admin-stat-icon--total {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+  
+  .officer-admin-stat p {
+    margin: 0 0 6px;
+    color: var(--color-text-secondary);
+    font-size: 0.84rem;
+  }
+  
+  .officer-admin-stat h2 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .officer-admin-panel {
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .officer-admin-panel-heading {
+    margin-bottom: 22px;
+  }
+  
+  .officer-admin-panel-heading h2 {
+    margin: 6px 0;
+    color: var(--color-text);
+    font-size: 1.3rem;
+  }
+  
+  .officer-admin-muted {
+    color: var(--color-text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+  
+  .officer-admin-toolbar {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 190px auto auto;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .officer-admin-search {
+    position: relative;
+    min-width: 0;
+  }
+  
+  .officer-admin-search > span {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    color: var(--color-text-muted);
+    font-size: 1.5rem;
+    transform: translateY(-55%);
+    pointer-events: none;
+  }
+  
+  .officer-admin-search input,
+  .officer-admin-filter select,
+  .officer-admin-results-meta select {
+    width: 100%;
+    min-height: 45px;
+    padding: 0 13px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 10px;
+    outline: none;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.87rem;
+  }
+  
+  .officer-admin-search input {
+    padding-left: 42px;
+  }
+  
+  .officer-admin-search input:focus,
+  .officer-admin-filter select:focus,
+  .officer-admin-results-meta select:focus,
+  .officer-admin-dialog textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgb(129 140 248 / 13%);
+  }
+  
+  .officer-admin-toolbar .button {
+    min-height: 45px;
+    white-space: nowrap;
+  }
+  
+  .officer-admin-results-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 13px;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+  }
+  
+  .officer-admin-results-meta p {
+    margin: 0;
+  }
+  
+  .officer-admin-results-meta label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  
+  .officer-admin-results-meta select {
+    width: auto;
+    min-height: 34px;
+    padding: 0 27px 0 9px;
+  }
+  
+  .officer-admin-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 13px;
+  }
+  
+  .officer-admin-table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  .officer-admin-table th {
+    padding: 14px 13px;
+    background: var(--color-surface-muted);
+    color: var(--color-text-secondary);
+    font-size: 0.73rem;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+    white-space: nowrap;
+  }
+  
+  .officer-admin-table td {
+    padding: 15px 13px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    vertical-align: middle;
+  }
+  
+  .officer-admin-table tbody tr:hover {
+    background: var(--color-surface-hover);
+  }
+  
+  .officer-admin-table-message {
+    padding: 35px !important;
+    color: var(--color-text-muted) !important;
+    text-align: center;
+  }
+  
+  .officer-applicant-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 190px;
+  }
+  
+  .officer-applicant-avatar {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+  
+  .officer-applicant-info {
+    display: grid;
+    min-width: 0;
+    gap: 4px;
+  }
+  
+  .officer-applicant-info strong {
+    overflow: hidden;
+    color: var(--color-text);
+    font-size: 0.83rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .officer-applicant-info span {
+    overflow: hidden;
+    color: var(--color-text-muted);
+    font-size: 0.74rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .officer-verification,
+  .officer-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 6px 9px;
+    border: 1px solid var(--color-border);
+    border-radius: 99px;
+    background: var(--color-surface-muted);
+    color: var(--color-text-secondary);
+    font-size: 0.7rem;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+  
+  .officer-verification--verified,
+  .officer-status--approved {
+    border-color: var(--color-success);
+    background: var(--color-success-bg);
+    color: var(--color-success);
+  }
+  
+  .officer-verification--unverified,
+  .officer-status--pending {
+    border-color: var(--color-warning);
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
+  }
+  
+  .officer-status--rejected {
+    border-color: var(--color-danger);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+  }
+  
+  .officer-row-action {
+    padding: 7px 11px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 9px;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+  
+  .officer-row-action:hover {
+    background: var(--color-primary-soft);
+  }
+  
+  .officer-admin-mobile-list {
+    display: none;
+  }
+  
+  .officer-admin-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .officer-admin-pagination p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+  }
+  
+  .officer-admin-pagination > div {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .officer-admin-pagination .button {
+    min-height: 39px;
+    padding: 0 13px;
+    font-size: 0.8rem;
+  }
+  
+  .officer-admin-pagination button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  
+  .officer-admin-dialog {
+    width: min(680px, calc(100% - 28px));
+    max-width: 680px;
+    max-height: min(86vh, 850px);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 19px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .officer-admin-dialog::backdrop {
+    background: rgb(2 6 23 / 68%);
+    backdrop-filter: blur(3px);
+  }
+  
+  .officer-admin-dialog-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  
+  .officer-admin-dialog-header h2 {
+    margin: 5px 0 0;
+    color: var(--color-text);
+    font-size: 1.3rem;
+  }
+  
+  .officer-admin-dialog-body {
+    padding: 23px 24px;
+  }
+  
+  .officer-admin-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 17px 24px;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  
+  .officer-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+  }
+  
+  .officer-detail-item {
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface-muted);
+  }
+  
+  .officer-detail-item--full {
+    grid-column: 1 / -1;
+  }
+  
+  .officer-detail-label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  
+  .officer-detail-value {
+    overflow-wrap: anywhere;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
+  
+  .officer-review-note {
+    margin-top: 18px;
+    padding: 13px 15px;
+    border: 1px solid var(--color-border);
+    border-radius: 11px;
+    background: var(--color-surface-muted);
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+  
+  .officer-review-note strong {
+    color: var(--color-text);
+  }
+  
+  .officer-admin-field-label {
+    display: block;
+    margin: 18px 0 8px;
+    color: var(--color-text);
+    font-size: 0.85rem;
+    font-weight: 750;
+  }
+  
+  .officer-admin-dialog textarea {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    padding: 12px 14px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 11px;
+    outline: none;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  .officer-admin-dialog textarea::placeholder {
+    color: var(--color-text-muted);
+  }
+  
+  .officer-admin-field-hint,
+  .officer-admin-form-error {
+    margin: 7px 0 0;
+    font-size: 0.76rem;
+  }
+  
+  .officer-admin-field-hint {
+    color: var(--color-text-muted);
+  }
+  
+  .officer-admin-form-error {
+    color: var(--color-danger);
+  }
+  
+  .officer-admin-dialog [hidden] {
+    display: none !important;
+  }
+  
+  @media (max-width: 1050px) {
+    .officer-admin-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  
+    .officer-admin-toolbar {
+      grid-template-columns: minmax(200px, 1fr) 180px;
+    }
+  }
+  
+  @media (max-width: 760px) {
+    .officer-admin-main {
+      padding-top: 90px;
+      padding-bottom: 24px;
+    }
+  
+    .officer-admin-welcome {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  
+    .officer-admin-welcome .button {
+      align-self: flex-start;
+    }
+  
+    .officer-admin-panel {
+      padding: 17px;
+      border-radius: 16px;
+    }
+  
+    .officer-admin-table-wrap {
+      display: none;
+    }
+  
+    .officer-admin-mobile-list {
+      display: grid;
+      gap: 12px;
+    }
+  
+    .officer-mobile-card {
+      padding: 16px;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: var(--color-surface-muted);
+    }
+  
+    .officer-mobile-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+  
+    .officer-mobile-card .officer-applicant-cell {
+      min-width: 0;
+    }
+  
+    .officer-mobile-card-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin: 15px 0;
+    }
+  
+    .officer-mobile-card-meta > div {
+      min-width: 0;
+    }
+  
+    .officer-mobile-card-meta strong,
+    .officer-mobile-card-meta span {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+  
+    .officer-mobile-card-meta span {
+      margin-bottom: 5px;
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+    }
+  
+    .officer-mobile-card-meta strong {
+      color: var(--color-text);
+      font-size: 0.82rem;
+    }
+  
+    .officer-mobile-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-border);
+    }
+  
+    .officer-admin-toolbar {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .officer-admin-search {
+      grid-column: 1 / -1;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .officer-admin-stats {
+      gap: 10px;
+    }
+  
+    .officer-admin-stat {
+      gap: 10px;
+      padding: 13px;
+    }
+  
+    .officer-admin-stat-icon {
+      width: 37px;
+      height: 37px;
+      flex-basis: 37px;
+      border-radius: 11px;
+    }
+  
+    .officer-admin-stat h2 {
+      font-size: 1.5rem;
+    }
+  
+    .officer-admin-stat p {
+      font-size: 0.74rem;
+    }
+  
+    .officer-admin-toolbar {
+      grid-template-columns: 1fr;
+    }
+  
+    .officer-admin-search {
+      grid-column: auto;
+    }
+  
+    .officer-admin-results-meta {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  
+    .officer-admin-pagination {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  
+    .officer-admin-pagination > div {
+      width: 100%;
+    }
+  
+    .officer-admin-pagination .button {
+      flex: 1;
+    }
+  
+    .officer-detail-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .officer-detail-item--full {
+      grid-column: auto;
+    }
+  
+    .officer-admin-dialog-header,
+    .officer-admin-dialog-body {
+      padding-right: 17px;
+      padding-left: 17px;
+    }
+  
+    .officer-admin-dialog-footer {
+      padding: 14px 17px;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .officer-admin-main *,
+    .officer-admin-main *::before,
+    .officer-admin-main *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+/* =========================================
+   APPLICATION FILTER TOOLBAR - REFINED UI
+========================================= */
+
+.officer-admin-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(210px, 0.8fr) auto;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-bg);
+}
+
+/* Field groups */
+
+.officer-admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.officer-admin-field > label {
+  color: var(--color-text-secondary);
+  font-size: 0.79rem;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+}
+
+/* Search input */
+
+.officer-admin-search {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.officer-admin-search > span {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  color: var(--color-text-muted);
+  font-size: 1.45rem;
+  line-height: 1;
+  transform: translateY(-55%);
+  pointer-events: none;
+}
+
+.officer-admin-search input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 15px 0 44px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 10px;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.86rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.officer-admin-search input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.85;
+}
+
+/* Status dropdown */
+
+.officer-admin-filter-field select {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 36px 0 13px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 10px;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Search and clear buttons */
+
+.officer-admin-filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.officer-admin-filter-actions .button {
+  min-height: 46px;
+  padding-inline: 19px;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.officer-admin-filter-actions .button--primary {
+  gap: 7px;
+}
+
+/* Consistent focus states */
+
+.officer-admin-search input:focus,
+.officer-admin-filter-field select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(129 140 248 / 14%);
+}
+
+/* =========================================
+   RESPONSIVE FILTER TOOLBAR
+========================================= */
+
+@media (max-width: 1050px) {
+  .officer-admin-toolbar {
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 0.65fr);
+    gap: 15px;
+  }
+
+  .officer-admin-search-field {
+    grid-column: 1 / -1;
+  }
+
+  .officer-admin-filter-actions {
+    align-self: end;
+  }
+}
+
+@media (max-width: 760px) {
+  .officer-admin-toolbar {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .officer-admin-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+    padding: 14px;
+  }
+
+  .officer-admin-search-field {
+    grid-column: auto;
+  }
+
+  .officer-admin-filter-actions {
+    width: 100%;
+  }
+
+  .officer-admin-filter-actions .button {
+    flex: 1;
+    padding-inline: 12px;
+  }
+}

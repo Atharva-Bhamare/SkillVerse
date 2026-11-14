@@ -164,3 +164,77 @@ html {
   .site-footer__copyright {
     white-space: nowrap;
   }
+
+/* Placement Officer landing page CTA */
+
+.officer-landing-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 25px 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface);
+}
+
+.officer-landing-cta h3 {
+  margin: 0 0 7px;
+  color: var(--color-text);
+  font-size: 1.1rem;
+}
+
+.officer-landing-cta p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.officer-landing-cta .button {
+  flex-shrink: 0;
+}
+
+@media (max-width: 650px) {
+  .officer-landing-cta {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 21px;
+  }
+}
+
+/* Public navbar section navigation */
+
+html {
+  scroll-behavior: smooth;
+}
+
+#students,
+#placement-teams {
+  scroll-margin-top: 100px;
+}
+
+.feature-card__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 15px;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: none;
+  transition: gap 0.2s ease;
+}
+
+.feature-card__action:hover {
+  gap: 11px;
+  text-decoration: underline;
+}
+
+.feature-card__action:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 3px;
+}

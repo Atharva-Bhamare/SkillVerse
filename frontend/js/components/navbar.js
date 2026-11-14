@@ -29,7 +29,11 @@ const roleNavigation = {
   admin: [
     { label: "Dashboard", href: "pages/admin-dashboard.html" },
     { label: "Companies", href: "pages/admin-companies.html" },
-    { label: "Job oversight", href: "pages/admin-jobs.html" }
+    { label: "Job oversight", href: "pages/admin-jobs.html" },
+    {
+      label: "Officer applications",
+      href: "pages/admin-officer-applications.html"
+    }
   ]
 };
 
