@@ -61,3 +61,23 @@ export const changePassword = asyncHandler(async (req, res) => {
     "Password changed successfully. Please login again."
   );
 });
+
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const result = await authService.forgotPassword(req.body.email);
+
+  return sendSuccess(
+    res,
+    200,
+    result.message
+  );
+});
+
+export const resetPassword = asyncHandler(async (req, res) => {
+  await authService.resetPassword(req.body);
+
+  return sendSuccess(
+    res,
+    200,
+    "Password reset successfully. Please login with your new password."
+  );
+});

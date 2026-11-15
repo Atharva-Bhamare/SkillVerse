@@ -3,6 +3,7 @@ import { authService } from "../auth/auth.service.js";
 import { requireRole } from "../auth/route-guard.js";
 import { initializeTheme } from "../utils/theme.js";
 import { renderNavbar } from "../components/navbar.js";
+import { initializeAccountSecurity } from "../components/account-security.js";
 
 const welcomeTitle = document.querySelector("#welcome-title");
 const officerAvatar = document.querySelector("#officer-avatar");
@@ -88,6 +89,8 @@ async function loadDashboard() {
     });
 
     displayOfficer(user);
+
+    initializeAccountSecurity("../login.html");
 
     setFeedback(
       "You're signed in. Your placement workspace is ready.",

@@ -26,6 +26,14 @@ export const authApi = {
     return api.post("auth/logout");
   },
 
+  forgotPassword(payload) {
+    return api.post("auth/forgot-password", payload, { auth: false });
+  },
+  
+  resetPassword(payload) {
+    return api.post("auth/reset-password", payload, { auth: false });
+  },
+
   changePassword(payload) {
     return api.patch("auth/change-password", payload);
   }

@@ -93,6 +93,22 @@ export const authService = {
     }
   },
 
+  async forgotPassword(email) {
+    return authApi.forgotPassword({ email });
+  },
+  
+  async resetPassword({ token, newPassword, confirmPassword }) {
+    return authApi.resetPassword({
+      token,
+      newPassword,
+      confirmPassword
+    });
+  },
+  
+  async changePassword(payload) {
+    return authApi.changePassword(payload);
+  },
+
   clearLocalSession() {
     clearSession();
   }

@@ -5,6 +5,7 @@ import { initializeTheme } from "../utils/theme.js";
 import { renderNavbar } from "../components/navbar.js";
 import { api } from "../api/api-client.js";
 import { showNotification } from "../utils/notification.js";
+import { initializeAccountSecurity } from "../components/account-security.js";
 
 const elements = {
   welcomeTitle: document.querySelector("#admin-welcome-title"),
@@ -242,6 +243,8 @@ async function initializeAdminDashboard() {
       user,
       mount: document.getElementById("site-header"),
     });
+
+    initializeAccountSecurity("../login.html");
 
     const firstName = user.fullName?.trim().split(/\s+/)[0];
 

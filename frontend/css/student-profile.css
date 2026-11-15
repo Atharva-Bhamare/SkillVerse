@@ -1095,3 +1095,92 @@ html[data-theme="dark"] .profile-resume-card {
     transform: none !important;
   }
 }
+
+/* =========================================
+   ACCOUNT SECURITY - CHANGE PASSWORD
+========================================= */
+
+.profile-security-card {
+  margin-top: 1.5rem;
+}
+
+.profile-security-card .profile-form-heading {
+  margin-bottom: 1.5rem;
+}
+
+.profile-security-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.profile-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-password-wrapper input {
+  padding-right: 4.5rem;
+}
+
+.profile-password-toggle {
+  position: absolute;
+  right: 0.85rem;
+  border: none;
+  background: transparent;
+  color: var(--color-primary, #6366f1);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profile-password-toggle:hover {
+  opacity: 0.8;
+}
+
+.profile-password-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.profile-security-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+#passwordFeedback {
+  margin: 0;
+  color: var(--color-text-muted, #64748b);
+  font-size: 0.85rem;
+}
+
+#changePasswordButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+html[data-theme="dark"] .profile-security-footer {
+  border-color: #26364f;
+}
+
+@media (max-width: 600px) {
+  .profile-security-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .profile-security-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .profile-security-footer .profile-primary-button {
+    width: 100%;
+  }
+}

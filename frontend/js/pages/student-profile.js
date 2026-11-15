@@ -12,6 +12,9 @@ const saveButton = $("#saveProfileButton");
 const saveFeedback = $("#saveFeedback");
 const skillsInput = $("#skillsInput");
 const skillsList = $("#skillsList");
+const changePasswordForm = $("#changePasswordForm");
+const changePasswordButton = $("#changePasswordButton");
+const passwordFeedback = $("#passwordFeedback");
 
 let currentUser = null;
 let currentProfile = null;
@@ -653,6 +656,108 @@ async function logout() {
   window.location.replace("../login.html");
 }
 
+async function handleChangePassword(event) {
+  event.preventDefault();
+
+  if (changePasswordButton.disabled) return;
+
+  const currentPassword = $("#currentPassword").value;
+  const newPassword = $("#newPassword").value;
+  const confirmPassword = $("#confirmPassword").value;
+
+  passwordFeedback.textContent = "";
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    passwordFeedback.textContent = "Please complete all password fields.";
+    return;
+  }
+
+  if (newPassword.length < 8) {
+    passwordFeedback.textContent =
+      "Your new password must contain at least 8 characters.";
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    passwordFeedback.textContent = "New passwords do not match.";
+    return;
+  }
+
+  if (currentPassword === newPassword) {
+    passwordFeedback.textContent =
+      "Your new password must be different from your current password.";
+    return;
+  }
+
+  changePasswordButton.disabled = true;
+  changePasswordButton.textContent = "Updating password...";
+
+  changePasswordForm.querySelectorAll("input, button").forEach((element) => {
+    element.disabled = true;
+  });
+
+  try {
+    const response = await authService.changePassword({
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    });
+
+    passwordFeedback.textContent =
+      response?.message || "Password changed successfully. Please login again.";
+
+    passwordFeedback.style.color = "#16a34a";
+
+    changePasswordForm.reset();
+
+    notify(
+      "Your password has been changed. Please sign in again.",
+      "success",
+      "Password updated"
+    );
+
+    // The backend invalidates the stored refresh token.
+    // Clear the local session and require a fresh login.
+    authService.clearLocalSession();
+
+    window.setTimeout(() => {
+      window.location.replace("../login.html");
+    }, 1500);
+
+  } catch (error) {
+    passwordFeedback.textContent =
+      errorMessage(error);
+
+    passwordFeedback.style.color = "#dc2626";
+
+    changePasswordForm.querySelectorAll("input, button").forEach((element) => {
+      element.disabled = false;
+    });
+
+    changePasswordButton.textContent = "Update password";
+  }
+}
+
+function initializePasswordToggles() {
+  document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const input = document.getElementById(
+        button.dataset.passwordToggle
+      );
+
+      if (!input) return;
+
+      const showPassword = input.type === "password";
+
+      input.type = showPassword ? "text" : "password";
+      button.textContent = showPassword ? "Hide" : "Show";
+      button.setAttribute(
+        "aria-label",
+        `${showPassword ? "Hide" : "Show"} ${input.labels?.[0]?.textContent || "password"}`
+      );
+    });
+  });
+}
 
 async function initializePage() {
   const authorized = await requireRole(["student"]);
@@ -660,6 +765,11 @@ async function initializePage() {
 
   // Keep the existing profile page theme control.
   initializeThemeControls();
+
+// Change Password functionality.
+changePasswordForm.addEventListener("submit", handleChangePassword);
+
+initializePasswordToggles();
 
   // Profile form: save only when the user submits it.
   form.addEventListener("submit", saveProfile);

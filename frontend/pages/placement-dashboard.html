@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
   <link rel="stylesheet" href="../css/dashboards.css" />
+  <link rel="stylesheet" href="../css/account-security.css" />
 </head>
 
 <body>
@@ -117,6 +118,100 @@
         </div>
       </div>
     </section>
+
+    <section class="dashboard-section account-security-section">
+      <div class="account-security-heading">
+        <div>
+          <p class="dashboard-eyebrow">ACCOUNT SECURITY</p>
+          <h2>Change your password</h2>
+          <p class="dashboard-subtitle">
+            Keep your account secure by using a strong, unique password.
+          </p>
+        </div>
+      </div>
+    
+      <div class="account-security-card">
+        <form id="change-password-form" novalidate>
+          <div class="account-security-grid">
+            <div class="auth-field">
+              <label for="current-password">Current password</label>
+              <div class="account-password-wrapper">
+                <input
+                  type="password"
+                  id="current-password"
+                  name="currentPassword"
+                  autocomplete="current-password"
+                  placeholder="Enter current password"
+                  required
+                />
+                <button type="button" class="account-password-toggle"
+                  data-password-toggle="current-password"
+                  aria-label="Show current password">Show</button>
+              </div>
+            </div>
+    
+            <div class="auth-field">
+              <label for="new-password">New password</label>
+              <div class="account-password-wrapper">
+                <input
+                  type="password"
+                  id="new-password"
+                  name="newPassword"
+                  autocomplete="new-password"
+                  minlength="8"
+                  placeholder="Enter new password"
+                  required
+                />
+                <button type="button" class="account-password-toggle"
+                  data-password-toggle="new-password"
+                  aria-label="Show new password">Show</button>
+              </div>
+            </div>
+    
+            <div class="auth-field">
+              <label for="confirm-password">Confirm new password</label>
+              <div class="account-password-wrapper">
+                <input
+                  type="password"
+                  id="confirm-password"
+                  name="confirmPassword"
+                  autocomplete="new-password"
+                  minlength="8"
+                  placeholder="Confirm new password"
+                  required
+                />
+                <button type="button" class="account-password-toggle"
+                  data-password-toggle="confirm-password"
+                  aria-label="Show confirm password">Show</button>
+              </div>
+            </div>
+          </div>
+    
+          <p class="account-security-hint">
+            Your new password must contain at least 8 characters.
+            You will need to log in again after changing it.
+          </p>
+    
+          <p
+            id="password-feedback"
+            class="account-security-feedback"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
+    
+          <div class="account-security-footer">
+            <button
+              type="submit"
+              id="change-password-button"
+              class="button button--primary"
+            >
+              Update password
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>      
 
     <footer class="dashboard-footer">
       <p>SkillVerse · Placement workspace</p>

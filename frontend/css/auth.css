@@ -636,3 +636,23 @@ html[data-theme="dark"] .app-notification--error {
 .officer-auth-switch a:hover {
   text-decoration: underline;
 }
+
+.auth-forgot-password {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-forgot-password a {
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.auth-forgot-password a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}

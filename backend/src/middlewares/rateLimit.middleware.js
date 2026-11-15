@@ -45,6 +45,28 @@ export const changePasswordLimiter = rateLimit({
   },
 });
 
+export const forgotPasswordLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many password reset requests. Please try again in an hour.",
+  },
+});
+
+export const resetPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many password reset attempts. Please try again in 15 minutes.",
+  },
+});
+
 export const officerApplicationLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   limit: 5,

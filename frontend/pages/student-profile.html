@@ -438,6 +438,101 @@
             </form>
           </section>
         </section>
+
+<!-- Account Security -->
+<section class="profile-card profile-security-card">
+  <div class="profile-form-heading">
+    <div>
+      <p class="profile-eyebrow">ACCOUNT SECURITY</p>
+      <h2>Change password</h2>
+      <p class="profile-muted">
+        Update your password regularly to keep your account secure.
+      </p>
+    </div>
+  </div>
+
+  <form id="changePasswordForm" novalidate>
+    <div class="profile-security-grid">
+      <div class="profile-field">
+        <label for="currentPassword">Current password</label>
+        <div class="profile-password-wrapper">
+          <input
+            type="password"
+            id="currentPassword"
+            name="currentPassword"
+            placeholder="Enter current password"
+            autocomplete="current-password"
+            required
+          />
+          <button
+            type="button"
+            class="profile-password-toggle"
+            data-password-toggle="currentPassword"
+          >Show</button>
+        </div>
+      </div>
+
+      <div class="profile-field">
+        <label for="newPassword">New password</label>
+        <div class="profile-password-wrapper">
+          <input
+            type="password"
+            id="newPassword"
+            name="newPassword"
+            placeholder="Enter new password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          />
+          <button
+            type="button"
+            class="profile-password-toggle"
+            data-password-toggle="newPassword"
+          >Show</button>
+        </div>
+      </div>
+
+      <div class="profile-field profile-field-full">
+        <label for="confirmPassword">Confirm new password</label>
+        <div class="profile-password-wrapper">
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm your new password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          />
+          <button
+            type="button"
+            class="profile-password-toggle"
+            data-password-toggle="confirmPassword"
+          >Show</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="profile-help-text">
+      Your new password must contain at least 8 characters and must be
+      different from your current password.
+    </p>
+
+    <div class="profile-security-footer">
+      <p id="passwordFeedback" role="status" aria-live="polite"></p>
+
+      <button
+        type="submit"
+        class="profile-primary-button"
+        id="changePasswordButton"
+      >
+        Update password
+      </button>
+    </div>
+  </form>
+</section>
+<!-- End Account Security -->
+
       </main>
     </div>
   </body>

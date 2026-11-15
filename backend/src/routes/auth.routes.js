@@ -9,6 +9,8 @@ import {
   registerValidator,
   loginValidator,
   changePasswordValidator,
+  forgotPasswordValidator,
+  resetPasswordValidator,
 } from "../validators/auth.validator.js";
 
 import {
@@ -16,6 +18,8 @@ import {
   registerLimiter,
   refreshLimiter,
   changePasswordLimiter,
+  forgotPasswordLimiter,
+  resetPasswordLimiter,
 } from "../middlewares/rateLimit.middleware.js";
 
 const router = express.Router();
@@ -46,6 +50,22 @@ router.post(
   "/refresh",
   refreshLimiter,
   authController.refresh
+);
+
+router.post(
+  "/forgot-password",
+  forgotPasswordLimiter,
+  forgotPasswordValidator,
+  validate,
+  authController.forgotPassword
+);  
+
+router.post(
+  "/reset-password",
+  resetPasswordLimiter,
+  resetPasswordValidator,
+  validate,
+  authController.resetPassword
 );
 
 /*
