@@ -88,29 +88,44 @@
       </div>
     </section>
 
-    <section class="dashboard-section dashboard-account" aria-labelledby="account-title">
-      <div class="dashboard-section-heading">
-        <div>
-          <p class="dashboard-eyebrow">ACCOUNT</p>
-          <h2 id="account-title">Your account details</h2>
-        </div>
-      </div>
-
+    <section
+    class="dashboard-section account-details-section"
+    aria-labelledby="account-title"
+  >
+    <button
+      type="button"
+      class="account-details-toggle"
+      id="account-details-toggle"
+      aria-expanded="false"
+      aria-controls="account-details-content"
+    >
+      <span id="account-title">Account details</span>
+      <span class="account-details-chevron" aria-hidden="true"></span>
+    </button>
+  
+    <div
+      class="account-details-content"
+      id="account-details-content"
+      hidden
+    >
       <div class="dashboard-account-details">
         <div>
           <span class="dashboard-detail-label">Full name</span>
           <p id="student-name">Loading…</p>
         </div>
+  
         <div>
           <span class="dashboard-detail-label">Email address</span>
           <p id="student-email">Loading…</p>
         </div>
+  
         <div>
           <span class="dashboard-detail-label">Account role</span>
           <p id="student-role">Loading…</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
     <footer class="dashboard-footer">
       <span>SkillVerse</span>

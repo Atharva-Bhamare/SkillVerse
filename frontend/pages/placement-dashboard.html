@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
   <link rel="stylesheet" href="../css/dashboards.css" />
+  <link rel="stylesheet" href="../css/company-details-modal.css" />
   <link rel="stylesheet" href="../css/account-security.css" />
 </head>
 
@@ -38,13 +39,7 @@
       </div>
     </section>
 
-    <section
-      id="dashboard-feedback"
-      class="dashboard-feedback"
-      data-state="info"
-      role="status"
-      aria-live="polite"
-    >
+    <section id="dashboard-feedback" class="dashboard-feedback" data-state="info" role="status" aria-live="polite">
       Loading your placement workspace...
     </section>
 
@@ -89,35 +84,51 @@
               Checking your assigned company...
             </p>
           </div>
-          <span class="dashboard-card__action" aria-label="Company assignment status">
-            Assigned company
-          </span>
+
+          <button type="button" class="dashboard-card__action company-details-trigger" id="view-company-button"
+            disabled>
+            View assigned company
+          </button>
         </article>
       </div>
     </section>
 
-    <section class="dashboard-section">
-      <h2>Account details</h2>
-
-      <div class="dashboard-account">
+    <section class="dashboard-section account-details-section">
+      <button
+        type="button"
+        class="account-details-toggle"
+        id="account-details-toggle"
+        aria-expanded="false"
+        aria-controls="account-details-content"
+      >
+        <span>Account details</span>
+        <icon-placeholder></icon-placeholder>
+        <span class="account-details-chevron" aria-hidden="true">⌄</span>
+      </button>
+    
+      <div
+        class="dashboard-account account-details-content"
+        id="account-details-content"
+        hidden
+      >
         <div class="dashboard-account-details">
           <div>
             <span class="dashboard-eyebrow">FULL NAME</span>
             <p id="officer-name">Loading...</p>
           </div>
-
+    
           <div>
             <span class="dashboard-eyebrow">EMAIL ADDRESS</span>
             <p id="officer-email">Loading...</p>
           </div>
-
+    
           <div>
             <span class="dashboard-eyebrow">ROLE</span>
             <p id="officer-role">Placement Officer</p>
           </div>
         </div>
       </div>
-    </section>
+    </section>    
 
     <section class="dashboard-section account-security-section">
       <div class="account-security-heading">
@@ -129,89 +140,122 @@
           </p>
         </div>
       </div>
-    
+
       <div class="account-security-card">
         <form id="change-password-form" novalidate>
           <div class="account-security-grid">
             <div class="auth-field">
               <label for="current-password">Current password</label>
               <div class="account-password-wrapper">
-                <input
-                  type="password"
-                  id="current-password"
-                  name="currentPassword"
-                  autocomplete="current-password"
-                  placeholder="Enter current password"
-                  required
-                />
-                <button type="button" class="account-password-toggle"
-                  data-password-toggle="current-password"
+                <input type="password" id="current-password" name="currentPassword" autocomplete="current-password"
+                  placeholder="Enter current password" required />
+                <button type="button" class="account-password-toggle" data-password-toggle="current-password"
                   aria-label="Show current password">Show</button>
               </div>
             </div>
-    
+
             <div class="auth-field">
               <label for="new-password">New password</label>
               <div class="account-password-wrapper">
-                <input
-                  type="password"
-                  id="new-password"
-                  name="newPassword"
-                  autocomplete="new-password"
-                  minlength="8"
-                  placeholder="Enter new password"
-                  required
-                />
-                <button type="button" class="account-password-toggle"
-                  data-password-toggle="new-password"
+                <input type="password" id="new-password" name="newPassword" autocomplete="new-password" minlength="8"
+                  placeholder="Enter new password" required />
+                <button type="button" class="account-password-toggle" data-password-toggle="new-password"
                   aria-label="Show new password">Show</button>
               </div>
             </div>
-    
+
             <div class="auth-field">
               <label for="confirm-password">Confirm new password</label>
               <div class="account-password-wrapper">
-                <input
-                  type="password"
-                  id="confirm-password"
-                  name="confirmPassword"
-                  autocomplete="new-password"
-                  minlength="8"
-                  placeholder="Confirm new password"
-                  required
-                />
-                <button type="button" class="account-password-toggle"
-                  data-password-toggle="confirm-password"
+                <input type="password" id="confirm-password" name="confirmPassword" autocomplete="new-password"
+                  minlength="8" placeholder="Confirm new password" required />
+                <button type="button" class="account-password-toggle" data-password-toggle="confirm-password"
                   aria-label="Show confirm password">Show</button>
               </div>
             </div>
           </div>
-    
+
           <p class="account-security-hint">
             Your new password must contain at least 8 characters.
             You will need to log in again after changing it.
           </p>
-    
-          <p
-            id="password-feedback"
-            class="account-security-feedback"
-            role="status"
-            aria-live="polite"
-            hidden
-          ></p>
-    
+
+          <p id="password-feedback" class="account-security-feedback" role="status" aria-live="polite" hidden></p>
+
           <div class="account-security-footer">
-            <button
-              type="submit"
-              id="change-password-button"
-              class="button button--primary"
-            >
+            <button type="submit" id="change-password-button" class="button button--primary">
               Update password
             </button>
           </div>
         </form>
       </div>
-    </section>      
+    </section>
+
+    <div
+    class="company-modal"
+    id="company-modal"
+    hidden
+  >
+    <div
+      class="company-modal-backdrop"
+      data-close-company-modal
+    ></div>
+  
+    <section
+      class="company-modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="company-modal-title"
+      aria-describedby="company-modal-description"
+      tabindex="-1"
+    >
+      <header class="company-modal-header">
+        <div>
+          <p class="dashboard-eyebrow">ORGANIZATION PROFILE</p>
+          <h2 id="company-modal-title">Company details</h2>
+        </div>
+  
+        <button
+          type="button"
+          class="company-modal-close"
+          id="close-company-modal"
+          aria-label="Close company details"
+        >
+          &times;
+        </button>
+      </header>
+  
+      <div class="company-modal-content">
+        <div class="company-modal-identity">
+          <div class="company-modal-logo" id="company-modal-logo">
+            S
+          </div>
+  
+          <div>
+            <h3 id="company-modal-name">Loading company...</h3>
+            <p id="company-modal-industry">Industry unavailable</p>
+          </div>
+        </div>
+  
+        <p
+          class="company-modal-description"
+          id="company-modal-description"
+        ></p>
+  
+        <div class="company-modal-details" id="company-modal-details"></div>
+      </div>
+  
+      <footer class="company-modal-footer">
+        <button
+          type="button"
+          class="button button--secondary"
+          data-close-company-modal
+        >
+          Close
+        </button>
+      </footer>
+    </section>
+  </div>  
 
     <footer class="dashboard-footer">
       <p>SkillVerse · Placement workspace</p>
@@ -221,4 +265,5 @@
 
   <script type="module" src="../js/pages/placement-dashboard.js"></script>
 </body>
+
 </html>

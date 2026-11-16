@@ -500,3 +500,84 @@ a[href*="student-profile.html"] {
     margin-top: 12px;
   }
 }
+
+.account-details-section {
+  margin: 36px 0;
+  padding: 20px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.account-details-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.account-details-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
+  font-size: 0;
+  line-height: 0;
+  transition: transform 180ms ease;
+}
+
+/* Draw a precisely centered arrow */
+.account-details-chevron::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+}
+
+.account-details-toggle[aria-expanded="true"]
+.account-details-chevron {
+  transform: rotate(180deg);
+}
+
+.account-details-content {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.account-details-content[hidden] {
+  display: none;
+}
+
+.account-details-toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 5px;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .account-details-section {
+    padding: 17px;
+  }
+}

@@ -40,6 +40,20 @@ function displayStudent(user) {
   studentRole.textContent = "Student";
 }
 
+function initializeAccountDetailsAccordion() {
+  const toggle = document.querySelector("#account-details-toggle");
+  const content = document.querySelector("#account-details-content");
+
+  if (!toggle || !content) return;
+
+  toggle.addEventListener("click", () => {
+    const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+
+    toggle.setAttribute("aria-expanded", String(!isExpanded));
+    content.hidden = isExpanded;
+  });
+}
+
 async function loadDashboard() {
   const authorized = await requireRole(["student"]);
 
@@ -78,6 +92,7 @@ async function loadDashboard() {
 }
 
 initializeTheme();
+initializeAccountDetailsAccordion();
 
 loadDashboard().catch((error) => {
   console.error("Student dashboard initialization failed.", error);
