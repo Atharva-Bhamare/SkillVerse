@@ -1,5 +1,6 @@
 
 import { authApi } from "../api/auth.api.js";
+
 import {
   setSession,
   clearSession,
@@ -51,12 +52,28 @@ export const authService = {
     );
   },
 
-  async register({ fullName, email, password }) {
+  async sendRegistrationOtp(email) {
+    return authApi.sendRegistrationOtp({ email });
+  },
+
+  async verifyRegistrationOtp({ email, otp }) {
+    return authApi.verifyRegistrationOtp({ email, otp });
+  },
+
+  async register({
+    fullName,
+    email,
+    password,
+    confirmPassword,
+    registrationToken,
+  }) {
     return establishSession(
       authApi.register({
         fullName,
         email,
-        password
+        password,
+        confirmPassword,
+        registrationToken,
       })
     );
   },
@@ -96,7 +113,7 @@ export const authService = {
   async forgotPassword(email) {
     return authApi.forgotPassword({ email });
   },
-  
+
   async resetPassword({ token, newPassword, confirmPassword }) {
     return authApi.resetPassword({
       token,
@@ -104,7 +121,7 @@ export const authService = {
       confirmPassword
     });
   },
-  
+
   async changePassword(payload) {
     return authApi.changePassword(payload);
   },

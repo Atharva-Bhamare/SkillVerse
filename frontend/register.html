@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="./css/components.css">
   <link rel="stylesheet" href="./css/responsive.css">
   <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="./css/register.css">
 
   <script type="module" src="./js/pages/register.js"></script>
 </head>
@@ -48,10 +49,99 @@
 
           <div class="auth-field">
             <label for="email">Email address</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com"
-              maxlength="254" required aria-describedby="email-error">
+          
+            <div class="registration-email-row">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                maxlength="254"
+                required
+                aria-describedby="email-error email-verification-status"
+              >
+          
+              <button
+                class="auth-verify-button"
+                id="send-registration-otp"
+                type="button"
+              >
+                Verify
+              </button>
+            </div>
+          
             <span class="auth-field-error" id="email-error"></span>
+          
+            <div
+              class="registration-verification-status"
+              id="email-verification-status"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></div>
           </div>
+          
+          <div
+            class="registration-otp-section"
+            id="registration-otp-section"
+            hidden
+          >
+            <div class="registration-otp-heading">
+              <span class="registration-otp-icon" aria-hidden="true">
+                ✉
+              </span>
+          
+              <div>
+                <h3>Verify your email</h3>
+                <p>Enter the six-character code sent to your email address.</p>
+              </div>
+            </div>
+          
+            <div class="auth-field">
+              <label for="registration-otp">Verification code</label>
+          
+              <input
+                id="registration-otp"
+                name="registrationOtp"
+                type="text"
+                placeholder="Enter code (e.g. A7K9P2)"
+                maxlength="6"
+                minlength="6"
+                autocomplete="one-time-code"
+                autocapitalize="characters"
+                spellcheck="false"
+                aria-describedby="registration-otp-error"
+              >
+          
+              <span
+                class="auth-field-error"
+                id="registration-otp-error"
+              ></span>
+            </div>
+          
+            <button
+              class="auth-verify-button auth-verify-button--full"
+              id="verify-registration-otp"
+              type="button"
+            >
+              Verify Code
+            </button>
+          
+            <div class="registration-resend">
+              <span id="registration-resend-status">
+                Didn't receive the code?
+              </span>
+          
+              <button
+                type="button"
+                id="resend-registration-otp"
+                disabled
+              >
+                Resend code
+              </button>
+            </div>
+          </div>          
 
           <div class="auth-field">
             <label for="password">Password</label>
@@ -61,9 +151,6 @@
               <button class="auth-password-toggle" type="button" data-password-toggle="password"
                 aria-controls="password" aria-pressed="false">Show</button>
             </div>
-            <small id="password-hint">
-              Use the password requirements enforced by your server.
-            </small>
             <span class="auth-field-error" id="password-error"></span>
           </div>
 
@@ -78,9 +165,14 @@
             <span class="auth-field-error" id="confirmPassword-error"></span>
           </div>
 
-          <button class="auth-submit" id="register-submit" type="submit">
-            Create student account
-          </button>
+          <button
+          class="auth-submit"
+          id="register-submit"
+          type="submit"
+          disabled
+        >
+          Verify your email first
+        </button>
         </form>
 
         <p class="auth-switch">

@@ -11,6 +11,8 @@ import {
   changePasswordValidator,
   forgotPasswordValidator,
   resetPasswordValidator,
+  sendRegistrationOtpValidator,
+  verifyRegistrationOtpValidator,
 } from "../validators/auth.validator.js";
 
 import {
@@ -20,6 +22,8 @@ import {
   changePasswordLimiter,
   forgotPasswordLimiter,
   resetPasswordLimiter,
+  registrationOtpSendLimiter,
+  registrationOtpVerifyLimiter,
 } from "../middlewares/rateLimit.middleware.js";
 
 const router = express.Router();
@@ -29,6 +33,22 @@ const router = express.Router();
 | Public Routes
 |--------------------------------------------------------------------------
 */
+
+router.post(
+  "/send-registration-otp",
+  registrationOtpSendLimiter,
+  sendRegistrationOtpValidator,
+  validate,
+  authController.sendRegistrationOtp
+);
+
+router.post(
+  "/verify-registration-otp",
+  registrationOtpVerifyLimiter,
+  verifyRegistrationOtpValidator,
+  validate,
+  authController.verifyRegistrationOtp
+);
 
 router.post(
   "/register",

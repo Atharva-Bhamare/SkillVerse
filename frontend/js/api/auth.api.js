@@ -6,6 +6,22 @@ export const authApi = {
     return api.post("auth/register", payload, { auth: false });
   },
 
+  sendRegistrationOtp(payload) {
+    return api.post(
+      "auth/send-registration-otp",
+      payload,
+      { auth: false }
+    );
+  },
+
+  verifyRegistrationOtp(payload) {
+    return api.post(
+      "auth/verify-registration-otp",
+      payload,
+      { auth: false }
+    );
+  },
+
   login(payload) {
     return api.post("auth/login", payload, { auth: false });
   },
@@ -29,7 +45,7 @@ export const authApi = {
   forgotPassword(payload) {
     return api.post("auth/forgot-password", payload, { auth: false });
   },
-  
+
   resetPassword(payload) {
     return api.post("auth/reset-password", payload, { auth: false });
   },

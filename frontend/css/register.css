@@ -1,0 +1,303 @@
+
+/* =========================================
+   Registration Email Verification
+========================================= */
+
+.registration-email-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .registration-email-row input {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .auth-verify-button {
+    flex-shrink: 0;
+    min-width: 100px;
+    padding: 0 18px;
+    border: 1px solid var(--color-primary);
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+  
+  .auth-verify-button:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+  }
+  
+  .auth-verify-button:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  
+  .auth-verify-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  
+  .auth-verify-button--full {
+    width: 100%;
+    min-height: 46px;
+  }
+  
+  /* Verification status */
+  
+  .registration-verification-status {
+    margin-top: 9px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+  
+  .registration-verification-status--success {
+    color: var(--color-success);
+  }
+  
+  .registration-verification-status--error {
+    color: var(--color-danger);
+  }
+  
+  /* OTP panel */
+  
+  .registration-otp-section {
+    margin: 4px 0 8px;
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-surface-muted);
+    animation: registration-panel-enter 180ms ease;
+  }
+  
+  .registration-otp-section[hidden] {
+    display: none;
+  }
+  
+  .registration-otp-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 18px;
+  }
+  
+  .registration-otp-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-size: 1.1rem;
+  }
+  
+  .registration-otp-heading h3 {
+    margin: 0 0 4px;
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  
+  .registration-otp-heading p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  
+  #registration-otp {
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  /* Resend controls */
+  
+  .registration-resend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 15px;
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+  }
+  
+  .registration-resend button {
+    padding: 2px;
+    border: none;
+    background: transparent;
+    color: var(--color-primary);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .registration-resend button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Verified state */
+  
+  .registration-email-row.is-verified input {
+    border-color: var(--color-success);
+  }
+  
+  .registration-email-row.is-verified .auth-verify-button {
+    border-color: var(--color-success);
+    background: var(--color-success-bg);
+    color: var(--color-success);
+  }
+  
+  /* Disabled registration button */
+  
+  .auth-submit:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  @keyframes registration-panel-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .registration-email-row {
+      gap: 7px;
+    }
+  
+    .auth-verify-button {
+      min-width: 82px;
+      padding: 0 12px;
+    }
+  
+    .registration-otp-section {
+      padding: 16px;
+    }
+  
+    .registration-otp-heading {
+      gap: 10px;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .registration-otp-section {
+      animation: none;
+    }
+  }
+
+/* =========================================
+   Registration Verification UI Refinements
+========================================= */
+
+/* 1. OTP sent notice: informational text as requested */
+
+.registration-verification-status--info {
+    color: var(--color-info);
+    margin-top: 12px;
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+  
+  /* 2. More breathing room inside the OTP panel */
+  
+  .registration-otp-section {
+    margin-top: 20px;
+    margin-bottom: 14px;
+    padding: 24px;
+    border-radius: 16px;
+  }
+  
+  .registration-otp-heading {
+    margin-bottom: 24px;
+  }
+  
+  .registration-otp-section .auth-field {
+    margin-bottom: 0;
+  }
+  
+  #registration-otp {
+    min-height: 54px;
+    margin-top: 10px;
+    letter-spacing: 5px;
+  }
+  
+  /* 3 & 4. Separate OTP errors from the action button */
+  
+  #registration-otp-error {
+    display: block;
+    margin-top: 9px;
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+  
+  #verify-registration-otp {
+    margin-top: 16px;
+    min-height: 54px;
+  }
+  
+  /* Give the resend area its own visual space */
+  
+  .registration-resend {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border);
+    line-height: 1.6;
+  }
+  
+  /* Keep the send button visibly disabled after sending */
+  
+  .auth-verify-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Better mobile spacing */
+  
+  @media (max-width: 480px) {
+    .registration-otp-section {
+      padding: 19px;
+      margin-top: 16px;
+    }
+  
+    .registration-otp-heading {
+      margin-bottom: 20px;
+    }
+  
+    #verify-registration-otp {
+      margin-top: 14px;
+    }
+  }
+  
+
+/* Remove external focus glow from registration form fields */
+#register-form input:focus,
+#register-form input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}

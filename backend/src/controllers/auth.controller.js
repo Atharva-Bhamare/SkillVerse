@@ -81,3 +81,17 @@ export const resetPassword = asyncHandler(async (req, res) => {
     "Password reset successfully. Please login with your new password."
   );
 });
+
+export const sendRegistrationOtp = asyncHandler(async (req, res) => {
+  const result = await authService.sendRegistrationOtp(req.body.email);
+
+  return sendSuccess(res, 200, result.message);
+});
+
+export const verifyRegistrationOtp = asyncHandler(async (req, res) => {
+  const result = await authService.verifyRegistrationOtp(req.body);
+
+  return sendSuccess(res, 200, result.message, {
+    registrationToken: result.registrationToken,
+  });
+});

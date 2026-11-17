@@ -99,3 +99,25 @@ export const resendVerificationLimiter = rateLimit({
     message: "Too many verification email requests. Please try again later.",
   },
 });
+
+export const registrationOtpSendLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many verification code requests. Please try again in 15 minutes.",
+  },
+});
+
+export const registrationOtpVerifyLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many verification attempts. Please try again in 15 minutes.",
+  },
+});

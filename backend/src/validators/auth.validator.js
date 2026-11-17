@@ -23,6 +23,13 @@ export const registerValidator = [
       return true;
     }),
 
+  body("registrationToken")
+    .notEmpty()
+    .withMessage("Email verification is required.")
+    .bail()
+    .matches(/^[a-f0-9]{64}$/i)
+    .withMessage("Invalid registration verification token."),
+
 ];
 
 export const loginValidator = [
@@ -81,4 +88,26 @@ export const resetPasswordValidator = [
 
       return true;
     }),
+];
+
+export const sendRegistrationOtpValidator = [
+  stringRequired("email", "Email")
+    .isEmail()
+    .withMessage("Please provide a valid email.")
+    .normalizeEmail(),
+];
+
+export const verifyRegistrationOtpValidator = [
+  stringRequired("email", "Email")
+    .isEmail()
+    .withMessage("Please provide a valid email.")
+    .normalizeEmail(),
+
+  body("otp")
+    .trim()
+    .notEmpty()
+    .withMessage("Verification code is required.")
+    .bail()
+    .matches(/^[A-Za-z0-9]{6}$/)
+    .withMessage("Verification code must contain exactly 6 alphanumeric characters."),
 ];
