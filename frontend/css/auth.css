@@ -19,28 +19,31 @@
     max-width: 440px;
   }
   
-  .auth-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 36px;
-    color: inherit;
-    text-decoration: none;
-    font-weight: 800;
-    font-size: 1.15rem;
-  }
-  
-  .auth-brand-mark {
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 13px;
-    background: #5146df;
-    color: white;
-    font-size: 1.2rem;
-    box-shadow: 0 8px 24px rgb(81 70 223 / 25%);
-  }
+/* SkillVerse authentication page branding */
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 2rem;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.auth-brand-logo {
+  display: block;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  object-fit: contain;
+}
+
+.auth-brand-name {
+  color: var(--color-text);
+  white-space: nowrap;
+}
   
   .auth-eyebrow {
     margin-bottom: 12px;
