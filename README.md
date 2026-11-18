@@ -1,10 +1,22 @@
-# SkillVerse – Smart Placement & Career Management Platform
+<h1 align="center">SkillVerse – Smart Placement & Career Management Platform</h1>
 
-\<p align="center">   \<strong>A centralized platform connecting students, placement officers, and recruiters to simplify and streamline the campus placement process.\</strong> \</p>
+<p align="center">
+  <strong>A centralized platform connecting students, placement officers, and recruiters to simplify and streamline the campus placement process.</strong>
+</p>
 
-\<p align="center">   \<img src="[https://img.shields.io/badge/Project-SkillVerse-6366f1?style=for-the-badge](https://img.shields.io/badge/Project-SkillVerse-6366f1?style=for-the-badge)" />   \<img src="[https://img.shields.io/badge/Status-Active%20Development-success?style=for-the-badge](https://img.shields.io/badge/Status-Active%20Development-success?style=for-the-badge)" />   \<img src="[https://img.shields.io/badge/Architecture-MERN%20Inspired-blue?style=for-the-badge](https://img.shields.io/badge/Architecture-MERN%20Inspired-blue?style=for-the-badge)" /> \</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Project-SkillVerse-6366f1?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Active%20Development-success?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Architecture-MERN%20Inspired-blue?style=for-the-badge" />
+</p>
 
-\<p align="center">   \<a href="MY_VERCEL_URL">Live Demo\</a> •   \<a href="#features">Features\</a> •   \<a href="#tech-stack">Tech Stack\</a> •   \<a href="#installation--setup">Installation\</a> •   \<a href="#project-structure">Project Structure\</a> \</p>
+<p align="center">
+  <a href="YOUR_VERCEL_URL">Live Demo</a> •
+  <a href="#features">Features</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#installation--setup">Installation</a> •
+  <a href="#project-structure">Project Structure</a>
+</p>
 
 ---
 
@@ -547,10 +559,10 @@ Specialization: IoT, Cybersecurity & Blockchain Technology
 
 ---
 
-\<p align="center">
-&#x20; \<strong>SkillVerse – Empowering Students. Simplifying Placements. Connecting Opportunities.\</strong>
-\</p>
+<p align="center">
+  <strong>SkillVerse – Empowering Students. Simplifying Placements. Connecting Opportunities.</strong>
+</p>
 
-\<p align="center">
-&#x20; Built with dedication to make campus recruitment smarter, simpler, and more accessible.
-\</p>
+<p align="center">
+  Built with dedication to make campus recruitment smarter, simpler, and more accessible.
+</p>
