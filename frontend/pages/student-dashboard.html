@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f8fafc">
   <meta name="description" content="Your SkillVerse student dashboard.">
+  <link rel="icon" type="image/png" href="../assets/images/skillverse-logo.png">
   <title>Student Dashboard | SkillVerse</title>
 
   <script src="../js/utils/theme-init.js"></script>
@@ -56,76 +57,64 @@
           <a href="./student-profile.html">View Profile</a>
         </article>
 
-<!-- Explore Jobs card -->
-<article class="dashboard-card">
-  <div class="dashboard-card__icon" aria-hidden="true">⌕</div>
+        <!-- Explore Jobs card -->
+        <article class="dashboard-card">
+          <div class="dashboard-card__icon" aria-hidden="true">⌕</div>
 
-  <h3>Explore jobs</h3>
+          <h3>Explore jobs</h3>
 
-  <p>
-    Discover opportunities that match your interests and career goals.
-  </p>
+          <p>
+            Discover opportunities that match your interests and career goals.
+          </p>
 
-  <a class="dashboard-card__action" href="./jobs.html">
-    Explore Jobs <span aria-hidden="true">→</span>
-  </a>
-</article>
+          <a class="dashboard-card__action" href="./jobs.html">
+            Explore Jobs <span aria-hidden="true">→</span>
+          </a>
+        </article>
 
-<!-- My Applications card -->
-<article class="dashboard-card">
-  <div class="dashboard-card__icon" aria-hidden="true">↗</div>
+        <!-- My Applications card -->
+        <article class="dashboard-card">
+          <div class="dashboard-card__icon" aria-hidden="true">↗</div>
 
-  <h3>My applications</h3>
+          <h3>My applications</h3>
 
-  <p>
-    Keep your applications organized and follow their latest statuses.
-  </p>
+          <p>
+            Keep your applications organized and follow their latest statuses.
+          </p>
 
-  <a class="dashboard-card__action" href="applications.html">
-    My Applications <span aria-hidden="true">→</span>
-  </a>
-</article>
+          <a class="dashboard-card__action" href="applications.html">
+            My Applications <span aria-hidden="true">→</span>
+          </a>
+        </article>
       </div>
     </section>
 
-    <section
-    class="dashboard-section account-details-section"
-    aria-labelledby="account-title"
-  >
-    <button
-      type="button"
-      class="account-details-toggle"
-      id="account-details-toggle"
-      aria-expanded="false"
-      aria-controls="account-details-content"
-    >
-      <span id="account-title">Account details</span>
-      <span class="account-details-chevron" aria-hidden="true"></span>
-    </button>
-  
-    <div
-      class="account-details-content"
-      id="account-details-content"
-      hidden
-    >
-      <div class="dashboard-account-details">
-        <div>
-          <span class="dashboard-detail-label">Full name</span>
-          <p id="student-name">Loading…</p>
-        </div>
-  
-        <div>
-          <span class="dashboard-detail-label">Email address</span>
-          <p id="student-email">Loading…</p>
-        </div>
-  
-        <div>
-          <span class="dashboard-detail-label">Account role</span>
-          <p id="student-role">Loading…</p>
+    <section class="dashboard-section account-details-section" aria-labelledby="account-title">
+      <button type="button" class="account-details-toggle" id="account-details-toggle" aria-expanded="false"
+        aria-controls="account-details-content">
+        <span id="account-title">Account details</span>
+        <span class="account-details-chevron" aria-hidden="true"></span>
+      </button>
+
+      <div class="account-details-content" id="account-details-content" hidden>
+        <div class="dashboard-account-details">
+          <div>
+            <span class="dashboard-detail-label">Full name</span>
+            <p id="student-name">Loading…</p>
+          </div>
+
+          <div>
+            <span class="dashboard-detail-label">Email address</span>
+            <p id="student-email">Loading…</p>
+          </div>
+
+          <div>
+            <span class="dashboard-detail-label">Account role</span>
+            <p id="student-role">Loading…</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
     <footer class="dashboard-footer">
       <span>SkillVerse</span>
@@ -135,4 +124,5 @@
 
   <script type="module" src="../js/pages/student-dashboard.js"></script>
 </body>
+
 </html>

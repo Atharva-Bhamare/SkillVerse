@@ -17,13 +17,13 @@ const roleNavigation = {
     { label: "Dashboard", href: "pages/student-dashboard.html" },
     { label: "Explore jobs", href: "pages/jobs.html" },
     { label: "My applications", href: "pages/applications.html" },
-    { label: "My profile", href: "pages/student-profile.html" }
+    { label: "My profile", href: "pages/student-profile.html" },
   ],
 
   placement_officer: [
     { label: "Dashboard", href: "pages/placement-dashboard.html" },
     { label: "Manage jobs", href: "pages/placement-jobs.html" },
-    { label: "Applications", href: "pages/placement-applications.html" }
+    { label: "Applications", href: "pages/placement-applications.html" },
   ],
 
   admin: [
@@ -32,14 +32,14 @@ const roleNavigation = {
     { label: "Job oversight", href: "pages/admin-jobs.html" },
     {
       label: "Officer applications",
-      href: "pages/admin-officer-applications.html"
-    }
-  ]
+      href: "pages/admin-officer-applications.html",
+    },
+  ],
 };
 
 const publicNavigation = [
   { label: "For students", href: "#students" },
-  { label: "For placement teams", href: "#placement-teams" }
+  { label: "For placement teams", href: "#placement-teams" },
 ];
 
 function getCurrentPath() {
@@ -61,7 +61,7 @@ function isCurrentLink(href) {
 
 export function renderNavbar({
   user = null,
-  mount = document.getElementById("site-header")
+  mount = document.getElementById("site-header"),
 } = {}) {
   if (!mount) {
     return;
@@ -74,14 +74,14 @@ export function renderNavbar({
 
   const isAuthenticated = Boolean(user);
 
-  const normalizedRole = String(
-    user?.role || user?.user?.role || ""
-  ).toLowerCase().trim();
-  
+  const normalizedRole = String(user?.role || user?.user?.role || "")
+    .toLowerCase()
+    .trim();
+
   const links = isAuthenticated
-    ? (roleNavigation[normalizedRole] || [])
+    ? roleNavigation[normalizedRole] || []
     : publicNavigation;
-  
+
   if (isAuthenticated && links.length === 0) {
     console.warn("SkillVerse navbar: unrecognized user role.", {
       role: user?.role,
@@ -89,24 +89,32 @@ export function renderNavbar({
     });
   }
 
-  const linksMarkup = links.map((link) => {
-    const current = isCurrentLink(link.href);
+  const linksMarkup = links
+    .map((link) => {
+      const current = isCurrentLink(link.href);
 
-    return `
+      return `
       <a
         class="navbar__link"
         href="${appHref(link.href)}"
         ${current ? 'aria-current="page"' : ""}
       >${link.label}</a>
     `;
-  }).join("");
+    })
+    .join("");
 
   mount.innerHTML = `
     <nav class="navbar" aria-label="Main navigation">
-      <a class="brand" href="${appHref("index.html")}" aria-label="SkillVerse home">
-        <span class="brand__mark" aria-hidden="true">S</span>
-        <span>SkillVerse</span>
-      </a>
+<a class="brand" href="${appHref("index.html")}" aria-label="SkillVerse home">
+  <img
+    class="brand__logo"
+    src="${appHref("assets/images/skillverse-logo.png")}"
+    alt=""
+    width="42"
+    height="42"
+  >
+  <span class="brand__name">SkillVerse</span>
+</a>
 
       <div class="navbar__links" id="primary-navigation">
         ${linksMarkup}
@@ -116,8 +124,12 @@ export function renderNavbar({
             isAuthenticated
               ? '<button class="button button--secondary" type="button" data-logout>Sign out</button>'
               : `
-                <a class="button button--secondary" href="${appHref("login.html")}">Sign in</a>
-                <a class="button button--primary" href="${appHref("register.html")}">Get started</a>
+                <a class="button button--secondary" href="${appHref(
+                  "login.html"
+                )}">Sign in</a>
+                <a class="button button--primary" href="${appHref(
+                  "register.html"
+                )}">Get started</a>
               `
           }
         </div>
@@ -201,7 +213,7 @@ export function renderNavbar({
     button.addEventListener("click", async () => {
       button.disabled = true;
       button.textContent = "Signing out…";
-  
+
       try {
         await authService.logout();
       } catch (error) {

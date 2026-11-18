@@ -1,165 +1,166 @@
 @media (max-width: 1000px) {
-    :root {
-      --container-padding: 1.25rem;
-    }
-  
-    .navbar {
-      gap: var(--space-4);
-    }
-  
-    .navbar__links {
-      gap: var(--space-4);
-    }
-  
-    .hero {
-      gap: var(--space-6);
-      min-height: auto;
-      padding-block: var(--space-16);
-    }
-  
-    .hero__visual {
-      padding: 0;
-    }
-  
-    .preview-window__body {
-      padding: var(--space-5);
-    }
-  
-    .feature-card {
-      padding: var(--space-6);
-    }
+  :root {
+    --container-padding: 1.25rem;
   }
-  
-  @media (max-width: 760px) {
-    :root {
-      --navbar-height: 66px;
-      --container-padding: 1.125rem;
-    }
-  
-    .navbar__toggle {
-      display: inline-grid;
-      place-items: center;
-    }
-  
-    .navbar__links {
-      position: absolute;
-      top: calc(var(--navbar-height) - 1px);
-      inset-inline: 0;
-      display: none;
-      align-items: stretch;
-      gap: 0;
-      padding: var(--space-3) var(--container-padding) var(--space-5);
-      border-bottom: 1px solid var(--color-border);
-      background: var(--color-surface);
-      box-shadow: var(--shadow-md);
-    }
-  
-    .navbar__links.is-open {
-      display: flex;
-      flex-direction: column;
-    }
-  
-    .navbar__link {
-      padding: 0.85rem 0;
-      border-bottom: 1px solid var(--color-border);
-    }
-  
-    .navbar__link:last-child {
-      border-bottom: 0;
-    }
-  
-    .navbar__actions > .navbar__desktop-only {
-      display: none;
-    }
-  
-    .navbar__mobile-actions {
-      display: flex;
-      gap: var(--space-3);
-      padding-top: var(--space-4);
-    }
-  
-    .navbar__mobile-actions .button {
-      flex: 1;
-    }
-  
-    .hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-10);
-      padding-block: var(--space-12);
-    }
-  
-    .hero__content {
-      max-width: 650px;
-    }
-  
-    .hero__visual {
-      width: min(100%, 560px);
-      margin-inline: auto;
-    }
-  
-    .hero-decoration--one {
-      right: -0.25rem;
-    }
-  
-    .feature-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
-    }
-  
-    .feature-card {
-      padding: var(--space-6);
-    }
-  
-    .closing-cta {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-  
-    .site-footer__inner {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
+
+  .navbar {
+    gap: var(--space-4);
   }
-  
-  @media (max-width: 420px) {
-    :root {
-      --container-padding: 1rem;
-    }
-  
-    .brand {
-      font-size: 1.05rem;
-    }
-  
-    .brand__mark {
-      width: 33px;
-      height: 33px;
-    }
-  
-    .hero__actions {
-      align-items: stretch;
-      flex-direction: column;
-    }
-  
-    .hero__actions .button {
-      width: 100%;
-    }
-  
-    .preview-window__body {
-      padding: var(--space-4);
-    }
-  
-    .preview-job__details span {
-      font-size: 0.62rem;
-    }
-  
-    .preview-job__logo {
-      width: 36px;
-      height: 36px;
-      flex-basis: 36px;
-    }
+
+  .navbar__links {
+    gap: var(--space-4);
   }
-  
+
+  .hero {
+    gap: var(--space-6);
+    min-height: auto;
+    padding-block: var(--space-16);
+  }
+
+  .hero__visual {
+    padding: 0;
+  }
+
+  .preview-window__body {
+    padding: var(--space-5);
+  }
+
+  .feature-card {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --navbar-height: 66px;
+    --container-padding: 1.125rem;
+  }
+
+  .navbar__toggle {
+    display: inline-grid;
+    place-items: center;
+  }
+
+  .navbar__links {
+    position: absolute;
+    top: calc(var(--navbar-height) - 1px);
+    inset-inline: 0;
+    display: none;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--space-3) var(--container-padding) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+  }
+
+  .navbar__links.is-open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar__link {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .navbar__link:last-child {
+    border-bottom: 0;
+  }
+
+  .navbar__actions > .navbar__desktop-only {
+    display: none;
+  }
+
+  .navbar__mobile-actions {
+    display: flex;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+  }
+
+  .navbar__mobile-actions .button {
+    flex: 1;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    padding-block: var(--space-12);
+  }
+
+  .hero__content {
+    max-width: 650px;
+  }
+
+  .hero__visual {
+    width: min(100%, 560px);
+    margin-inline: auto;
+  }
+
+  .hero-decoration--one {
+    right: -0.25rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .feature-card {
+    padding: var(--space-6);
+  }
+
+  .closing-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .site-footer__inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --container-padding: 1rem;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .brand__logo {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .hero__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero__actions .button {
+    width: 100%;
+  }
+
+  .preview-window__body {
+    padding: var(--space-4);
+  }
+
+  .preview-job__details span {
+    font-size: 0.62rem;
+  }
+
+  .preview-job__logo {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+}
+
 /* =========================================
    Shared SkillVerse mobile navbar
    Consistent across all pages

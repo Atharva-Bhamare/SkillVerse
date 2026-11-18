@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f8fafc" />
+  <link rel="icon" type="image/png" href="../assets/images/skillverse-logo.png">
   <title>Manage Jobs | SkillVerse</title>
 
   <script src="../js/utils/theme-init.js"></script>
@@ -48,28 +49,14 @@
       <form id="create-job-form" class="placement-job-form">
         <div class="placement-form-field">
           <label for="job-title">Job title *</label>
-          <input
-            id="job-title"
-            name="title"
-            type="text"
-            minlength="3"
-            maxlength="150"
-            placeholder="e.g. Software Development Engineer"
-            required
-          />
+          <input id="job-title" name="title" type="text" minlength="3" maxlength="150"
+            placeholder="e.g. Software Development Engineer" required />
         </div>
 
         <div class="placement-form-field">
           <label for="job-description">Job description *</label>
-          <textarea
-            id="job-description"
-            name="description"
-            minlength="20"
-            maxlength="10000"
-            rows="5"
-            placeholder="Describe the role, responsibilities, and opportunity..."
-            required
-          ></textarea>
+          <textarea id="job-description" name="description" minlength="20" maxlength="10000" rows="5"
+            placeholder="Describe the role, responsibilities, and opportunity..." required></textarea>
         </div>
 
         <div class="placement-form-row">
@@ -99,70 +86,37 @@
         <div class="placement-form-row">
           <div class="placement-form-field">
             <label for="job-location">Location</label>
-            <input
-              id="job-location"
-              name="location"
-              type="text"
-              maxlength="150"
-              placeholder="e.g. Pune, Maharashtra"
-            />
+            <input id="job-location" name="location" type="text" maxlength="150" placeholder="e.g. Pune, Maharashtra" />
           </div>
 
           <div class="placement-form-field">
             <label for="job-openings">Number of openings *</label>
-            <input
-              id="job-openings"
-              name="openings"
-              type="number"
-              min="1"
-              max="10000"
-              step="1"
-              value="1"
-              required
-            />
+            <input id="job-openings" name="openings" type="number" min="1" max="10000" step="1" value="1" required />
           </div>
         </div>
 
         <div class="placement-form-field">
           <label for="application-deadline">Application deadline *</label>
-          <input
-            id="application-deadline"
-            name="applicationDeadline"
-            type="date"
-            required
-          />
+          <input id="application-deadline" name="applicationDeadline" type="date" required />
         </div>
 
         <div class="placement-form-field">
           <label for="job-responsibilities">Responsibilities</label>
-          <textarea
-            id="job-responsibilities"
-            name="responsibilities"
-            rows="3"
-            placeholder="Enter one responsibility per line"
-          ></textarea>
+          <textarea id="job-responsibilities" name="responsibilities" rows="3"
+            placeholder="Enter one responsibility per line"></textarea>
           <small>Optional. Enter each responsibility on a separate line.</small>
         </div>
 
         <div class="placement-form-field">
           <label for="job-requirements">Requirements</label>
-          <textarea
-            id="job-requirements"
-            name="requirements"
-            rows="3"
-            placeholder="Enter one requirement per line"
-          ></textarea>
+          <textarea id="job-requirements" name="requirements" rows="3"
+            placeholder="Enter one requirement per line"></textarea>
           <small>Optional. Enter each requirement on a separate line.</small>
         </div>
 
         <div class="placement-form-field">
           <label for="job-skills">Required skills</label>
-          <input
-            id="job-skills"
-            name="skills"
-            type="text"
-            placeholder="JavaScript, Node.js, MongoDB"
-          />
+          <input id="job-skills" name="skills" type="text" placeholder="JavaScript, Node.js, MongoDB" />
           <small>Optional. Separate skills with commas.</small>
         </div>
 
@@ -177,27 +131,18 @@
         </div>
 
         <div class="placement-form-actions">
-            <button id="create-job-button" type="submit">
-              Create job
-            </button>
-          
-            <button
-              id="cancel-edit-button"
-              type="button"
-              class="placement-secondary-button"
-              hidden
-            >
-              Cancel edit
-            </button>
-          
-            <button
-              id="reset-job-button"
-              type="reset"
-              class="placement-secondary-button"
-            >
-              Clear form
-            </button>
-          </div>          
+          <button id="create-job-button" type="submit">
+            Create job
+          </button>
+
+          <button id="cancel-edit-button" type="button" class="placement-secondary-button" hidden>
+            Cancel edit
+          </button>
+
+          <button id="reset-job-button" type="reset" class="placement-secondary-button">
+            Clear form
+          </button>
+        </div>
       </form>
     </section>
 
@@ -229,4 +174,5 @@
 
   <script type="module" src="../js/pages/placement-jobs.js"></script>
 </body>
+
 </html>

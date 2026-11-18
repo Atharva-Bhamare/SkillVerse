@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f7fb">
+  <link rel="icon" type="image/png" href="../assets/images/skillverse-logo.png">
   <title>Explore Jobs | SkillVerse</title>
 
   <!-- Apply the saved theme before rendering -->
@@ -48,13 +49,8 @@
           <label for="jobSearch">Search opportunities</label>
           <div class="jobs-search__input">
             <span aria-hidden="true">⌕</span>
-            <input
-              type="search"
-              id="jobSearch"
-              placeholder="Job title, skills, or keywords"
-              maxlength="100"
-              autocomplete="off"
-            >
+            <input type="search" id="jobSearch" placeholder="Job title, skills, or keywords" maxlength="100"
+              autocomplete="off">
           </div>
         </div>
 
@@ -97,20 +93,9 @@
           </button>
         </div>
 
-        <div
-          id="jobsFeedback"
-          class="jobs-feedback"
-          role="status"
-          aria-live="polite"
-          hidden
-        ></div>
+        <div id="jobsFeedback" class="jobs-feedback" role="status" aria-live="polite" hidden></div>
 
-        <div
-          id="jobsLoading"
-          class="jobs-loading"
-          role="status"
-          hidden
-        >
+        <div id="jobsLoading" class="jobs-loading" role="status" hidden>
           <span class="jobs-spinner" aria-hidden="true"></span>
           <p>Finding opportunities for you...</p>
         </div>
@@ -147,4 +132,5 @@
 
   <script type="module" src="../js/pages/jobs.js"></script>
 </body>
+
 </html>

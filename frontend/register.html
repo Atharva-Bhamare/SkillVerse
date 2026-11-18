@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b1020">
   <meta name="description" content="Create your SkillVerse student account.">
+  <link rel="icon" type="image/png" href="./assets/images/skillverse-logo.png">
   <title>Create account | SkillVerse</title>
 
   <script src="./js/utils/theme-init.js"></script>
@@ -49,99 +50,58 @@
 
           <div class="auth-field">
             <label for="email">Email address</label>
-          
+
             <div class="registration-email-row">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                placeholder="you@example.com"
-                maxlength="254"
-                required
-                aria-describedby="email-error email-verification-status"
-              >
-          
-              <button
-                class="auth-verify-button"
-                id="send-registration-otp"
-                type="button"
-              >
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com"
+                maxlength="254" required aria-describedby="email-error email-verification-status">
+
+              <button class="auth-verify-button" id="send-registration-otp" type="button">
                 Verify
               </button>
             </div>
-          
+
             <span class="auth-field-error" id="email-error"></span>
-          
-            <div
-              class="registration-verification-status"
-              id="email-verification-status"
-              role="status"
-              aria-live="polite"
-              hidden
-            ></div>
+
+            <div class="registration-verification-status" id="email-verification-status" role="status"
+              aria-live="polite" hidden></div>
           </div>
-          
-          <div
-            class="registration-otp-section"
-            id="registration-otp-section"
-            hidden
-          >
+
+          <div class="registration-otp-section" id="registration-otp-section" hidden>
             <div class="registration-otp-heading">
               <span class="registration-otp-icon" aria-hidden="true">
                 ✉
               </span>
-          
+
               <div>
                 <h3>Verify your email</h3>
                 <p>Enter the six-character code sent to your email address.</p>
               </div>
             </div>
-          
+
             <div class="auth-field">
               <label for="registration-otp">Verification code</label>
-          
-              <input
-                id="registration-otp"
-                name="registrationOtp"
-                type="text"
-                placeholder="Enter code (e.g. A7K9P2)"
-                maxlength="6"
-                minlength="6"
-                autocomplete="one-time-code"
-                autocapitalize="characters"
-                spellcheck="false"
-                aria-describedby="registration-otp-error"
-              >
-          
-              <span
-                class="auth-field-error"
-                id="registration-otp-error"
-              ></span>
+
+              <input id="registration-otp" name="registrationOtp" type="text" placeholder="Enter code (e.g. A7K9P2)"
+                maxlength="6" minlength="6" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false"
+                aria-describedby="registration-otp-error">
+
+              <span class="auth-field-error" id="registration-otp-error"></span>
             </div>
-          
-            <button
-              class="auth-verify-button auth-verify-button--full"
-              id="verify-registration-otp"
-              type="button"
-            >
+
+            <button class="auth-verify-button auth-verify-button--full" id="verify-registration-otp" type="button">
               Verify Code
             </button>
-          
+
             <div class="registration-resend">
               <span id="registration-resend-status">
                 Didn't receive the code?
               </span>
-          
-              <button
-                type="button"
-                id="resend-registration-otp"
-                disabled
-              >
+
+              <button type="button" id="resend-registration-otp" disabled>
                 Resend code
               </button>
             </div>
-          </div>          
+          </div>
 
           <div class="auth-field">
             <label for="password">Password</label>
@@ -165,14 +125,9 @@
             <span class="auth-field-error" id="confirmPassword-error"></span>
           </div>
 
-          <button
-          class="auth-submit"
-          id="register-submit"
-          type="submit"
-          disabled
-        >
-          Verify your email first
-        </button>
+          <button class="auth-submit" id="register-submit" type="submit" disabled>
+            Verify your email first
+          </button>
         </form>
 
         <p class="auth-switch">

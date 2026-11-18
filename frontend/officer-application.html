@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b1020">
   <meta name="description" content="Apply to become a SkillVerse Placement Officer.">
+  <link rel="icon" type="image/png" href="./assets/images/skillverse-logo.png">
   <title>Placement Officer Application | SkillVerse</title>
 
   <script src="./js/utils/theme-init.js"></script>
@@ -43,18 +44,12 @@
           Your application will be reviewed by our administration team.
         </p>
 
-        <div
-          class="auth-message"
-          id="application-message"
-          role="status"
-          aria-live="polite"
-          hidden
-        ></div>
+        <div class="auth-message" id="application-message" role="status" aria-live="polite" hidden></div>
 
         <form id="officer-application-form" class="auth-form" novalidate>
-            <p class="required-fields-note">
-                Fields marked with <span class="required-star">*</span> are mandatory.
-            </p>
+          <p class="required-fields-note">
+            Fields marked with <span class="required-star">*</span> are mandatory.
+          </p>
 
           <!-- Personal Information -->
           <div class="officer-form-section">
@@ -68,32 +63,15 @@
 
             <div class="auth-field">
               <label for="fullName">Full name <span class="required-star">*</span> </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                autocomplete="name"
-                placeholder="Enter your full name"
-                minlength="3"
-                maxlength="50"
-                required
-                aria-describedby="fullName-error"
-              >
+              <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Enter your full name"
+                minlength="3" maxlength="50" required aria-describedby="fullName-error">
               <span class="auth-field-error" id="fullName-error"></span>
             </div>
 
             <div class="auth-field">
               <label for="email">Official email address <span class="required-star">*</span> </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                placeholder="you@organization.com"
-                maxlength="254"
-                required
-                aria-describedby="email-hint email-error"
-              >
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@organization.com"
+                maxlength="254" required aria-describedby="email-hint email-error">
               <small class="officer-field-hint" id="email-hint">
                 We'll send an email verification link to this address.
               </small>
@@ -112,64 +90,34 @@
             </div>
 
             <div class="auth-field">
-                <label for="organizationName">
-                    Organization name <span class="required-star">*</span>
-                </label>
-              <input
-                id="organizationName"
-                name="organizationName"
-                type="text"
-                placeholder="Enter your organization name"
-                minlength="2"
-                maxlength="100"
-                required
-                aria-describedby="organizationName-error"
-              >
+              <label for="organizationName">
+                Organization name <span class="required-star">*</span>
+              </label>
+              <input id="organizationName" name="organizationName" type="text"
+                placeholder="Enter your organization name" minlength="2" maxlength="100" required
+                aria-describedby="organizationName-error">
               <span class="auth-field-error" id="organizationName-error"></span>
             </div>
 
             <div class="auth-field">
               <label for="designation">Current designation <span class="required-star">*</span> </label>
-              <input
-                id="designation"
-                name="designation"
-                type="text"
-                placeholder="e.g. Training and Placement Officer"
-                minlength="2"
-                maxlength="100"
-                required
-                aria-describedby="designation-error"
-              >
+              <input id="designation" name="designation" type="text" placeholder="e.g. Training and Placement Officer"
+                minlength="2" maxlength="100" required aria-describedby="designation-error">
               <span class="auth-field-error" id="designation-error"></span>
             </div>
 
             <div class="auth-field">
               <label for="contactNumber">Contact number <span class="required-star">*</span> </label>
-              <input
-                id="contactNumber"
-                name="contactNumber"
-                type="tel"
-                autocomplete="tel"
-                placeholder="e.g. +919876543210"
-                maxlength="20"
-                required
-                aria-describedby="contactNumber-error"
-              >
+              <input id="contactNumber" name="contactNumber" type="tel" autocomplete="tel"
+                placeholder="e.g. +919876543210" maxlength="20" required aria-describedby="contactNumber-error">
               <span class="auth-field-error" id="contactNumber-error"></span>
             </div>
 
             <div class="auth-field">
               <label for="reason">Why do you want to join SkillVerse? <span class="required-star">*</span> </label>
-              <textarea
-                id="reason"
-                name="reason"
-                rows="5"
-                minlength="20"
-                maxlength="1000"
-                placeholder="Tell us about your experience and how you plan to support students..."
-                required
-                aria-describedby="reason-hint reason-error"
-              ></textarea>
+              <textarea id="reason" name="reason" rows="5" minlength="20" maxlength="1000"
+                placeholder="Tell us about your experience and how you plan to support students..." required
+                aria-describedby="reason-hint reason-error"></textarea>
               <small class="officer-field-hint" id="reason-hint">
                 Minimum 20 characters. Maximum 1000 characters.
               </small>
@@ -190,23 +138,11 @@
             <div class="auth-field">
               <label for="password">Password <span class="required-star">*</span> </label>
               <div class="auth-password-wrap">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autocomplete="new-password"
-                  placeholder="Create a password"
-                  minlength="8"
-                  required
-                  aria-describedby="password-hint password-error"
-                >
-                <button
-                  class="auth-password-toggle"
-                  type="button"
-                  data-password-toggle="password"
-                  aria-controls="password"
-                  aria-pressed="false"
-                >Show</button>
+                <input id="password" name="password" type="password" autocomplete="new-password"
+                  placeholder="Create a password" minlength="8" required
+                  aria-describedby="password-hint password-error">
+                <button class="auth-password-toggle" type="button" data-password-toggle="password"
+                  aria-controls="password" aria-pressed="false">Show</button>
               </div>
               <small id="password-hint">
                 Use at least 8 characters.
@@ -217,22 +153,10 @@
             <div class="auth-field">
               <label for="confirmPassword">Confirm password <span class="required-star">*</span> </label>
               <div class="auth-password-wrap">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autocomplete="new-password"
-                  placeholder="Enter your password again"
-                  required
-                  aria-describedby="confirmPassword-error"
-                >
-                <button
-                  class="auth-password-toggle"
-                  type="button"
-                  data-password-toggle="confirmPassword"
-                  aria-controls="confirmPassword"
-                  aria-pressed="false"
-                >Show</button>
+                <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password"
+                  placeholder="Enter your password again" required aria-describedby="confirmPassword-error">
+                <button class="auth-password-toggle" type="button" data-password-toggle="confirmPassword"
+                  aria-controls="confirmPassword" aria-pressed="false">Show</button>
               </div>
               <span class="auth-field-error" id="confirmPassword-error"></span>
             </div>
@@ -246,23 +170,14 @@
             </p>
           </div>
 
-          <button
-            class="auth-submit"
-            id="application-submit"
-            type="submit"
-          >
+          <button class="auth-submit" id="application-submit" type="submit">
             Submit application
           </button>
 
         </form>
 
         <!-- Resend verification email (shown only when needed) -->
-        <button
-          class="officer-resend-button"
-          id="resend-verification"
-          type="button"
-          hidden
-        >
+        <button class="officer-resend-button" id="resend-verification" type="button" hidden>
           Resend verification email
         </button>
 
@@ -319,4 +234,5 @@
     </aside>
   </main>
 </body>
+
 </html>

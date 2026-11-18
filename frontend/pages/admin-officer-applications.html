@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0b1120" />
   <meta name="description" content="Review and manage SkillVerse Placement Officer applications." />
+  <link rel="icon" type="image/png" href="../assets/images/skillverse-logo.png">
 
   <title>Officer Applications | SkillVerse Admin</title>
 
@@ -89,22 +91,18 @@
         <!-- Search field -->
         <div class="officer-admin-field officer-admin-search-field">
           <label for="application-search">Search applicants</label>
-      
+
           <div class="officer-admin-search">
             <span aria-hidden="true">⌕</span>
-            <input
-              id="application-search"
-              type="search"
-              placeholder="Name, email, or organization..."
-              autocomplete="off"
-            />
+            <input id="application-search" type="search" placeholder="Name, email, or organization..."
+              autocomplete="off" />
           </div>
         </div>
-      
+
         <!-- Status filter -->
         <div class="officer-admin-field officer-admin-filter-field">
           <label for="application-status-filter">Application status</label>
-      
+
           <select id="application-status-filter">
             <option value="">All applications</option>
             <option value="pending">Pending</option>
@@ -112,22 +110,18 @@
             <option value="rejected">Rejected</option>
           </select>
         </div>
-      
+
         <!-- Action buttons -->
         <div class="officer-admin-filter-actions">
           <button class="button button--primary" type="submit">
             Search
           </button>
-      
-          <button
-            class="button button--secondary"
-            id="clear-filters"
-            type="button"
-          >
+
+          <button class="button button--secondary" id="clear-filters" type="button">
             Clear
           </button>
         </div>
-      </form>      
+      </form>
 
       <div class="officer-admin-results-meta">
         <p id="results-summary">Loading applications...</p>
@@ -205,7 +199,8 @@
   </dialog>
 
   <!-- Rejection dialog -->
-  <dialog class="officer-admin-dialog officer-admin-reject-dialog" id="rejection-dialog" aria-labelledby="rejection-title">
+  <dialog class="officer-admin-dialog officer-admin-reject-dialog" id="rejection-dialog"
+    aria-labelledby="rejection-title">
     <form id="rejection-form">
       <div class="officer-admin-dialog-header">
         <div>
@@ -223,14 +218,8 @@
         <label class="officer-admin-field-label" for="rejection-reason">
           Rejection reason
         </label>
-        <textarea
-          id="rejection-reason"
-          minlength="5"
-          maxlength="500"
-          rows="5"
-          placeholder="Explain why this application is being rejected..."
-          required
-        ></textarea>
+        <textarea id="rejection-reason" minlength="5" maxlength="500" rows="5"
+          placeholder="Explain why this application is being rejected..." required></textarea>
         <p class="officer-admin-field-hint">5–500 characters.</p>
         <p class="officer-admin-form-error" id="rejection-error" role="alert"></p>
       </div>
@@ -248,4 +237,5 @@
 
   <script type="module" src="../js/pages/admin-officer-applications.js"></script>
 </body>
+
 </html>

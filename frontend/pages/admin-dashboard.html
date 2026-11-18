@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f8fafc" />
+  <link rel="icon" type="image/png" href="../assets/images/skillverse-logo.png">
   <title>Admin Dashboard | SkillVerse</title>
 
   <script src="../js/utils/theme-init.js"></script>
@@ -33,11 +35,7 @@
         </p>
       </div>
 
-      <button
-        class="button button--secondary"
-        id="dashboard-refresh"
-        type="button"
-      >
+      <button class="button button--secondary" id="dashboard-refresh" type="button">
         ↻ Refresh
       </button>
     </section>
@@ -81,11 +79,8 @@
           </div>
         </div>
 
-        <div
-          id="application-trend"
-          class="admin-trend"
-          aria-label="Applications received each day over the last seven days"
-        >
+        <div id="application-trend" class="admin-trend"
+          aria-label="Applications received each day over the last seven days">
           <p class="admin-empty">Loading application activity...</p>
         </div>
       </article>
@@ -114,10 +109,7 @@
           </p>
         </div>
 
-        <a
-          class="dashboard-card__action"
-          href="admin-jobs.html"
-        >
+        <a class="dashboard-card__action" href="admin-jobs.html">
           Job oversight →
         </a>
       </div>
@@ -176,10 +168,7 @@
             </p>
           </div>
 
-          <a
-            class="dashboard-card__action"
-            href="admin-officer-applications.html"
-          >
+          <a class="dashboard-card__action" href="admin-officer-applications.html">
             Review applications →
           </a>
         </article>
@@ -211,90 +200,57 @@
           </p>
         </div>
       </div>
-    
+
       <div class="account-security-card">
         <form id="change-password-form" novalidate>
           <div class="account-security-grid">
             <div class="auth-field">
               <label for="current-password">Current password</label>
               <div class="account-password-wrapper">
-                <input
-                  type="password"
-                  id="current-password"
-                  name="currentPassword"
-                  autocomplete="current-password"
-                  placeholder="Enter current password"
-                  required
-                />
-                <button type="button" class="account-password-toggle"
-                  data-password-toggle="current-password"
+                <input type="password" id="current-password" name="currentPassword" autocomplete="current-password"
+                  placeholder="Enter current password" required />
+                <button type="button" class="account-password-toggle" data-password-toggle="current-password"
                   aria-label="Show current password">Show</button>
               </div>
             </div>
-    
+
             <div class="auth-field">
               <label for="new-password">New password</label>
               <div class="account-password-wrapper">
-                <input
-                  type="password"
-                  id="new-password"
-                  name="newPassword"
-                  autocomplete="new-password"
-                  minlength="8"
-                  placeholder="Enter new password"
-                  required
-                />
-                <button type="button" class="account-password-toggle"
-                  data-password-toggle="new-password"
+                <input type="password" id="new-password" name="newPassword" autocomplete="new-password" minlength="8"
+                  placeholder="Enter new password" required />
+                <button type="button" class="account-password-toggle" data-password-toggle="new-password"
                   aria-label="Show new password">Show</button>
               </div>
             </div>
-    
+
             <div class="auth-field">
               <label for="confirm-password">Confirm new password</label>
               <div class="account-password-wrapper">
-                <input
-                  type="password"
-                  id="confirm-password"
-                  name="confirmPassword"
-                  autocomplete="new-password"
-                  minlength="8"
-                  placeholder="Confirm new password"
-                  required
-                />
-                <button type="button" class="account-password-toggle"
-                  data-password-toggle="confirm-password"
+                <input type="password" id="confirm-password" name="confirmPassword" autocomplete="new-password"
+                  minlength="8" placeholder="Confirm new password" required />
+                <button type="button" class="account-password-toggle" data-password-toggle="confirm-password"
                   aria-label="Show confirm password">Show</button>
               </div>
             </div>
           </div>
-    
+
           <p class="account-security-hint">
             Your new password must contain at least 8 characters.
             You will need to log in again after changing it.
           </p>
-    
-          <p
-            id="password-feedback"
-            class="account-security-feedback"
-            role="status"
-            aria-live="polite"
-            hidden
-          ></p>
-    
+
+          <p id="password-feedback" class="account-security-feedback" role="status" aria-live="polite" hidden></p>
+
           <div class="account-security-footer">
-            <button
-              type="submit"
-              id="change-password-button"
-              class="button button--primary"
-            >
+            <button type="submit" id="change-password-button" class="button button--primary">
               Update password
             </button>
           </div>
         </form>
       </div>
-    </section>      
-    
+    </section>
+
     <footer class="dashboard-footer">
       <p>SkillVerse · Administration workspace</p>
       <p>© <span id="current-year"></span> SkillVerse</p>
@@ -303,4 +259,5 @@
 
   <script type="module" src="../js/pages/admin-dashboard.js"></script>
 </body>
+
 </html>

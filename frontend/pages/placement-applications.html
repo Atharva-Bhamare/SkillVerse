@@ -1,15 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f8fafc" />
 
-  <meta
-    name="description"
-    content="Review and manage applications submitted for your company's jobs."
-  />
+  <meta name="description" content="Review and manage applications submitted for your company's jobs." />
+  <link rel="icon" type="image/png" href="../assets/images/skillverse-logo.png">
 
   <title>Manage Applications | SkillVerse</title>
 
@@ -25,18 +23,11 @@
   <link rel="stylesheet" href="../css/dashboards.css" />
   <link rel="stylesheet" href="../css/placement-applications.css" />
 
-  <script
-    type="module"
-    src="../js/pages/placement-applications.js"
-  ></script>
+  <script type="module" src="../js/pages/placement-applications.js"></script>
 </head>
 
 <body>
-  <div
-    id="toast-region"
-    class="toast-region"
-    aria-live="polite"
-  ></div>
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
 
   <div class="placement-applications-page">
     <header id="site-header"></header>
@@ -58,11 +49,7 @@
           </p>
         </div>
 
-        <button
-          type="button"
-          class="applications-button applications-button--secondary"
-          id="refreshApplications"
-        >
+        <button type="button" class="applications-button applications-button--secondary" id="refreshApplications">
           <span aria-hidden="true">↻</span>
           Refresh
         </button>
@@ -75,12 +62,8 @@
             Search applications
           </label>
 
-          <input
-            type="search"
-            id="applicationSearch"
-            placeholder="Search student name, email, or job title..."
-            autocomplete="off"
-          />
+          <input type="search" id="applicationSearch" placeholder="Search student name, email, or job title..."
+            autocomplete="off" />
 
           <small>
             Search is applied to the applications on the current page.
@@ -103,11 +86,7 @@
           </select>
         </div>
 
-        <button
-          type="button"
-          id="resetApplicationFilters"
-          class="applications-button applications-button--secondary"
-        >
+        <button type="button" id="resetApplicationFilters" class="applications-button applications-button--secondary">
           Reset filters
         </button>
       </section>
@@ -123,30 +102,16 @@
       </section>
 
       <!-- Loading state -->
-      <div
-        id="applicationsLoading"
-        class="applications-loading"
-        role="status"
-        aria-live="polite"
-      >
+      <div id="applicationsLoading" class="applications-loading" role="status" aria-live="polite">
         <span class="applications-spinner" aria-hidden="true"></span>
         <p>Loading applications...</p>
       </div>
 
       <!-- Application cards -->
-      <section
-        id="applicationsList"
-        class="applications-list"
-        aria-label="Student applications"
-        hidden
-      ></section>
+      <section id="applicationsList" class="applications-list" aria-label="Student applications" hidden></section>
 
       <!-- Empty state -->
-      <section
-        id="applicationsEmpty"
-        class="applications-empty"
-        hidden
-      >
+      <section id="applicationsEmpty" class="applications-empty" hidden>
         <div class="applications-empty-icon" aria-hidden="true">
           <span>▤</span>
         </div>
@@ -160,29 +125,16 @@
           company's job openings.
         </p>
 
-        <button
-          type="button"
-          id="clearApplicationsEmpty"
-          class="applications-button applications-button--primary"
-          hidden
-        >
+        <button type="button" id="clearApplicationsEmpty" class="applications-button applications-button--primary"
+          hidden>
           Clear filters
         </button>
       </section>
 
       <!-- Pagination -->
-      <nav
-        id="applicationsPagination"
-        class="applications-pagination"
-        aria-label="Application pages"
-        hidden
-      >
-        <button
-          type="button"
-          id="previousApplicationsPage"
-          class="applications-button applications-button--secondary"
-          disabled
-        >
+      <nav id="applicationsPagination" class="applications-pagination" aria-label="Application pages" hidden>
+        <button type="button" id="previousApplicationsPage" class="applications-button applications-button--secondary"
+          disabled>
           Previous
         </button>
 
@@ -190,12 +142,8 @@
           Page 1
         </span>
 
-        <button
-          type="button"
-          id="nextApplicationsPage"
-          class="applications-button applications-button--secondary"
-          disabled
-        >
+        <button type="button" id="nextApplicationsPage" class="applications-button applications-button--secondary"
+          disabled>
           Next
         </button>
       </nav>
@@ -207,4 +155,5 @@
     </main>
   </div>
 </body>
+
 </html>

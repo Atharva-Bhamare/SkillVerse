@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0b1120" />
   <meta name="description" content="Verify your SkillVerse placement officer application email." />
+  <link rel="icon" type="image/png" href="./assets/images/skillverse-logo.png">
 
   <title>Verify Your Email | SkillVerse</title>
 
@@ -112,9 +113,7 @@
 
           <div class="verify-content">
 
-            <div class="verify-icon verify-icon-loading"
-                 id="verify-icon"
-                 aria-hidden="true">
+            <div class="verify-icon verify-icon-loading" id="verify-icon" aria-hidden="true">
               <span class="verify-spinner" id="verify-spinner"></span>
             </div>
 
@@ -124,16 +123,11 @@
 
             <h1 id="verify-title">Verifying your email...</h1>
 
-            <p class="verify-description"
-               id="verify-description"
-               aria-live="polite">
+            <p class="verify-description" id="verify-description" aria-live="polite">
               Please wait while we securely verify your email address.
             </p>
 
-            <div class="verify-status"
-                 id="verify-status"
-                 role="status"
-                 aria-live="polite">
+            <div class="verify-status" id="verify-status" role="status" aria-live="polite">
               <span class="verify-status-dot"></span>
               <span id="verify-status-text">Connecting securely...</span>
             </div>
@@ -174,42 +168,27 @@
                 <div class="verify-field">
                   <label for="resend-email">Email address</label>
 
-                  <input
-                    type="email"
-                    id="resend-email"
-                    name="email"
-                    placeholder="you@organization.com"
-                    autocomplete="email"
-                    required
-                  />
+                  <input type="email" id="resend-email" name="email" placeholder="you@organization.com"
+                    autocomplete="email" required />
 
-                  <span class="verify-field-error"
-                        id="resend-email-error"></span>
+                  <span class="verify-field-error" id="resend-email-error"></span>
                 </div>
 
-                <button
-                  class="verify-button verify-button-primary"
-                  type="submit"
-                  id="resend-button">
+                <button class="verify-button verify-button-primary" type="submit" id="resend-button">
                   Resend verification email
                   <span aria-hidden="true">→</span>
                 </button>
 
               </form>
 
-              <p class="verify-resend-message"
-                 id="resend-message"
-                 role="status"
-                 aria-live="polite"></p>
+              <p class="verify-resend-message" id="resend-message" role="status" aria-live="polite"></p>
 
             </div>
 
             <!-- ACTIONS -->
             <div class="verify-actions" id="verify-actions" hidden>
 
-              <a class="verify-button verify-button-primary"
-                 id="verify-primary-action"
-                 href="./index.html">
+              <a class="verify-button verify-button-primary" id="verify-primary-action" href="./index.html">
                 Back to SkillVerse
                 <span aria-hidden="true">→</span>
               </a>
@@ -242,4 +221,5 @@
   </script>
 
 </body>
+
 </html>

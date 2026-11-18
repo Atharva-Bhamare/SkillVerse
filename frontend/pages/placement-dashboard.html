@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f8fafc" />
+  <link rel="icon" type="image/png" href="../assets/images/skillverse-logo.png">
   <title>Placement Dashboard | SkillVerse</title>
 
   <script src="../js/utils/theme-init.js"></script>
@@ -94,41 +95,32 @@
     </section>
 
     <section class="dashboard-section account-details-section">
-      <button
-        type="button"
-        class="account-details-toggle"
-        id="account-details-toggle"
-        aria-expanded="false"
-        aria-controls="account-details-content"
-      >
+      <button type="button" class="account-details-toggle" id="account-details-toggle" aria-expanded="false"
+        aria-controls="account-details-content">
         <span>Account details</span>
         <icon-placeholder></icon-placeholder>
         <span class="account-details-chevron" aria-hidden="true">⌄</span>
       </button>
-    
-      <div
-        class="dashboard-account account-details-content"
-        id="account-details-content"
-        hidden
-      >
+
+      <div class="dashboard-account account-details-content" id="account-details-content" hidden>
         <div class="dashboard-account-details">
           <div>
             <span class="dashboard-eyebrow">FULL NAME</span>
             <p id="officer-name">Loading...</p>
           </div>
-    
+
           <div>
             <span class="dashboard-eyebrow">EMAIL ADDRESS</span>
             <p id="officer-email">Loading...</p>
           </div>
-    
+
           <div>
             <span class="dashboard-eyebrow">ROLE</span>
             <p id="officer-role">Placement Officer</p>
           </div>
         </div>
       </div>
-    </section>    
+    </section>
 
     <section class="dashboard-section account-security-section">
       <div class="account-security-heading">
@@ -191,71 +183,46 @@
       </div>
     </section>
 
-    <div
-    class="company-modal"
-    id="company-modal"
-    hidden
-  >
-    <div
-      class="company-modal-backdrop"
-      data-close-company-modal
-    ></div>
-  
-    <section
-      class="company-modal-dialog"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="company-modal-title"
-      aria-describedby="company-modal-description"
-      tabindex="-1"
-    >
-      <header class="company-modal-header">
-        <div>
-          <p class="dashboard-eyebrow">ORGANIZATION PROFILE</p>
-          <h2 id="company-modal-title">Company details</h2>
-        </div>
-  
-        <button
-          type="button"
-          class="company-modal-close"
-          id="close-company-modal"
-          aria-label="Close company details"
-        >
-          &times;
-        </button>
-      </header>
-  
-      <div class="company-modal-content">
-        <div class="company-modal-identity">
-          <div class="company-modal-logo" id="company-modal-logo">
-            S
-          </div>
-  
+    <div class="company-modal" id="company-modal" hidden>
+      <div class="company-modal-backdrop" data-close-company-modal></div>
+
+      <section class="company-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="company-modal-title"
+        aria-describedby="company-modal-description" tabindex="-1">
+        <header class="company-modal-header">
           <div>
-            <h3 id="company-modal-name">Loading company...</h3>
-            <p id="company-modal-industry">Industry unavailable</p>
+            <p class="dashboard-eyebrow">ORGANIZATION PROFILE</p>
+            <h2 id="company-modal-title">Company details</h2>
           </div>
+
+          <button type="button" class="company-modal-close" id="close-company-modal" aria-label="Close company details">
+            &times;
+          </button>
+        </header>
+
+        <div class="company-modal-content">
+          <div class="company-modal-identity">
+            <div class="company-modal-logo" id="company-modal-logo">
+              S
+            </div>
+
+            <div>
+              <h3 id="company-modal-name">Loading company...</h3>
+              <p id="company-modal-industry">Industry unavailable</p>
+            </div>
+          </div>
+
+          <p class="company-modal-description" id="company-modal-description"></p>
+
+          <div class="company-modal-details" id="company-modal-details"></div>
         </div>
-  
-        <p
-          class="company-modal-description"
-          id="company-modal-description"
-        ></p>
-  
-        <div class="company-modal-details" id="company-modal-details"></div>
-      </div>
-  
-      <footer class="company-modal-footer">
-        <button
-          type="button"
-          class="button button--secondary"
-          data-close-company-modal
-        >
-          Close
-        </button>
-      </footer>
-    </section>
-  </div>  
+
+        <footer class="company-modal-footer">
+          <button type="button" class="button button--secondary" data-close-company-modal>
+            Close
+          </button>
+        </footer>
+      </section>
+    </div>
 
     <footer class="dashboard-footer">
       <p>SkillVerse · Placement workspace</p>
